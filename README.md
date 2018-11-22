@@ -18,3 +18,8 @@ others :-). PRs are welcome.
 ## Run
 
     script/test
+
+## TODO
+
+- https://github.com/vvvvalvalval/advent-of-code-2017
+- https://github.com/borkdude/aoc2017
