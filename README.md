@@ -4,11 +4,4 @@ Advent of Code puzzles checked with [speculative](https://github.com/slipset/spe
 
 ## Run
 
-Clojure:
-
-    clj -m aos.runner
-
-ClojureScript:
-
-    clj -m cljs.main -re node -c aos.runner
-    node out/main.js
+    script/test
