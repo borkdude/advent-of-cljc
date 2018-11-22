@@ -6,7 +6,7 @@ Advent of Code puzzles checked with [speculative](https://github.com/slipset/spe
 
 The purpose of this repo is to check
 [speculative](https://github.com/slipset/speculative) specs for usage that was
-not accounted for yet. As a bonus detection of undefined usage of core functions
+not accounted for yet. As a bonus undefined usage of core functions
 may be detected.
 
 ## Inclusion
