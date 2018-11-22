@@ -24,3 +24,4 @@ others :-). PRs are welcome.
 - https://github.com/vvvvalvalval/advent-of-code-2017
 - https://github.com/athos/advent-of-code-2017
 - https://github.com/borkdude/aoc2017
+- check https://github.com/adventofcode-clojurians/adventofcode-clojurians for more
