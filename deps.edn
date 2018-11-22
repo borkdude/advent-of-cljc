@@ -1,0 +1,3 @@
+{:deps {org.clojure/clojurescript {:mvn/version "1.10.439"}
+        org.clojure/test.check {:mvn/version "RELEASE"}
+        speculative {:mvn/version "0.0.3-SNAPSHOT"}}}
