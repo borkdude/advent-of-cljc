@@ -1,14 +1,11 @@
 (ns aos.y2017.d01
   (:require
-   [aos.y2017.d01.input :refer [input]]
+   [aos.y2017.input :refer [input-d01] :rename {input-d01 input}]
+   [aos.utils :as u]
    [clojure.test :refer [deftest is testing]]
    [clojure.string :as str]))
 
 ;;;; Solution 001
-
-(defn parse-int [s]
-  #?(:clj (Integer/parseInt s)
-     :cljs (js/parseInt s)))
 
 (defn solution-001-01 []
   (reduce
@@ -16,7 +13,7 @@
    (map
     (fn [a b]
       (if (= a b)
-        (parse-int (str a)) 0))
+        (u/parse-int (str a)) 0))
     input
     (drop 1 (cycle input)))))
 
@@ -27,7 +24,7 @@
      (map
       (fn [a b]
         (if (= a b)
-          (parse-int (str a)) 0))
+          (u/parse-int (str a)) 0))
       input
       (drop half (cycle input))))))
 

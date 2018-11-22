@@ -2,7 +2,8 @@
   (:require
    [clojure.test :as t]
    [speculative.instrument :refer [instrument]]
-   [aos.y2017.d01]))
+   [aos.y2017.d01]
+   [aos.y2017.d02]))
 
 (defn planck-env? []
   #?(:cljs (exists? js/PLANCK_EXIT_WITH_VALUE)
@@ -50,6 +51,7 @@
        (exit 0))))
 
 (defn -main [& args]
-  (t/run-tests 'aos.y2017.d01))
+  (t/run-tests 'aos.y2017.d01
+               'aos.y2017.d02))
 
 #?(:cljs (set! *main-cli-fn* -main))
