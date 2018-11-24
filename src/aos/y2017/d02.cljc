@@ -2,14 +2,13 @@
   (:require
    [aos.utils :as u]
    [aos.y2017.input :refer [input-d02] :rename {input-d02 input}]
-   [clojure.test :refer [deftest is testing]]
    [clojure.string :as str]
-   [clojure.spec.test.alpha]
+   [clojure.test :refer [deftest is testing]]
    [speculative.test :refer [throws]]))
 
 ;;;; Solution 001
 
-(defn s01-p1 []
+(defn solution-4421e25-p1 []
   (transduce
    (comp
     (map #(str/split % #"\s"))
@@ -32,7 +31,7 @@
           :when (zero? (mod greater smaller))]
       [greater smaller])))
 
-(defn s01-p2 []
+(defn solution-4421e25-p2 []
   (transduce
    (comp
     (map #(str/split % #"\s"))
@@ -57,7 +56,7 @@
    +
    data))
 
-(defn s02-p1 []
+(defn solution-7c76c00d-p1 []
   (solve #(- (apply max %) (apply min %))))
 
 (defn divides? [x y]
@@ -75,7 +74,7 @@
   (when-let [[x y] (first (dividing-pairs xs))]
     (/ y x)))
 
-(defn s02-p2 []
+(defn solution-7c76c00d-p2 []
   (solve first-integer-ratio))
 
 ;;;; Solution 003
@@ -90,7 +89,7 @@
                  (apply -)))]
     (transduce (map line-diff) + 0 lines)))
 
-(defn s03-p1 []
+(defn solution-31051433-p1 []
   (solve1 [input]))
 
 (defn solve2 [lines]
@@ -105,21 +104,21 @@
                (/ (max x y) (min x y)))))]
     (transduce (map line-div) + 0 lines)))
 
-(defn s03-p2 []
+(defn solution-31051433-p2 []
   (solve2 [input]))
 
 ;;;; Tests
 
 (deftest aos-y2017-d02-01-test
-  (is (= 44887 (s01-p1)))
-  (is (number? (s02-p1)))
-  (is (number? (s03-p1)))
+  (is (= 44887 (solution-4421e25-p1)))
+  (is (number? (solution-7c76c00d-p1)))
+  (is (number? (solution-31051433-p1)))
   )
 
 (deftest aos-y2017-d02-02-test
-  (is (= 242 (s01-p2)))
-  (is (number? (s02-p2)))
-  (is (number? (s03-p2)))
+  (is (= 242 (solution-4421e25-p2)))
+  (is (number? (solution-7c76c00d-p2)))
+  (is (number? (solution-31051433-p2)))
   )
 
 (deftest sanity-check

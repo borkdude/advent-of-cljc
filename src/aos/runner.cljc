@@ -1,7 +1,8 @@
 (ns aos.runner
   (:require
+   #?(:clj [patch.clj-2443])
    [speculative.instrument :refer [instrument]]
-   [speculative.test :as t]
+   [clojure.test :as t]
    [aos.y2017.d01]
    [aos.y2017.d02]))
 

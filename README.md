@@ -13,16 +13,8 @@ may be detected.
 
 Please let me know if I can include your solutions. Any year will do. Code will
 be anonymized, so you don’t have to fear your solution will be compared with
-others :-). PRs are welcome.
+others :-).
 
 ## Run
 
     script/test
-
-## TODO
-
-- https://github.com/mfikes/advent-of-code
-- https://github.com/vvvvalvalval/advent-of-code-2017
-- https://github.com/athos/advent-of-code-2017
-- https://github.com/borkdude/aoc2017
-- check https://github.com/adventofcode-clojurians/adventofcode-clojurians for more

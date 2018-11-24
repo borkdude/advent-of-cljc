@@ -8,3 +8,9 @@
      :cljs (js/parseInt s)))
 
 (def read-string edn/read-string)
+
+;;;; Scratch
+
+(comment
+
+  )
