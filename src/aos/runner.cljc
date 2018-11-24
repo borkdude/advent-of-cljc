@@ -1,10 +1,11 @@
 (ns aos.runner
   (:require
    #?(:clj [patch.clj-2443])
-   [speculative.instrument :refer [instrument]]
-   [clojure.test :as t]
    [aos.y2017.d01]
-   [aos.y2017.d02]))
+   [aos.y2017.d02]
+   [aos.y2017.d03]
+   [clojure.test :as t]
+   [speculative.instrument :refer [instrument]]))
 
 (instrument)
 
@@ -55,6 +56,7 @@
 
 (defn -main [& args]
   (t/run-tests 'aos.y2017.d01
-               'aos.y2017.d02))
+               'aos.y2017.d02
+               'aos.y2017.d03))
 
 #?(:cljs (set! *main-cli-fn* -main))

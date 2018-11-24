@@ -127,5 +127,4 @@
 ;;;; Scratch
 
 (comment
-  (solve1 [input])
   )
