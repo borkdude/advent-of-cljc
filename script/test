@@ -3,14 +3,14 @@
 set $exit_code=0
 
 echo "=== Running clojure tests"
-clojure -R:test -m aos.runner
+clojure -A:test -m aos.runner
 if [ $? -eq 1 ]; then
     exit_code=1
 fi
 
 echo "\n=== Running cljs tests"
 rm -rf out
-clojure -R:test -m cljs.main -re node -c aos.runner
+clojure -A:test -m cljs.main -re node -c aos.runner
 if [ $? -eq 1 ]; then
     exit 1
 fi
