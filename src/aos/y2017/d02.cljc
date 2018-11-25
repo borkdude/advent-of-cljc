@@ -45,15 +45,16 @@
 
 ;;;; Solution 002
 
-(def data (->> [input]
-               (map #(str/split % #"\t"))
-               (map #(map u/read-string %))))
+;; TODO: Rename back to data after moved to its own namespace.
+(def data-002 (->> [input]
+                   (map #(str/split % #"\t"))
+                   (map #(map u/read-string %))))
 
 (defn solve [f]
   (transduce
    (map f)
    +
-   data))
+   data-002))
 
 (defn solution-7c76c00d-p1 []
   (solve #(- (apply max %) (apply min %))))
