@@ -106,18 +106,67 @@
 (defn solution-31051433-p2 []
   (solve2 [input]))
 
+;;;; Solution 004
+
+(letfn [(line->nums [line]
+          (->> (str/split line #"\s+")
+               (map u/parse-int)))]
+  (letfn [(bounds [nums]
+            (reduce (fn [[mn mx :as mn-mx] n]
+                      (cond-> mn-mx
+                              (< mx n) (assoc 1 n)
+                              (< n mn) (assoc 0 n)))
+                    #?(:clj [Integer/MAX_VALUE Integer/MIN_VALUE]
+                       :cljs [js/Number.MAX_SAFE_INTEGER js/Number.MIN_SAFE_INTEGER])
+                    nums))
+
+          (diff [nums]
+            (let [[mn mx] (bounds nums)]
+              (- mx mn)))]
+    (defn solution-2d80d8c4-p1 []
+      (transduce
+        (comp
+          (map line->nums)
+          (map diff))
+        +
+        (str/split input #"\n"))))
+  (letfn [(quot? [a b]
+            (when (zero? (mod a b))
+              (quot a b)))
+
+          (quotient [nums]
+            (reduce
+              (fn [seen num]
+                (if-let [q (->> seen
+                                (mapcat #(vector (quot? % num)
+                                                 (quot? num %)))
+                                (some identity))]
+                  (reduced q)
+                  (conj seen num)))
+              []
+              nums))]
+    (defn solution-2d80d8c4-p2 []
+      (transduce
+        (comp
+          (map line->nums)
+          (map quotient))
+        +
+        (str/split input #"\n")))))
+
 ;;;; Tests
 
 (deftest aos-y2017-d02-01-test
   (is (= 44887 (solution-4421e25-p1)))
   (is (number? (solution-7c76c00d-p1)))
   (is (number? (solution-31051433-p1)))
+  (is (= 44887 (solution-2d80d8c4-p1)))
   )
 
 (deftest aos-y2017-d02-02-test
   (is (= 242 (solution-4421e25-p2)))
   (is (number? (solution-7c76c00d-p2)))
   (is (number? (solution-31051433-p2)))
+  (is (= 242 (solution-2d80d8c4-p2)))
   )
 
 (deftest ^:instrumented sanity-check
