@@ -1,4 +1,6 @@
 #!/bin/sh
 
-clojure -A:unstrumented-clj -d src -r "aos\.y.*\.d.*" -e instrumented
-clojure -A:unstrumented-cljs -d src -r "aos\.y.*\.d.*" -e instrumented
+regex="aos\.y.*\.d.*(?<!data)(?<!template)$"
+
+clojure -A:unstrumented-clj -d src -r "$regex" -e instrumented
+clojure -A:unstrumented-cljs -d src -r "$regex" -e instrumented
