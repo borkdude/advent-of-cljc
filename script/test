@@ -2,19 +2,21 @@
 
 set $exit_code=0
 
+regex="(aos\.y.*\.d.*(?<!data)(?<!template)$)|(aos.instrument)"
+
 echo "=== Running clojure tests"
-clojure -A:test -m aos.runner
+clojure -R:test:unstrumented-clj \
+        -e "(require,'patch.clj-2443)" \
+        -m cognitect.test-runner -d src -r "$regex"
+
 if [ $? -eq 1 ]; then
     exit_code=1
 fi
 
 echo "\n=== Running cljs tests"
-rm -rf out
-clojure -A:test -m cljs.main -re node -c aos.runner
-if [ $? -eq 1 ]; then
-    exit 1
-fi
-node out/main.js
+clojure -R:test:unstrumented-cljs \
+        -m cljs-test-runner.main -c cljs-opts.edn -d src -r "$regex"
+
 if [ $? -eq 1 ]; then
     exit_code=1
 fi

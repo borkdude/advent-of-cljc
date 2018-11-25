@@ -139,7 +139,9 @@
   )
 
 (deftest ^:instrumented sanity-check
-  (is (thrown? clojure.lang.ExceptionInfo (merge 1))))
+  (is (thrown? #?(:clj clojure.lang.ExceptionInfo
+                  :cljs ExceptionInfo)
+               (merge 1))))
 
 ;;;; Scratch
 
