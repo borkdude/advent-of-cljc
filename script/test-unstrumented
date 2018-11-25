@@ -1,3 +1,4 @@
 #!/bin/sh
 
-clojure -A:unstrumented -d src -r "aos\.y.*\.d.*" -e instrumented
+clojure -A:unstrumented-clj -d src -r "aos\.y.*\.d.*" -e instrumented
+clojure -A:unstrumented-cljs -d src -r "aos\.y.*\.d.*" -e instrumented
