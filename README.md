@@ -13,9 +13,7 @@ This library is also usable as a corpus of Clojure programs, like [coal-mine](ht
 
 ## Inclusion
 
-Please let me know if I can include your solutions. Any year will do. Code will
-be anonymized, so you don’t have to fear your solution will be compared with
-others :-).
+PRs welcome.
 
 ## Run
 
