@@ -4,6 +4,7 @@
    [aos.y2017.d01]
    [aos.y2017.d02]
    [aos.y2017.d03]
+   [aos.y2017.d04]
    [clojure.test :as t]
    [speculative.instrument :refer [instrument]]))
 
@@ -57,6 +58,7 @@
 (defn -main [& args]
   (t/run-tests 'aos.y2017.d01
                'aos.y2017.d02
-               'aos.y2017.d03))
+               'aos.y2017.d03 ;; takes a while
+               'aos.y2017.d04))
 
 #?(:cljs (set! *main-cli-fn* -main))

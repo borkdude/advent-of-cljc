@@ -1,5 +1,6 @@
 {:deps {org.clojure/clojure {:mvn/version "1.10.0-beta8"}
         org.clojure/clojurescript {:mvn/version "1.10.439"}
         org.clojure/test.check {:mvn/version "RELEASE"}
+        net.cgrand/xforms {:mvn/version "0.18.2"}
         ;;org.clojure/spec.alpha {:local/root "/Users/Borkdude/git/spec.alpha"}
         speculative {:mvn/version "0.0.3-SNAPSHOT"}}}
