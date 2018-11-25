@@ -3,8 +3,7 @@
    [aos.utils :as u]
    [aos.y2017.input :refer [input-d02] :rename {input-d02 input}]
    [clojure.string :as str]
-   [clojure.test :refer [deftest is testing]]
-   [speculative.test :refer [throws]]))
+   [clojure.test :refer [deftest is testing]]))
 
 ;;;; Solution 001
 
@@ -121,8 +120,8 @@
   (is (number? (solution-31051433-p2)))
   )
 
-(deftest sanity-check
-  (throws `merge (merge 1)))
+(deftest ^:instrumented sanity-check
+  (is (thrown? clojure.lang.ExceptionInfo (merge 1))))
 
 ;;;; Scratch
 

@@ -1,10 +1,7 @@
 (ns aos.y2017.d03
   (:require
-   [aos.utils :as u]
    [aos.y2017.input :refer [input-d03] :rename {input-d03 input}]
-   [clojure.string :as str]
-   [clojure.test :as t :refer [deftest is testing]]
-   [speculative.test :refer [throws]]))
+   [clojure.test :as t :refer [deftest is testing]]))
 
 ;;;;
 
@@ -141,8 +138,8 @@
   (is (= 295229 (solution-c06e27a1-p2)))
   )
 
-(deftest sanity-check
-  (throws `merge (merge 1)))
+(deftest ^:instrumented sanity-check
+  (is (thrown? clojure.lang.ExceptionInfo (merge 1))))
 
 ;;;; Scratch
 

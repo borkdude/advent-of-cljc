@@ -1,6 +1,13 @@
-{:deps {org.clojure/clojure {:mvn/version "1.10.0-beta8"}
-        org.clojure/clojurescript {:mvn/version "1.10.439"}
-        org.clojure/test.check {:mvn/version "RELEASE"}
-        net.cgrand/xforms {:mvn/version "0.18.2"}
-        ;;org.clojure/spec.alpha {:local/root "/Users/Borkdude/git/spec.alpha"}
-        speculative {:mvn/version "0.0.3-SNAPSHOT"}}}
+{:deps {net.cgrand/xforms {:mvn/version "0.18.2"}}
+ :aliases
+ {:test {:extra-paths ["test"]
+         :extra-deps {org.clojure/clojure {:mvn/version "1.10.0-beta8"}
+                      org.clojure/clojurescript {:mvn/version "1.10.439"}
+                      org.clojure/test.check {:mvn/version "RELEASE"}
+                      ;;org.clojure/spec.alpha {:local/root "/Users/Borkdude/git/spec.alpha"}
+                      speculative {:mvn/version "0.0.3-SNAPSHOT"}}}
+  :unstrumented
+  {:extra-paths ["test"]
+   :extra-deps {com.cognitect/test-runner {:git/url "https://github.com/cognitect-labs/test-runner.git"
+                                           :sha "028a6d41ac9ac5d5c405dfc38e4da6b4cc1255d5"}}
+   :main-opts ["-m" "cognitect.test-runner"]}}}

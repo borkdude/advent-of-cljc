@@ -1,0 +1,35 @@
+#!/bin/sh
+
+if [ ! -z "$AOS_TIMEOUT" ]; then
+    timeout=$(command -v timeout)
+    if [ -z $timeout ]; then
+        timeout=$(command -v gtimeout)
+    fi
+
+    if [ -z $timeout ]; then
+        echo "WARNING: timeout program not found, running without it\n"
+    else
+        timeout_cmd="$timeout $AOS_TIMEOUT"
+    fi
+fi
+
+op=$1
+if [ -z $op ]; then
+   op="random"
+fi
+
+max_or_nth=$2
+if [ -z $max_or_nth ]; then
+    max_or_nth="1"
+fi
+
+echo "=== Generating advent-of-spec runner"
+clojure -A:test -m aos.generator out/aos.cljc $op $max_or_nth
+
+echo "\n=== Running clj advent-of-spec tests"
+$timeout_cmd clojure -R:test -i out/aos.cljc
+
+echo "\n=== Running cljs node advent-of-spec tests"
+$timeout_cmd clojure -R:test -m cljs.main -re node -i out/aos.cljc
+
+exit 0

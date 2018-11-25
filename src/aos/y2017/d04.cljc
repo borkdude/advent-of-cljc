@@ -1,11 +1,9 @@
 (ns aos.y2017.d04
   (:require
-   [aos.utils :as u]
    [aos.y2017.input :refer [input-d04] :rename {input-d04 input}]
    [clojure.string :as str]
    [clojure.test :as t :refer [deftest is testing]]
-   [net.cgrand.xforms :as x]
-   [speculative.test :refer [throws]]))
+   [net.cgrand.xforms :as x]))
 
 ;;;;
 
@@ -58,9 +56,6 @@
   (is (= 223 (solution-ae7b7978-p2)))
   (is (= 223 (solution-ac129343-p2)))
   )
-
-(deftest sanity-check
-  (throws `merge (merge 1)))
 
 ;;;; Scratch
 
