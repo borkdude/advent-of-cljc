@@ -81,14 +81,40 @@
          (map first)
          (apply +))))
 
+;;;;
+
+(defn inverse-captcha [pairs]
+  (transduce
+    (comp (filter (partial apply =))
+          (map first)
+          (map #?(:clj int, :cljs #(.charCodeAt % 0)))
+          (map #(- % 48)))
+    +
+    pairs))
+
+(defn solution-e8fbca06-p1 [s]
+  (let [pairs (->> (take (inc (count s)) (cycle s))
+                   (partition 2 1))]
+    (inverse-captcha pairs)))
+
+(defn solution-e8fbca06-p2 [s]
+  (let [pairs (->> (split-at (/ (count s) 2) s)
+                   cycle
+                   (partition 2 1)
+                   (take 2)
+                   (mapcat (partial apply map vector)))]
+    (inverse-captcha pairs)))
+
 ;;;; Tests
 
 (deftest aos-y2017-d01-01-test
   (is (= 995 (solution-cf1083da-p1)))
   (is (= 995 (solution-c45758a0-p1)))
-  (is (= 995 (solution-cc6e3478-p1))))
+  (is (= 995 (solution-cc6e3478-p1)))
+  (is (= 995 (solution-e8fbca06-p1 input))))
 
 (deftest aos-y2017-d01-02-test
   (is (= 1130 (solution-cf1083da-p2)))
   (is (= 1130 (solution-c45758a0-p2)))
-  (is (= 1130 (solution-cc6e3478-p2))))
+  (is (= 1130 (solution-cc6e3478-p2)))
+  (is (= 1130 (solution-e8fbca06-p2 input))))
