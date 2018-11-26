@@ -5,44 +5,6 @@
    [clojure.string :as str]
    [clojure.test :refer [deftest is testing]]))
 
-;;;; Solution 001
-
-(defn solution-4421e25-p1 []
-  (transduce
-   (comp
-    (map #(str/split % #"\s"))
-    (map #(map u/parse-int
-               %))
-    (map (fn [row]
-           [(apply max row)
-            (apply min row)]))
-    (map (fn [[max min]]
-           (- max min))))
-   +
-   (str/split-lines input)))
-
-(defn find-divisibles [nums]
-  (let [desc (sort-by - nums)
-        asc  (sort nums)]
-    (for [greater desc
-          smaller asc
-          :while (> greater smaller)
-          :when (zero? (mod greater smaller))]
-      [greater smaller])))
-
-(defn solution-4421e25-p2 []
-  (transduce
-   (comp
-    (map #(str/split % #"\s"))
-    (map #(map u/parse-int
-               %))
-    (map (fn [row]
-           (first (find-divisibles row))))
-    (map (fn [[greater smaller]]
-           (/ greater smaller))))
-   +
-   (str/split-lines input)))
-
 ;;;; Solution 002
 
 ;; TODO: Rename back to data after moved to its own namespace.
@@ -110,13 +72,11 @@
 ;;;; Tests
 
 (deftest aos-y2017-d02-01-test
-  (is (= 44887 (solution-4421e25-p1)))
   (is (number? (solution-7c76c00d-p1)))
   (is (number? (solution-31051433-p1)))
   )
 
 (deftest aos-y2017-d02-02-test
-  (is (= 242 (solution-4421e25-p2)))
   (is (number? (solution-7c76c00d-p2)))
   (is (number? (solution-31051433-p2)))
   )

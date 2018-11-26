@@ -6,13 +6,13 @@
                       org.clojure/test.check {:mvn/version "RELEASE"}
                       ;;org.clojure/spec.alpha {:local/root "/Users/Borkdude/git/spec.alpha"}
                       speculative {:mvn/version "0.0.3-SNAPSHOT"}}}
-  :unstrumented-clj
+  :test-clj
   {:extra-paths ["test"]
    :extra-deps {com.cognitect/test-runner
                 {:git/url "https://github.com/cognitect-labs/test-runner.git"
                  :sha "028a6d41ac9ac5d5c405dfc38e4da6b4cc1255d5"}}
    :main-opts ["-m" "cognitect.test-runner"]}
-  :unstrumented-cljs
+  :test-cljs
   {:extra-paths ["test"]
    :extra-deps {olical/cljs-test-runner {:mvn/version "3.2.0"}}
    :main-opts ["-m" "cljs-test-runner.main"]}}}

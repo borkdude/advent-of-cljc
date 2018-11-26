@@ -1,21 +1,30 @@
 #!/bin/sh
 
-set $exit_code=0
+exit_code=0
+regex=""
+exclude=""
 
-regex="(aos\.y.*\.d.*(?<!data)(?<!template)$)|(aos.instrument)"
+if [ $UNSTRUMENT ]; then
+    regex="aos\.y.*\.d.*(?<!data)"
+    exclude="instrumented"
+else
+    regex="aos\.instrument|aos\.y.*\.d.*(?<!data)"
+fi
 
-echo "=== Running clojure tests"
-clojure -R:test:unstrumented-clj \
+echo "=== Running clojure tests $exclude"
+clojure -R:test:test-clj \
         -e "(require,'patch.clj-2443)" \
-        -m cognitect.test-runner -d src -r "$regex"
+        -m cognitect.test-runner -d src -r "$regex" \
+        -e "$exclude"
 
 if [ $? -eq 1 ]; then
     exit_code=1
 fi
 
 echo "\n=== Running cljs tests"
-clojure -R:test:unstrumented-cljs \
-        -m cljs-test-runner.main -c cljs-opts.edn -d src -r "$regex"
+clojure -R:test:test-cljs \
+        -m cljs-test-runner.main -d src -r "$regex" \
+        -e "$exclude"
 
 if [ $? -eq 1 ]; then
     exit_code=1

@@ -1,35 +1,31 @@
 #!/bin/sh
 
-if [ ! -z "$AOS_TIMEOUT" ]; then
-    timeout=$(command -v timeout)
-    if [ -z $timeout ]; then
-        timeout=$(command -v gtimeout)
-    fi
+exit_code=0
+ns=""
 
-    if [ -z $timeout ]; then
-        echo "WARNING: timeout program not found, running without it\n"
-    else
-        timeout_cmd="$timeout $AOS_TIMEOUT"
-    fi
+if [ ! $UNSTRUMENT ]; then
+    ns="aos.instrument"
 fi
 
-op=$1
-if [ -z $op ]; then
-   op="random"
+echo "=== Running clojure test $1"
+clojure -R:test:test-clj \
+        -e "(require,'patch.clj-2443)" \
+        -m cognitect.test-runner -d src \
+        -n "$ns" \
+        -n "$1"
+
+if [ $? -eq 1 ]; then
+    exit_code=1
 fi
 
-max_or_nth=$2
-if [ -z $max_or_nth ]; then
-    max_or_nth="1"
+echo "\n=== Running cljs test $1"
+clojure -R:test:test-cljs \
+        -m cljs-test-runner.main -d src \
+        -n "$ns" \
+        -n "$1"
+
+if [ $? -eq 1 ]; then
+    exit_code=1
 fi
 
-echo "=== Generating advent-of-spec runner"
-clojure -A:test -m aos.generator out/aos.cljc $op $max_or_nth
-
-echo "\n=== Running clj advent-of-spec tests"
-$timeout_cmd clojure -R:test -i out/aos.cljc
-
-echo "\n=== Running cljs node advent-of-spec tests"
-$timeout_cmd clojure -R:test -m cljs.main -re node -i out/aos.cljc
-
-exit 0
+exit $exit_code
