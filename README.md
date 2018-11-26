@@ -9,7 +9,7 @@ The purpose of this repo is to check
 not accounted for yet. As a bonus undefined usage of core functions
 may be detected.
 
-This library is also usable as a corpus of Clojure programs, like [coal-mine](https://github.com/mfikes/coal-mine).
+This repo can also be used as a corpus of Clojure programs, like [coal-mine](https://github.com/mfikes/coal-mine).
 
 ## Run
 
