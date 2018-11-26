@@ -2,9 +2,11 @@
 
 exit_code=0
 ns=""
+exclude="instrumented"
 
 if [ ! $UNSTRUMENT ]; then
     ns="aos.instrument"
+    exclude=""
 fi
 
 echo "=== Running clojure test $1"
@@ -12,7 +14,8 @@ clojure -R:test:test-clj \
         -e "(require,'patch.clj-2443)" \
         -m cognitect.test-runner -d src \
         -n "$ns" \
-        -n "$1"
+        -n "$1" \
+        -e "$exclude"
 
 if [ $? -eq 1 ]; then
     exit_code=1
@@ -22,7 +25,8 @@ echo "\n=== Running cljs test $1"
 clojure -R:test:test-cljs \
         -m cljs-test-runner.main -d src \
         -n "$ns" \
-        -n "$1"
+        -n "$1" \
+        -e "$exclude"
 
 if [ $? -eq 1 ]; then
     exit_code=1
