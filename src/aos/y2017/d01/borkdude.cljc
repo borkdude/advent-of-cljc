@@ -5,24 +5,24 @@
    [clojure.test :refer [deftest is testing]]))
 
 (deftest part-1
-  (= answer-1
-     (reduce
-      +
-      (map
-       (fn [a b]
-         (if (= a b)
-           (u/parse-int (str a)) 0))
-       input
-       (drop 1 (cycle input))))))
+  (is (= answer-1
+         (reduce
+          +
+          (map
+           (fn [a b]
+             (if (= a b)
+               (u/parse-int (str a)) 0))
+           input
+           (drop 1 (cycle input)))))))
 
 (deftest part-2
-  (= answer-2
-     (let [half (/ (count input) 2)]
-       (reduce
-        +
-        (map
-         (fn [a b]
-           (if (= a b)
-             (u/parse-int (str a)) 0))
-         input
-         (drop half (cycle input)))))))
+  (is (= answer-2
+         (let [half (/ (count input) 2)]
+           (reduce
+            +
+            (map
+             (fn [a b]
+               (if (= a b)
+                 (u/parse-int (str a)) 0))
+             input
+             (drop half (cycle input))))))))
