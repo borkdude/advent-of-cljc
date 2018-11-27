@@ -1,7 +1,8 @@
 (ns aos.y2017.d03.dandorman
   (:require
+   [aos.utils :as u :refer [deftest]]
    [aos.y2017.d03.data :refer [input answer-1 answer-2]]
-   [clojure.test :refer [deftest is]]))
+   [clojure.test :refer [is]]))
 
 (defn pow [x y]
   #?(:clj  (Math/pow x y)

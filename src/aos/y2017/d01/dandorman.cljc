@@ -1,7 +1,8 @@
 (ns aos.y2017.d01.dandorman
   (:require
    [aos.y2017.d01.data :refer [input answer-1 answer-2]]
-   [clojure.test :refer [deftest is testing]]))
+   [aos.utils :as u :refer [deftest]]
+   [clojure.test :refer [is testing]]))
 
 (defn inverse-captcha [pairs]
   (transduce

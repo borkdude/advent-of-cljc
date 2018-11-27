@@ -1,7 +1,8 @@
 (ns aos.y2017.d03.borkdude
   (:require
+   [aos.utils :as u :refer [deftest]]
    [aos.y2017.d03.data :refer [input answer-1 answer-2]]
-   [clojure.test :as t :refer [deftest is testing]]))
+   [clojure.test :as t :refer [is testing]]))
 
 (def directions
   "Infite seq of directions through

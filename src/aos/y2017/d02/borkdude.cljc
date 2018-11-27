@@ -1,9 +1,9 @@
 (ns aos.y2017.d02.borkdude
   (:require
-   [aos.utils :as u]
+   [aos.utils :as u :refer [deftest]]
    [aos.y2017.d02.data :refer [input answer-1 answer-2]]
    [clojure.string :as str]
-   [clojure.test :refer [deftest is testing]]))
+   [clojure.test :refer [is testing]]))
 
 (defn solve-1 []
   (transduce

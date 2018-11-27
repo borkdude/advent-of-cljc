@@ -1,8 +1,9 @@
 (ns aos.y2017.d04.borkdude
   (:require
+   [aos.utils :as u :refer [deftest]]
    [aos.y2017.d04.data :refer [input answer-1 answer-2]]
    [clojure.string :as str]
-   [clojure.test :as t :refer [deftest is testing]]
+   [clojure.test :as t :refer [is testing]]
    [net.cgrand.xforms :as x]))
 
 (defn valid-passphrase?

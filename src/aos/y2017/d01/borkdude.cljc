@@ -1,8 +1,8 @@
 (ns aos.y2017.d01.borkdude
   (:require
    [aos.y2017.d01.data :refer [input answer-1 answer-2]]
-   [aos.utils :as u]
-   [clojure.test :refer [deftest is testing]]))
+   [aos.utils :as u :refer [deftest]]
+   [clojure.test :refer [is testing]]))
 
 (deftest part-1
   (is (= answer-1

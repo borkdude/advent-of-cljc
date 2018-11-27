@@ -1,8 +1,9 @@
 (ns aos.y2017.d01.mfikes
   (:require
    [aos.y2017.d01.data :refer [input answer-1 answer-2]]
+   [aos.utils :as u :refer [deftest]]
    [clojure.string :as str]
-   [clojure.test :refer [deftest is testing]]))
+   [clojure.test :refer [is testing]]))
 
 (let [c->d (zipmap "0123456789" (range))]
   (defn str->digits

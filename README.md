@@ -29,8 +29,9 @@ PRs welcome. Use the following template:
 ``` clojure
 (ns aos.y20nn.dnn.you
   (:require
+   [aos.utils :as u :refer [deftest]]
    [aos.y20nn.dnn.data :refer [input answer-1 answer-2]]
-   [clojure.test :refer [deftest is testing]]))
+   [clojure.test :refer [is testing]]))
 
 (deftest part-1
   (is true))

@@ -1,8 +1,9 @@
 (ns aos.y2017.d04.dandorman
   (:require
+   [aos.utils :as u :refer [deftest]]
    [aos.y2017.d04.data :refer [input answer-1 answer-2]]
    [clojure.string :as str]
-   [clojure.test :refer [deftest is]]))
+   [clojure.test :refer [is]]))
 
 (defn valid-passphrase? [s]
   (let [words (str/split s #"\s+")]
