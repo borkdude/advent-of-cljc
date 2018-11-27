@@ -1,21 +1,23 @@
 #!/bin/sh
 
 exit_code=0
-ns=""
-exclude="instrumented"
+ns_flag="-n"
+ns="aos.instrument"
 
-if [ ! $UNSTRUMENT ]; then
-    ns="aos.instrument"
-    exclude=""
+if [ $UNSTRUMENT ]; then
+    exclude_flag="-e"
+    exclude_pattern="instrumented"
+    ns_flag="-n"
+    ns=""
 fi
 
 echo "=== Running clojure test $1"
 clojure -R:test:test-clj \
         -e "(require,'patch.clj-2443)" \
         -m cognitect.test-runner -d src \
-        -n "$ns" \
+        "$ns_flag" "$ns" \
         -n "$1" \
-        -e "$exclude"
+        "$exclude_flag" "$exclude_pattern"
 
 if [ $? -eq 1 ]; then
     exit_code=1
@@ -24,9 +26,9 @@ fi
 echo "\n=== Running cljs test $1"
 clojure -R:test:test-cljs \
         -m cljs-test-runner.main -d src \
-        -n "$ns" \
+        "$ns_flag" "$ns" \
         -n "$1" \
-        -e "$exclude"
+        "$exclude_flag" "$exclude_pattern"
 
 if [ $? -eq 1 ]; then
     exit_code=1
