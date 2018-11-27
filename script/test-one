@@ -22,11 +22,18 @@ if [ $? -eq 1 ]; then
 fi
 
 echo "\n=== Running cljs test $1"
-clojure -R:test:test-cljs \
-        -m cljs-test-runner.main -d src \
-        -n "$ns" \
-        -n "$1" \
-        -e "$exclude"
+if [ -z "$exclude" ]; then
+    clojure -R:test:test-cljs \
+            -m cljs-test-runner.main -d src \
+            -n "$ns" \
+            -n "$1"
+else
+    clojure -R:test:test-cljs \
+            -m cljs-test-runner.main -d src \
+            -n "$ns" \
+            -n "$1" \
+            -e "$exclude"
+fi
 
 if [ $? -eq 1 ]; then
     exit_code=1
