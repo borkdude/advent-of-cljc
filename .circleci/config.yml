@@ -36,7 +36,7 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
       # run tests!
-      - run: script/test
+      - run: UNSTRUMENT=true script/test
       - save_cache:
           paths:
             - ~/.m2
