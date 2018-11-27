@@ -18,7 +18,7 @@ What's in it for you?
 * You will be encouraged to write portable Clojure code: a solution that runs on the JVM via Clojure and on Node via ClojureScript.
 
 What's in it for the Clojure community?
-* You are helping advanced the [speculative](https://github.com/slipset/speculative) project, a collection of core specs.
+* You are helping advance the [speculative](https://github.com/slipset/speculative) project, a collection of core specs.
 * You are helping to build a large Clojure corpus for various purposes (see [Rationale](#rationale)).
 
 PRs welcome. Use the following template:
