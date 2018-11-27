@@ -16,6 +16,7 @@ This repo can also be used as a general corpus of Clojure programs, like [coal-m
 What's in it for you?
 * Your Advent of Code solutions will be checked against others. This excludes the possibility that your solution only works for your specific input.
 * You will be encouraged to write portable Clojure code: a solution that runs on the JVM via Clojure and on Node via ClojureScript.
+* [Speculative](https://github.com/slipset/speculative) may help you find undefined or incorrect usage of Clojure core functions.
 
 What's in it for the Clojure community?
 * You are helping advance the [speculative](https://github.com/slipset/speculative) project, a collection of core specs.
