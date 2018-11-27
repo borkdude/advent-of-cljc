@@ -13,6 +13,6 @@
                  :sha "028a6d41ac9ac5d5c405dfc38e4da6b4cc1255d5"}}
    :main-opts ["-m" "cognitect.test-runner"]}
   :test-cljs
-  {:extra-paths ["test"]
+  {:extra-paths ["test" "cljs-test-runner-out/gen"]
    :extra-deps {olical/cljs-test-runner {:mvn/version "3.2.0"}}
    :main-opts ["-m" "cljs-test-runner.main"]}}}
