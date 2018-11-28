@@ -14,14 +14,14 @@
 " year day))
 
 (defn user-ns [year day user]
-  (format "(ns aos.y%s.d%s.%s)
+  (format "(ns aos.y%s.d%s.%s
   (:require
    [aos.utils :as u :refer [deftest]]
    [aos.y%s.d%s.data :refer [input answer-1 answer-2]]
-   [clojure.test :refer [is testing]])
+   [clojure.test :refer [is testing]]))
 
 (deftest part-1
-  (is (= answer-2 :TODO)))
+  (is (= answer-1 :TODO)))
 
 (deftest part-2
   (is (= answer-2 :TODO)))
