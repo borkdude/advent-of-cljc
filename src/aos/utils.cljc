@@ -5,11 +5,20 @@
             [clojure.test])
   #?(:cljs (:require-macros [aos.utils :refer [deftest]])))
 
-(defmacro deftest [name & body]
-  `(clojure.test/deftest ~name
-     (let [time-str# (with-out-str (time ~@body))
-           time-str# (re-find #"\d+\.\d+ msecs" time-str#)]
-       (println '~name "took" time-str#))))
+(defmacro deftime
+  "Private. deftime macro from https://github.com/cgrand/macrovich"
+  [& body]
+  (when #?(:clj (not (:ns &env))
+           :cljs (when-let [n (and *ns* (ns-name *ns*))]
+                   (re-matches #".*\$macros" (name n))))
+    `(do ~@body)))
+
+(deftime
+  (defmacro deftest [name & body]
+    `(clojure.test/deftest ~name
+       (let [time-str# (with-out-str (time (do ~@body)))
+             time-str# (re-find #"\d+\.\d+ msecs" time-str#)]
+         (println '~name "took" time-str#)))))
 
 (defn parse-int [s]
   #?(:clj (Integer/parseInt s)
