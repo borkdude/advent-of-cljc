@@ -24,25 +24,17 @@ What's in it for the Clojure community?
 * You are helping advance the [speculative](https://github.com/slipset/speculative) project, a collection of core specs.
 * You are helping to build a large Clojure corpus for various purposes (see [Rationale](#rationale)).
 
-PRs welcome. Use the following template:
+PRs welcome. Make a new solution file with the `new` script:
 
-``` clojure
-(ns aos.y20nn.dnn.you
-  (:require
-   [aos.utils :as u :refer [deftest]]
-   [aos.y20nn.dnn.data :refer [input answer-1 answer-2]]
-   [clojure.test :refer [is testing]]))
+    script/new 2017 1 borkdude
 
-(deftest part-1
-  (is true))
+or
 
-(deftest part-2
-  (is true))
-```
+    script/new --year 2017 --day 2 --user borkdude
 
-Replace `20nn` and `dnn` with the correct year and day, and replace `you` with
-your Github/BitBucket/etc. username.  Make sure the tests for your solution pass
-with the `test-one` script.
+and fill in the details.
+
+Make sure the tests for your solution pass with the `test-one` script.
 
 ## Run
 

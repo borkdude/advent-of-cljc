@@ -15,4 +15,8 @@
   :test-cljs
   {:extra-paths ["test"]
    :extra-deps {olical/cljs-test-runner {:mvn/version "3.2.0"}}
-   :main-opts ["-m" "cljs-test-runner.main"]}}}
+   :main-opts ["-m" "cljs-test-runner.main"]}
+  :new
+  {:extra-paths ["test"]
+   :extra-deps {org.clojure/tools.cli {:mvn/version "0.4.1"}}
+   :main-opts ["-m" "aos.new"]}}}

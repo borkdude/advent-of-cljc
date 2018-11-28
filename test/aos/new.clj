@@ -1,6 +1,9 @@
 (ns aos.new
   (:require
-   [clojure.java.io :as io]))
+   [clojure.java.io :as io]
+   [clojure.tools.cli :refer [parse-opts]]))
+
+(set! *warn-on-reflection* true)
 
 (defn data-ns [year day]
   (format "(ns aos.y%s.d%s.data)
@@ -20,17 +23,15 @@
    [clojure.test :refer [is testing]])
 
 (deftest part-1
-  (is true))
+  (is (= answer-2 :TODO)))
 
 (deftest part-2
-  (is true))
+  (is (= answer-2 :TODO)))
 " year day user year day))
 
-(defn emit-program [out year day user]
-  )
-
-(defn -main [& [year day user]]
-  (let [data-out (io/file "src" "aos"
+(defn create-new [{:keys [year day user]}]
+  (let [day (format "%02d" day)
+        data-out (io/file "src" "aos"
                           (str "y" year)
                           (str "d" day)
                           "data.cljc")
@@ -40,5 +41,38 @@
                      (str user ".cljc"))]
     (io/make-parents out)
     (when (not (.exists data-out))
-      (spit data-out (data-ns year day)))
-    (spit out (user-ns year day user))))
+      (spit data-out (data-ns year day))
+      (println "Created a new file at" (.getPath data-out)))
+    (spit out (user-ns year day user))
+    (println "Created a new file at" (.getPath out))))
+
+(def cli-options
+  ;; An option with a required argument
+  [["-y" "--year YEAR" "Year"
+    :parse-fn #(Integer/parseInt %)
+    :validate [#(<= 2015 % 2018) "Must be a number between 2015 and 2018 (inclusive)"]]
+   ["-d" "--day DAY" "Day"
+    :parse-fn #(Integer/parseInt %)
+    :validate [#(<= 0 % 25) "Must be a number between 1 and 25 (inclusive)"]]
+   ["-u" "--user USER" "User"
+    :validate [#(re-find #"^[a-z]" %) "Username must start with letter"]]
+   ["-h" "--help"]])
+
+(defn -main
+  [& args]
+  (let [{:keys [options arguments] :as opts}
+        (parse-opts args cli-options)
+        {:keys [options summary errors]}
+        (if (empty? options)
+          (parse-opts (interleave
+                       ["-y" "-d" "-u"]
+                       arguments)
+                      cli-options)
+          opts)]
+    (cond (:help options)
+          (println summary)
+          errors
+          (doseq [e errors]
+            (println e))
+          :else
+          (create-new options))))
