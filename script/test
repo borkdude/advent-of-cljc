@@ -22,8 +22,8 @@ fi
 
 echo "\n=== Running cljs tests"
 mkdir -p cljs-test-runner-out/gen
-clojure -R:test:test-cljs \
-        -m cljs-test-runner.main -d src -r "$regex" \
+clojure -A:test:test-cljs \
+        -d src -r "$regex" \
         "$exclude_flag" "$exclude_pattern" \
         -c cljs-opts.edn
 

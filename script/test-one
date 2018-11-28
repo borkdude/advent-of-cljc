@@ -24,11 +24,13 @@ if [ $? -eq 1 ]; then
 fi
 
 echo "\n=== Running cljs test $1"
-clojure -R:test:test-cljs \
-        -m cljs-test-runner.main -d src \
+mkdir -p cljs-test-runner-out/gen
+clojure -A:test:test-cljs \
+        -d src \
         "$ns_flag" "$ns" \
         -n "$1" \
-        "$exclude_flag" "$exclude_pattern"
+        "$exclude_flag" "$exclude_pattern" \
+        -c cljs-opts.edn
 
 if [ $? -eq 1 ]; then
     exit_code=1
