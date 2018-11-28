@@ -28,10 +28,6 @@ PRs welcome. Make a new solution file with the `new` script:
 
     script/new 2017 1 borkdude
 
-or
-
-    script/new --year 2017 --day 2 --user borkdude
-
 and fill in the details.
 
 Make sure the tests for your solution pass with the `test-one` script.
