@@ -15,7 +15,7 @@ This repo can also be used as a general corpus of Clojure programs, like [coal-m
 ## Contribute
 
 What's in it for you?
-* Your Advent of Code solutions will be checked against others. This excludes the possibility that your solution only works for your specific input.
+* Your Advent of Code solutions will be checked against the same input as others. This diminishes the possibility that your solution only works for your specific input.
 * You will be encouraged to write portable Clojure code: a solution that runs on the JVM via Clojure and on Node via ClojureScript.
 * [Speculative](https://github.com/slipset/speculative) may help you find undefined or incorrect usage of Clojure core functions.
 * As instrumentation is performance constraining, you are encouraged to find a faster solution.
@@ -24,25 +24,13 @@ What's in it for the Clojure community?
 * You are helping advance the [speculative](https://github.com/slipset/speculative) project, a collection of core specs.
 * You are helping to build a large Clojure corpus for various purposes (see [Rationale](#rationale)).
 
-PRs welcome. Use the following template:
+PRs welcome. Make a new solution file with the `new` script:
 
-``` clojure
-(ns aos.y20nn.dnn.you
-  (:require
-   [aos.utils :as u :refer [deftest]]
-   [aos.y20nn.dnn.data :refer [input answer-1 answer-2]]
-   [clojure.test :refer [is testing]]))
+    script/new 2017 1 borkdude
 
-(deftest part-1
-  (is true))
+and fill in the details.
 
-(deftest part-2
-  (is true))
-```
-
-Replace `20nn` and `dnn` with the correct year and day, and replace `you` with
-your Github/BitBucket/etc. username.  Make sure the tests for your solution pass
-with the `test-one` script.
+Make sure the tests for your solution pass with the `test-one` script.
 
 ## Run
 
