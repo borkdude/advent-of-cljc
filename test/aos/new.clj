@@ -20,11 +20,19 @@
    [aos.y%s.d%s.data :refer [input answer-1 answer-2]]
    [clojure.test :refer [is testing]]))
 
+(defn solve-1 []
+  ;; TODO
+)
+
+(defn solve-2 []
+  ;; TODO
+)
+
 (deftest part-1
-  (is (= answer-1 :TODO)))
+  (is (= answer-1 (solve-1))))
 
 (deftest part-2
-  (is (= answer-2 :TODO)))
+  (is (= answer-2 (solve-2))))
 " year day user year day))
 
 (defn create-new [{:keys [year day user]}]
