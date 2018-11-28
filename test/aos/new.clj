@@ -3,8 +3,6 @@
    [clojure.java.io :as io]
    [clojure.tools.cli :refer [parse-opts]]))
 
-(set! *warn-on-reflection* true)
-
 (defn data-ns [year day]
   (format "(ns aos.y%s.d%s.data)
 
