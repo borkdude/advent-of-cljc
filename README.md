@@ -6,10 +6,9 @@ Cross platform Clojure Advent of Code solutions.
 ## Contribute
 
 What's in it for you?
+* Most of all, you will be encouraged to write portable Clojure code: a solution that runs on the JVM via Clojure and on Node via ClojureScript.
 * Your Advent of Code solutions will be checked against the same input as others. This diminishes the possibility that your solution only works for your specific input.
-* You will be encouraged to write portable Clojure code: a solution that runs on the JVM via Clojure and on Node via ClojureScript.
-* [Speculative](https://github.com/slipset/speculative) may help you find undefined or incorrect usage of Clojure core functions.
-* As instrumentation is performance constraining, you are encouraged to find a faster solution.
+* The performance of your solution can be compared with others via CircleCI (go to [CircleCI](https://circleci.com/gh/borkdude/advent-of-cljc) and open `script/test`)
 
 What's in it for the Clojure community?
 * You are helping advance the [speculative](https://github.com/slipset/speculative) project, a collection of core specs.
