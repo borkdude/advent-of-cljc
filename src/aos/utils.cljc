@@ -1,8 +1,10 @@
 (ns aos.utils
-  (:refer-clojure :exclude [read-string])
+  (:refer-clojure :exclude [format read-string ExceptionInfo])
   (:require #?(:clj [clojure.edn :as edn]
                :cljs [cljs.reader :as edn])
-            [clojure.test])
+            [clojure.test]
+            #?(:cljs [goog.string :as gstring])
+            #?(:cljs [goog.string.format]))
   #?(:cljs (:require-macros [aos.utils :refer [deftest]])))
 
 (defmacro deftime
@@ -25,6 +27,9 @@
      :cljs (js/parseInt s)))
 
 (def read-string edn/read-string)
+
+(def format #?(:clj clojure.core/format
+               :cljs gstring/format))
 
 ;;;; Scratch
 
