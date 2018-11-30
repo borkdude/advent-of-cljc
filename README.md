@@ -5,7 +5,7 @@ Cross platform Clojure Advent of Code solutions.
 
 ## Why the name?
 
-Because it sounds better than Advent of CLJC. And because the solutions are checked with [speculative](https://github.com/slipset/speculative) if you want.
+Because it sounds better than Advent of CLJC. And because the solutions are optionally checked with [speculative](https://github.com/slipset/speculative).
 
 ## Contribute
 
