@@ -1,9 +1,11 @@
 # advent-of-spec
 [![CircleCI](https://circleci.com/gh/borkdude/advent-of-spec/tree/master.svg?style=svg)](https://circleci.com/gh/borkdude/advent-of-spec/tree/master)
 
-Because it sounds better than Advent of CLJC. Cross platform Clojure Advent of Code solutions.
+Cross platform Clojure Advent of Code solutions.
 
-Optionally checked with [speculative](https://github.com/slipset/speculative).
+## Why the name?
+
+Because it sounds better than Advent of CLJC. And because the solutions are checked with [speculative](https://github.com/slipset/speculative) if you want.
 
 ## Contribute
 
