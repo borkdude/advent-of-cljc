@@ -3,6 +3,8 @@
  {:test {:extra-paths ["test"]
          :extra-deps {org.clojure/clojure {:mvn/version "1.10.0-beta8"}
                       org.clojure/clojurescript {:mvn/version "1.10.439"}
+                      ;; org.clojure/clojurescript {:git/url "https://github.com/borkdude/clojurescript"
+                      ;;                            :sha "3d5d762e3a2a00b3f7b76ef8f074b9b27ec2a144"}
                       org.clojure/test.check {:mvn/version "RELEASE"}
                       ;;org.clojure/spec.alpha {:local/root "/Users/Borkdude/git/spec.alpha"}
                       speculative {:mvn/version "0.0.3-SNAPSHOT"}}}

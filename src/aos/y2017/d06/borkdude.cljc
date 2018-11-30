@@ -55,11 +55,13 @@
                state'
                (inc n))))))
 
+(def solve* (solve (data)))
+
 (defn solve-1 []
-  (second (solve (data))))
+  (second solve*))
 
 (defn solve-2 []
-  (second (solve (first (solve (data))))))
+  (second (solve (first solve*))))
 
 (deftest part-1
   (is (= answer-1 (solve-1))))
