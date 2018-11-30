@@ -16,9 +16,9 @@ What's in it for the Clojure community?
 
 PRs welcome. Make a new solution file with the `new` script:
 
-    script/new 2017 1 borkdude
+    script/new 2017 1 username
 
-and fill in the details.
+where `username` is your Github or Bitbucket username. Then fill in the soluton in the file.
 
 Make sure the tests for your solution pass with the `test-one` script.
 
@@ -30,12 +30,12 @@ Run all tests:
 
 Run one test:
 
-    script/test-one aos.y2017.d01.borkdude
+    script/test-one aos.y2017.d01.username
     
 Run with instrumentation:
 
     INSTRUMENT=true script/test
-    INSTRUMENT=true script/test-one aos.y2017.d01.borkdude
+    INSTRUMENT=true script/test-one aos.y2017.d01.username
 
 Skip Clojure or ClojureScript:
 
