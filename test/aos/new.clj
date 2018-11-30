@@ -46,11 +46,13 @@
                      (str "d" day)
                      (str user ".cljc"))]
     (io/make-parents out)
-    (when (not (.exists data-out))
+    (when-not (.exists data-out)
       (spit data-out (data-ns year day))
       (println "Created a new file at" (.getPath data-out)))
-    (spit out (user-ns year day user))
-    (println "Created a new file at" (.getPath out))))
+    (if-not (.exists out)
+      (do (spit out (user-ns year day user))
+          (println "Created a new file at" (.getPath out)))
+      (println "File already exists:" (.getPath out)))))
 
 (def cli-options
   ;; An option with a required argument
