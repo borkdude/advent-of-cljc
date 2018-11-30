@@ -1,7 +1,8 @@
 # advent-of-spec
 [![CircleCI](https://circleci.com/gh/borkdude/advent-of-spec/tree/master.svg?style=svg)](https://circleci.com/gh/borkdude/advent-of-spec/tree/master)
 
-Advent of Code puzzles checked with [speculative](https://github.com/slipset/speculative)
+Cross platform Clojure Advent of Code solutions.
+Optionally checked with [speculative](https://github.com/slipset/speculative)
 
 ## Rationale
 
