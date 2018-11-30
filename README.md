@@ -1,18 +1,9 @@
 # advent-of-spec
 [![CircleCI](https://circleci.com/gh/borkdude/advent-of-spec/tree/master.svg?style=svg)](https://circleci.com/gh/borkdude/advent-of-spec/tree/master)
 
-Cross platform Clojure Advent of Code solutions.
+Because it sounds better than Advent of CLJC. Cross platform Clojure Advent of Code solutions.
 
 Optionally checked with [speculative](https://github.com/slipset/speculative).
-
-## Rationale
-
-The initial purpose of this repo is to check
-[speculative](https://github.com/slipset/speculative) specs for usage that was
-not accounted for yet. As a bonus undefined usage of core functions
-may be detected.
-
-This repo can also be used as a general corpus of Clojure programs, like [coal-mine](https://github.com/mfikes/coal-mine). This is useful for regression testing compiler patches for Clojure and ClojureScript.
 
 ## Contribute
 
@@ -24,7 +15,7 @@ What's in it for you?
 
 What's in it for the Clojure community?
 * You are helping advance the [speculative](https://github.com/slipset/speculative) project, a collection of core specs.
-* You are helping to build a large Clojure corpus for various purposes (see [Rationale](#rationale)).
+* You are helping to build a large Clojure corpus for various purposes (see the Rationale for [coal-mine](https://github.com/mfikes/coal-mine)).
 
 PRs welcome. Make a new solution file with the `new` script:
 
