@@ -2,7 +2,7 @@
 
 exit_code=0
 
-if [ $UNSTRUMENT ]; then
+if [ ! $INSTRUMENT ]; then
     regex="aos\.y.*\.d.*(?<!data)"
     exclude_flag="-e"
     exclude_pattern="instrumented"

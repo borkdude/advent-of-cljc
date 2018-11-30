@@ -4,7 +4,7 @@ exit_code=0
 ns_flag="-n"
 ns="aos.instrument"
 
-if [ $UNSTRUMENT ]; then
+if [ ! $INSTRUMENT ]; then
     exclude_flag="-e"
     exclude_pattern="instrumented"
     ns_flag="-n"

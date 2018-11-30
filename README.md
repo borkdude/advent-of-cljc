@@ -37,7 +37,7 @@ Run one test:
 
     script/test-one aos.y2017.d01.borkdude
     
-Run without instrumentation:
+Run withinstrumentation:
 
-    UNSTRUMENT=true script/test
-    UNSTRUMENT=true script/test-one aos.y2017.d01.borkdude
+    INSTRUMENT=true script/test
+    INSTRUMENT=true script/test-one aos.y2017.d01.borkdude
