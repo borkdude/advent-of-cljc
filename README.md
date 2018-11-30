@@ -2,7 +2,8 @@
 [![CircleCI](https://circleci.com/gh/borkdude/advent-of-spec/tree/master.svg?style=svg)](https://circleci.com/gh/borkdude/advent-of-spec/tree/master)
 
 Cross platform Clojure Advent of Code solutions.
-Optionally checked with [speculative](https://github.com/slipset/speculative)
+
+Optionally checked with [speculative](https://github.com/slipset/speculative).
 
 ## Rationale
 
