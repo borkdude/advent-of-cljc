@@ -37,7 +37,12 @@ Run one test:
 
     script/test-one aos.y2017.d01.borkdude
     
-Run withinstrumentation:
+Run with instrumentation:
 
     INSTRUMENT=true script/test
     INSTRUMENT=true script/test-one aos.y2017.d01.borkdude
+
+Skip Clojure or ClojureSCript:
+
+    SKIP_CLJ=true script/test
+    SKIP_CLJS=true script/test

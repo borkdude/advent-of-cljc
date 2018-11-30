@@ -10,22 +10,26 @@ else
     regex="aos\.instrument|aos\.y.*\.d.*(?<!data)"
 fi
 
-echo "=== Running clojure tests $exclude"
-clojure -R:test:test-clj \
-        -e "(require,'patch.clj-2443)" \
-        -m cognitect.test-runner -d src -r "$regex" \
-        "$exclude_flag" "$exclude_pattern"
+if [ ! $SKIP_CLJ ]; then
+    echo "=== Running clojure tests $exclude"
+    clojure -R:test:test-clj \
+            -e "(require,'patch.clj-2443)" \
+            -m cognitect.test-runner -d src -r "$regex" \
+            "$exclude_flag" "$exclude_pattern"
+fi
 
 if [ $? -eq 1 ]; then
     exit_code=1
 fi
 
-echo "\n=== Running cljs tests"
-mkdir -p cljs-test-runner-out/gen
-clojure -A:test:test-cljs \
-        -d src -r "$regex" \
-        "$exclude_flag" "$exclude_pattern" \
-        -c cljs-opts.edn
+if [ ! $SKIP_CLJS ]; then
+    echo "\n=== Running cljs tests"
+    mkdir -p cljs-test-runner-out/gen
+    clojure -A:test:test-cljs \
+            -d src -r "$regex" \
+            "$exclude_flag" "$exclude_pattern" \
+            -c cljs-opts.edn
+fi
 
 if [ $? -eq 1 ]; then
     exit_code=1

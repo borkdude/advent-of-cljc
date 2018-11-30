@@ -11,26 +11,30 @@ if [ ! $INSTRUMENT ]; then
     ns=""
 fi
 
-echo "=== Running clojure test $1"
-clojure -R:test:test-clj \
-        -e "(require,'patch.clj-2443)" \
-        -m cognitect.test-runner -d src \
-        "$ns_flag" "$ns" \
-        -n "$1" \
-        "$exclude_flag" "$exclude_pattern"
+if [ ! $SKIP_CLJ ]; then
+    echo "=== Running clojure test $1"
+    clojure -R:test:test-clj \
+            -e "(require,'patch.clj-2443)" \
+            -m cognitect.test-runner -d src \
+            "$ns_flag" "$ns" \
+            -n "$1" \
+            "$exclude_flag" "$exclude_pattern"
+fi
 
 if [ $? -eq 1 ]; then
     exit_code=1
 fi
 
-echo "\n=== Running cljs test $1"
-mkdir -p cljs-test-runner-out/gen
-clojure -A:test:test-cljs \
-        -d src \
-        "$ns_flag" "$ns" \
-        -n "$1" \
-        "$exclude_flag" "$exclude_pattern" \
-        -c cljs-opts.edn
+if [ ! $SKIP_CLJS ]; then
+    echo "\n=== Running cljs test $1"
+    mkdir -p cljs-test-runner-out/gen
+    clojure -A:test:test-cljs \
+            -d src \
+            "$ns_flag" "$ns" \
+            -n "$1" \
+            "$exclude_flag" "$exclude_pattern" \
+            -c cljs-opts.edn
+fi
 
 if [ $? -eq 1 ]; then
     exit_code=1
