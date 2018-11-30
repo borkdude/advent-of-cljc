@@ -1,5 +1,5 @@
 # Advent of CLJC
-[![CircleCI](https://circleci.com/gh/borkdude/advent-of-spec/tree/master.svg?style=svg)](https://circleci.com/gh/borkdude/advent-of-cljc/tree/master)
+[![CircleCI](https://circleci.com/gh/borkdude/advent-of-cljc/tree/master.svg?style=svg)](https://circleci.com/gh/borkdude/advent-of-cljc/tree/master)
 
 Cross platform Clojure Advent of Code solutions.
 
