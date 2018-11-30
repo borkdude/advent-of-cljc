@@ -1,15 +1,14 @@
 # Advent of CLJC
-[![CircleCI](https://circleci.com/gh/borkdude/advent-of-spec/tree/master.svg?style=svg)](https://circleci.com/gh/borkdude/advent-of-cljc/tree/master)
+[![CircleCI](https://circleci.com/gh/borkdude/advent-of-cljc/tree/master.svg?style=svg)](https://circleci.com/gh/borkdude/advent-of-cljc/tree/master)
 
 Cross platform Clojure Advent of Code solutions.
 
 ## Contribute
 
 What's in it for you?
+* Most of all, you will be encouraged to write portable Clojure code: a solution that runs on the JVM via Clojure and on Node via ClojureScript.
 * Your Advent of Code solutions will be checked against the same input as others. This diminishes the possibility that your solution only works for your specific input.
-* You will be encouraged to write portable Clojure code: a solution that runs on the JVM via Clojure and on Node via ClojureScript.
-* [Speculative](https://github.com/slipset/speculative) may help you find undefined or incorrect usage of Clojure core functions.
-* As instrumentation is performance constraining, you are encouraged to find a faster solution.
+* The performance of your solution can be compared with others via CircleCI (go to [CircleCI](https://circleci.com/gh/borkdude/advent-of-cljc) and open `script/test`)
 
 What's in it for the Clojure community?
 * You are helping advance the [speculative](https://github.com/slipset/speculative) project, a collection of core specs.
@@ -17,9 +16,9 @@ What's in it for the Clojure community?
 
 PRs welcome. Make a new solution file with the `new` script:
 
-    script/new 2017 1 borkdude
+    script/new 2017 1 username
 
-and fill in the details.
+where `username` is your Github or Bitbucket username. Then fill in the soluton in the file.
 
 Make sure the tests for your solution pass with the `test-one` script.
 
@@ -31,14 +30,14 @@ Run all tests:
 
 Run one test:
 
-    script/test-one aos.y2017.d01.borkdude
+    script/test-one aos.y2017.d01.username
     
 Run with instrumentation:
 
     INSTRUMENT=true script/test
-    INSTRUMENT=true script/test-one aos.y2017.d01.borkdude
+    INSTRUMENT=true script/test-one aos.y2017.d01.username
 
-Skip Clojure or ClojureSCript:
+Skip Clojure or ClojureScript:
 
     SKIP_CLJ=true script/test
     SKIP_CLJS=true script/test
