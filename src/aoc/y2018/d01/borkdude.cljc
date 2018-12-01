@@ -6,8 +6,7 @@
    [clojure.test :refer [is testing]]))
 
 (def data
-  (map (comp u/read-string
-             #(str/replace % #"\+" ""))
+  (map u/read-string
        (str/split-lines input)))
 
 (defn solve-1 []
