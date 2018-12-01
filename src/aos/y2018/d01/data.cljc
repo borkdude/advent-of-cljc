@@ -1022,6 +1022,6 @@
 +62
 -73422")
 
-(def answer-1)
+(def answer-1 518)
 
-(def answer-2)
+(def answer-2 72889)
