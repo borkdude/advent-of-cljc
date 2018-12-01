@@ -14,13 +14,13 @@
 
 (defn solve-2 []
   (loop [freq 0
-         seen #{0}
+         seen (transient #{0})
          changes (cycle data)]
     (let [nfreq (+ freq (first changes))]
       (if (seen nfreq)
         nfreq
         (recur nfreq
-               (conj seen nfreq)
+               (conj! seen nfreq)
                (rest changes))))))
 
 (deftest part-1
