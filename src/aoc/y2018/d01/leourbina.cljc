@@ -5,7 +5,7 @@
    [clojure.test :refer [is testing]]))
 
 (defn parse-data [input]
-  (map read-string
+  (map u/read-string
     (clojure.string/split input #"\n")))
 
 (defn compute-frequency [input]
