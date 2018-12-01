@@ -1,12 +1,11 @@
 (ns aoc.y2018.d01.dandorman
   (:require
-   [aoc.utils :refer [deftest]]
+   [aoc.utils :as u :refer [deftest]]
    [aoc.y2018.d01.data :refer [input answer-1 answer-2]]
-   [#?(:clj clojure.edn, :cljs cljs.tools.reader.edn) :as edn]
-   [clojure.test :refer [is testing]]))
+   [clojure.test :refer [is]]))
 
 (defn input->vec [input]
-  (edn/read-string (str "[" input "]")))
+  (u/read-string (str "[" input "]")))
 
 (def solve-1 (partial reduce +))
 
