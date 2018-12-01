@@ -30,7 +30,7 @@ Run all tests:
 
 Run one test:
 
-    script/test-one aoc.y2017.d01.username
+    script/test-one 2017 1 username
     
 Run with instrumentation:
 

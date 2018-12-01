@@ -4,6 +4,12 @@ exit_code=0
 ns_flag="-n"
 ns="aoc.instrument"
 
+if [ $2 ] && [ $3 ]; then
+    printf -v user_ns "aoc.y$1.d%02d.$3" "$2"
+else
+    user_ns=$1
+fi
+
 if [ ! $INSTRUMENT ]; then
     exclude_flag="-e"
     exclude_pattern="instrumented"
@@ -17,7 +23,7 @@ if [ ! $SKIP_CLJ ]; then
             -e "(require,'patch.clj-2443)" \
             -m cognitect.test-runner -d src \
             "$ns_flag" "$ns" \
-            -n "$1" \
+            -n "$user_ns" \
             "$exclude_flag" "$exclude_pattern"
 fi
 
@@ -31,7 +37,7 @@ if [ ! $SKIP_CLJS ]; then
     clojure -A:test:test-cljs \
             -d src \
             "$ns_flag" "$ns" \
-            -n "$1" \
+            -n "$user_ns" \
             "$exclude_flag" "$exclude_pattern" \
             -c cljs-opts.edn
 fi
