@@ -30,12 +30,12 @@ Run all tests:
 
 Run one test:
 
-    script/test-one aos.y2017.d01.username
+    script/test-one aoc.y2017.d01.username
     
 Run with instrumentation:
 
     INSTRUMENT=true script/test
-    INSTRUMENT=true script/test-one aos.y2017.d01.username
+    INSTRUMENT=true script/test-one aoc.y2017.d01.username
 
 Skip Clojure or ClojureScript:
 

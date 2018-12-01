@@ -2,7 +2,7 @@
 
 exit_code=0
 ns_flag="-n"
-ns="aos.instrument"
+ns="aoc.instrument"
 
 if [ ! $INSTRUMENT ]; then
     exclude_flag="-e"

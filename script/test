@@ -3,11 +3,11 @@
 exit_code=0
 
 if [ ! $INSTRUMENT ]; then
-    regex="aos\.y.*\.d.*(?<!data)"
+    regex="aoc\.y.*\.d.*(?<!data)"
     exclude_flag="-e"
     exclude_pattern="instrumented"
 else
-    regex="aos\.instrument|aos\.y.*\.d.*(?<!data)"
+    regex="aoc\.instrument|aoc\.y.*\.d.*(?<!data)"
 fi
 
 if [ ! $SKIP_CLJ ]; then
