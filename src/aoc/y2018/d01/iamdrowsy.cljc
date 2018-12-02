@@ -7,7 +7,7 @@
     [net.cgrand.xforms :as x]))
 
 (def NUMBER
-  (s/parser read-string str))
+  (s/parser u/read-string str))
 
 (def NUMBERS-IN-LINES
   (s/path (s/regex-nav #"[+-][0-9]*") NUMBER))
