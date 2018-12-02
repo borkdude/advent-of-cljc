@@ -12,14 +12,19 @@
 (defn solve-1 []
   (reduce + data))
 
+(defn first-duplicate [xs]
+  (let [result (reduce (fn [seen x]
+                         (if (seen x)
+                           (reduced x)
+                           (conj seen x)))
+                 #{} xs)]
+    (if (set? result)
+      nil
+      result)))
+
 (defn solve-2 []
-  (let [freqs (reductions + (cycle data))]
-    (reduce (fn [seen freq]
-              (if (seen freq)
-                (reduced freq)
-                (conj seen freq)))
-      #{}
-      freqs)))
+  (let [freqs (cons 0 (reductions + (cycle data)))]
+    (first-duplicate freqs)))
 
 (deftest part-1
   (is (= answer-1 (solve-1))))
