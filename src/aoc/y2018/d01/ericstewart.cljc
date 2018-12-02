@@ -1,15 +1,12 @@
 (ns aoc.y2018.d01.ericstewart
   (:require
-   [aoc.utils :as u :refer [deftest]]
+   [aoc.utils :as u :refer [deftest read-string]]
    [aoc.y2018.d01.data :refer [input answer-1 answer-2]]
-   [clojure.test :refer [is testing]]
-   #?(:cljs [cljs.reader :as reader]))
-  )
+   [clojure.test :refer [is testing]]))
 
 (defn read-input []
   (->> (clojure.string/split-lines input)
-       #?(:clj (mapv read-string)
-          :cljs (mapv reader/read-string))))
+       (mapv u/read-string)))
 
 (defn solve-1 []
 (->> (read-input) 
