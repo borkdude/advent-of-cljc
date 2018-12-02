@@ -24,10 +24,12 @@
       (let [dd (keep identity (map #(if (= 0 %2) %1 nil) i1 d))]
         (apply str (map char dd))))))
 
-
+(defn char-to-int [c]
+  #?(:clj (int c)
+     :cljs (.charCodeAt c 0)))
 
 (defn solve-2 []
-  (loop [candidates (mapv #(mapv int %) (str/split-lines input))]
+  (loop [candidates (mapv #(mapv char-to-int %) (str/split-lines input))]
     (let [current (peek candidates)
           to-check (pop candidates)
           found (keep #(diff current %) to-check)]
