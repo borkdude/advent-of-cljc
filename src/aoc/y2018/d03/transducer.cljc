@@ -6,12 +6,8 @@
 
 (defn parse [input]
   (->> (string/split-lines input)
-       (map #(let [[_ id x y w h] (re-find #"#(.*) @.(\d+),(\d+): (\d+)x(\d+)" %)]
-               {:id     id
-                :x      (parse-int x)
-                :y      (parse-int y)
-                :width  (parse-int w)
-                :height (parse-int h)}))))
+       (map #(zipmap [:id :x :y :width :height]
+                     (map parse-int (rest (re-find #"#(.*) @.(\d+),(\d+): (\d+)x(\d+)" %)))))))
 
 (def data
   (parse input))
