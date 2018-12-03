@@ -17,18 +17,13 @@
           y (range y1 y2)]
       {:id id :coordinate [x y]})))
 
-(defn parsed* []
-  (mapcat parse-line data))
-
-(def parsed (memoize parsed*))
+(def parsed (memoize #(mapcat parse-line data)))
 
 (defn freqs []
-  (let [coordinates (map :coordinate (parsed))]
-    (frequencies coordinates)))
+  (frequencies (map :coordinate (parsed))))
 
 (defn solve-1 []
-  (count (filter (fn [[_ v]] (>= v 2))
-                 (freqs))))
+  (count (filter (fn [[_ v]] (>= v 2)) (freqs))))
 
 (defn solve-2 []
   (let [only-one (set (keep (fn [[k v]]
@@ -36,9 +31,8 @@
                             (freqs)))
         by-id (group-by :id (parsed))]
     (reduce (fn [_ [id vs]]
-              (let [coordinates (map :coordinate vs)]
-                (when (every? only-one coordinates)
-                  (reduced id))))
+              (when (every? only-one (map :coordinate vs))
+                (reduced id)))
             by-id)))
 
 (deftest part-1
