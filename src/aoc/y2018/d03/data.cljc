@@ -1234,6 +1234,6 @@
 #1232 @ 23,641: 17x13
 #1233 @ 437,811: 19x10")
 
-(def answer-1)
+(def answer-1 98005)
 
-(def answer-2)
+(def answer-2 "331")
