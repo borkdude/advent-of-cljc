@@ -19,8 +19,7 @@
 
 (def parsed (memoize #(mapcat parse-line data)))
 
-(defn freqs []
-  (frequencies (map :coordinate (parsed))))
+(def freqs (memoize #(frequencies (map :coordinate (parsed)))))
 
 (defn solve-1 []
   (count (filter (fn [[_ v]] (>= v 2)) (freqs))))
