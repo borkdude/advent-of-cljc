@@ -7,13 +7,11 @@
 
 (def data (str/split-lines input))
 
+(def re #"#(\d+) @ (\d+),(\d+): (\d+)x(\d+)")
+
 (defn parse-line [line]
-  (let [[id _ x*y w*d] (str/split line #" ")
-        id (subs id 1)
-        [x1 y1] (str/split (str/replace x*y #":" "")
-                           #",")
-        [w d] (str/split w*d #"x")
-        [id x1 y1 w d] (map u/parse-int [id x1 y1 w d])
+  (let [parse (rest (re-find re line))
+        [id x1 y1 w d] (map u/parse-int parse)
         [x1 y1 x2 y2] [x1 y1 (+ x1 w) (+ y1 d)]]
     (for [x (range x1 x2)
           y (range y1 y2)]
@@ -24,11 +22,9 @@
 
 (def parsed (memoize parsed*))
 
-(defn freqs* []
+(defn freqs []
   (let [coordinates (map :coordinate (parsed))]
     (frequencies coordinates)))
-
-(def freqs (memoize freqs*))
 
 (defn solve-1 []
   (count (filter (fn [[_ v]] (>= v 2))
@@ -49,5 +45,4 @@
   (is (= answer-1 (solve-1))))
 
 (deftest part-2
-  ;; NOTE: Advent of Code expects the id without the leading #
   (is (= answer-2 (str (solve-2)))))
