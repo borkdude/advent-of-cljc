@@ -6,8 +6,8 @@
 
 (def data
   (->> input
-       (format "[%s]")
-       read-string))
+       (utils/format "[%s]")
+       utils/read-string))
 
 (defn solve-1 []
   (apply + data))
