@@ -48,10 +48,10 @@
        count))
 
 (defn solve-2 []
-  (->> (filter (fn [{:keys [x y width height]}]
+  (->> data
+       (filter (fn [{:keys [x y width height]}]
                  (every? #(= 1 %)
-                         (mapv grid-claim-counts (square-indices x y width height))))
-               data)
+                         (mapv grid-claim-counts (square-indices x y width height)))))
        first
        :id))
 
