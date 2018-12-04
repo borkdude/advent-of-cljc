@@ -65,14 +65,12 @@
        (frequencies)
        (apply max-key val)))
 
-(defn solve-1
-  []
+(defn solve-1 []
   (let [guard (most-minutes-slept (sleep-log))
         minute (first (longest-minute-slept (sleep-log) guard))]
     (* (str->int guard) minute)))
 
-(defn solve-2
-  []
+(defn solve-2 []
   (let [ids (distinct (map first (sleep-log)))
         info
         (->> ids
