@@ -15,8 +15,9 @@
 
 (defn user-ns [year day user]
   (format "(ns aoc.y%s.d%s.%s
+  (:refer-clojure :exclude [read-string format])
   (:require
-   [aoc.utils :as u :refer [deftest]]
+   [aoc.utils :as u :refer [deftest read-string format]]
    [aoc.y%s.d%s.data :refer [input answer-1 answer-2]]
    [clojure.test :refer [is testing]]))
 
@@ -29,10 +30,12 @@
 )
 
 (deftest part-1
-  (is (= answer-1 (solve-1))))
+  (is (= (str answer-1)
+         (str (solve-1)))))
 
 (deftest part-2
-  (is (= answer-2 (solve-2))))
+  (is (= (str answer-2)
+         (str (solve-2)))))
 " year day user year day))
 
 (defn create-new [{:keys [year day user]}]
