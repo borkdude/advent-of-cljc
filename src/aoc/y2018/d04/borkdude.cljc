@@ -52,9 +52,9 @@
         [[] nil nil]
         sorted)))))
 
-(defn highest-frequency [vals]
-  (ffirst (sort-by (comp - val)
-                   (frequencies vals))))
+(defn max-frequency [vals]
+  (first (apply max-key val
+                (frequencies vals))))
 
 (def sleeping
   (memoize
@@ -64,16 +64,16 @@
 
 (defn solve-1 []
   (let [guards (map :guard (sleeping))
-        most-sleeping-guard (highest-frequency guards)
+        most-sleeping-guard (max-frequency guards)
         only-most-sleeping-guard
         (filter #(= most-sleeping-guard (:guard %))
                 (sleeping))
         most-frequent-minute (:minute
-                              (highest-frequency only-most-sleeping-guard))]
+                              (max-frequency only-most-sleeping-guard))]
     (* most-sleeping-guard most-frequent-minute)))
 
 (defn solve-2 []
-  (let [{:keys [:guard :minute]} (highest-frequency (sleeping))]
+  (let [{:keys [:guard :minute]} (max-frequency (sleeping))]
     (* guard minute)))
 
 (deftest part-1
@@ -83,3 +83,7 @@
 (deftest part-2
   (is (= (str answer-2)
          (str (solve-2)))))
+
+;; What I (re-)learned today:
+;; max-key takes a comparison function. a more appropriate name might be max-by
+;; (sort-by (comp - val) {:a 1 :b 2}) can be written as (sort-by val > {:a 1 :b 2})
