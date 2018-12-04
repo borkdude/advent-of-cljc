@@ -2,3 +2,5 @@
 /out
 /.nrepl-port
 /cljs-test-runner-out
+/.idea
+*.iml
