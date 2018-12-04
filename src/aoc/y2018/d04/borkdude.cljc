@@ -30,29 +30,27 @@
          :sleeping? (= "falls asleep" action)))
 
 (defn copy-lines [record from until]
-  (mapv #(assoc record
-                :minute %)
-        (range from until)))
+  (map #(assoc record :minute %)
+       (range from until)))
 
 (def process-data
   (memoize
    #(let [sorted (sort-by (juxt :year :month :day :hour :minute) (data))]
       (first
-       (reduce (fn [[acc prev-guard prev-record] n]
-                 (let [guard? (:guard n)
-                       action (:action n)
-                       guard (if guard? guard? prev-guard)
-                       record (complete-line n guard)
-                       copies (if (= "wakes up" action)
-                                (copy-lines prev-record
-                                            (inc (:minute prev-record))
-                                            (:minute record))
-                                [])
-                       new (conj (into acc copies) record)]
-                   (cond guard? [new guard? record]
-                         prev-guard [new prev-guard record])))
-               [[] nil nil]
-               sorted)))))
+       (reduce
+        (fn [[acc prev-guard prev-record]
+             {:keys [:action :guard] :as n}]
+          (let [guard (or guard prev-guard)
+                record (complete-line n guard)
+                copies (if (= "wakes up" action)
+                         (copy-lines prev-record
+                                     (inc (:minute prev-record))
+                                     (:minute record))
+                         [])
+                new (conj (into acc copies) record)]
+            [new guard record]))
+        [[] nil nil]
+        sorted)))))
 
 (defn highest-frequency [vals]
   (ffirst (sort-by (comp - val)
