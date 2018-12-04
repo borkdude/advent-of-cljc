@@ -24,6 +24,8 @@ This repo will not accept multiple input and answers (see [this issue](https://g
 
 Make sure the tests for your solution pass with the `test-one` script.
 
+Please do not run calculations outside the tests. Memoized functions are permitted. Top-level lazy sequences are fine as long as they are not realized outside the tests.
+
 ## Run
 
 Run all tests:
