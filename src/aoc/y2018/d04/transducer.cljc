@@ -30,7 +30,8 @@
                             sleep-periods)]
             (conj acc {(parse-int guard-number) sleep-mask})))
         [])
-       (apply merge-with #(map + %1 %2))))
+       (apply merge-with #(map + %1 %2))
+       delay))
 
 (defn solve-1 []
   (let [[guard-number sleep-mask]
@@ -38,9 +39,9 @@
          (into
           (sorted-map-by (fn [k1 k2]
                            (compare
-                            (apply + (get guard->sleep-mask k2))
-                            (apply + (get guard->sleep-mask k1)))))
-          guard->sleep-mask))]
+                            (apply + (get @guard->sleep-mask k2))
+                            (apply + (get @guard->sleep-mask k1)))))
+          @guard->sleep-mask))]
     (* guard-number (.indexOf sleep-mask (apply max sleep-mask)))))
 
 (defn solve-2 []
@@ -49,9 +50,9 @@
          (into
           (sorted-map-by (fn [k1 k2]
                            (compare
-                            (apply max (get guard->sleep-mask k2))
-                            (apply max (get guard->sleep-mask k1)))))
-          guard->sleep-mask))]
+                            (apply max (get @guard->sleep-mask k2))
+                            (apply max (get @guard->sleep-mask k1)))))
+          @guard->sleep-mask))]
     (* guard-number (.indexOf sleep-mask (apply max sleep-mask)))))
 
 (deftest part-1
