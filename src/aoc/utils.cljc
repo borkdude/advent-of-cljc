@@ -24,6 +24,17 @@
   #?(:clj (Float/parseFloat s)
      :cljs (js/parseFloat s)))
 
+(def format #?(:clj clojure.core/format
+               :cljs gstring/format))
+
+(def read-string edn/read-string)
+
+;; #?(:clj (defn free-memory []
+;;           (let [rt (java.lang.Runtime/getRuntime)]
+;;             (format "%.2f"
+;;                     (/ (float (.freeMemory rt))
+;;                        (* 1024 1024))))))
+
 (deftime
 
   (defmacro ?
@@ -55,11 +66,6 @@
              ms# (:ms timed#)
              ms# (format "%.2f" ms#)]
          (println '~name "took" ms# "msecs")))))
-
-(def read-string edn/read-string)
-
-(def format #?(:clj clojure.core/format
-               :cljs gstring/format))
 
 ;;;; Scratch
 
