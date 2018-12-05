@@ -6,10 +6,10 @@
     [clojure.test :refer [is testing]]
     [clojure.string :as str]))
 
-(def char-code #?(:clj (comp int char first str)
+(def char-code #?(:clj  (comp int char first str)
                   :cljs #(.charCodeAt % 0)))
 
-(def my-char #?(:clj char
+(def my-char #?(:clj  char
                 :cljs #(.fromCharCode js/String %)))
 
 (def my-pmap #?(:clj pmap :cljs map))
@@ -48,8 +48,8 @@
 
 (defn char-sets []
   (map (fn [l u] #{l u})
-    (range a (inc z))
-    (range A (inc Z))))
+       (range a (inc z))
+       (range A (inc Z))))
 
 (defn solve-1 []
   (count (purge-anti-pairs (numeric-input input))))
