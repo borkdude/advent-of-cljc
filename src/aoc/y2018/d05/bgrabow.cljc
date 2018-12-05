@@ -6,16 +6,24 @@
     [clojure.test :refer [is testing]]
     [clojure.string :as str]))
 
-(defn anti-pair?
+(def char-code #?(:clj  (comp int char first str)
+                  :cljs #(.charCodeAt % 0)))
+
+(def my-pmap #?(:clj pmap :cljs map))
+
+(def numeric-input
+  (memoize #(map char-code (seq %))))
+
+(defn numeric-anti-pair?
   "Returns true if the two args are case-complements
   of the same letter, false otherwise (e.g. if they
   are identical case of the same letter, if they are
   different letter, or if either of the args elements
   are nil."
-  ([x y]
-   (and (distinct? x y)
-        (= (str/lower-case (str x))
-           (str/lower-case (str y))))))
+  [x y]
+  (let [diff (- x y)]
+    (or (= 32 diff)
+        (= -32 diff))))
 
 (defn purge-anti-pairs
   ([coll]
@@ -23,30 +31,28 @@
                      (drop 1 coll)))
   ([left right]
    (if (seq right)
-     (if (anti-pair? (first left) (first right))
+     (if (and (seq left)
+              (numeric-anti-pair? (first left) (first right)))
        (recur (rest left) (rest right))
        (recur (cons (first right) left)
               (rest right)))
      (reverse left))))
 
-(def char-code #?(:clj (comp int char first)
-                  :cljs #(.charCodeAt % 0)))
-
-(def my-char #?(:clj char
-                :cljs #(.fromCharCode js/String %)))
-
-(def my-pmap #?(:clj pmap :cljs map))
+(def a 97)
+(def z 122)
+(def A 65)
+(def Z 90)
 
 (defn char-sets []
   (map (fn [l u] #{l u})
-    (map my-char (range (char-code "a") (inc (char-code "z"))))
-    (map my-char (range (char-code "A") (inc (char-code "Z"))))))
+       (range a (inc z))
+       (range A (inc Z))))
 
 (defn solve-1 []
-  (count (purge-anti-pairs input)))
+  (count (purge-anti-pairs (numeric-input input))))
 
 (defn solve-2 []
-  (let [partially-purged (purge-anti-pairs input)]
+  (let [partially-purged (purge-anti-pairs (numeric-input input))]
     (->> (my-pmap (fn [cs]
                     (->> partially-purged
                          (remove cs)
