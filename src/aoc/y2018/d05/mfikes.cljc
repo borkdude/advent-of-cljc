@@ -6,12 +6,6 @@
    [clojure.string :as string]
    [clojure.test :refer [is testing]]))
 
-(defn fixed-point-by [g f x]
-  (reduce #(if (= (g %1) (g %2))
-             (reduced %1)
-             %2)
-    (iterate f x)))
-
 (defn lower-case [unit]
   #?(:clj  (Character/toLowerCase ^Character unit)
      :cljs (string/lower-case unit)))
@@ -20,26 +14,16 @@
   (and (not= x y)
        (= (lower-case x) (lower-case y))))
 
+(defn add-unit [polymer unit]
+  (if (some-> (peek polymer) (reacts? unit))
+    (pop polymer)
+    (conj polymer unit)))
+
 (defn react [polymer]
-  (lazy-seq
-    (when (seq polymer)
-      (let [[x y & more] polymer]
-        (cond
-          (nil? y)      [x]
-          (reacts? x y) (react more)
-          :else         (cons x (react (rest polymer))))))))
-
-(defn fully-react [polymer]
-  (fixed-point-by count react polymer))
-
-(defn fully-react-conquer [n polymer]
-  (if (< n 512)
-    (fully-react polymer)
-    (fully-react-conquer (quot n 2)
-      (mapcat (partial fully-react-conquer (quot n 2)) (partition-all n polymer)))))
+  (reduce add-unit [] polymer))
 
 (defn solve-1 []
-  (count (fully-react (fully-react-conquer 4096 input))))
+  (count (react input)))
 
 (defn remove-units [x polymer]
   (remove (fn [y]
@@ -49,7 +33,7 @@
 
 (defn solve-2 []
   (->> (into #{} (map lower-case input))
-    (map #(count (fully-react (fully-react-conquer 4096 (remove-units % input)))))
+    (map #(count (react (remove-units % input))))
     (apply min)))
 
 (deftest part-1
