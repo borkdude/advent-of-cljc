@@ -30,7 +30,7 @@
   (count (react (str/trim input) #{})))
 
 (defn solve-2 []
-  (apply min (map (comp count (partial react (str/trim input)))
+  (apply min (map (comp count (partial react (react (str/trim input) #{})))
                   (reducible-set))))
 
 
