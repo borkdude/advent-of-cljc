@@ -7,13 +7,16 @@
 
 #?(:clj (set! *unchecked-math* :warn-on-boxed))
 
+;;
+
 (defn char->int [c]
   #?(:clj (int c)
      :cljs (.charCodeAt c 0)))
 
 (def mapper #?(:clj pmap :cljs map))
-
 (def polymer (delay (map char->int input)))
+
+;;
 
 (defn react
   ([] (react nil @polymer))
@@ -28,11 +31,10 @@
   (mapper #(let [npolymer (remove #{%1 %2} @polymer)]
              (count (react nil npolymer))) (range 97 123) (range 65 91)))
 
-(defn solve-1 []
-  (count (react)))
+;;
 
-(defn solve-2 []
-  (apply min (removed-unit-reactions)))
+(def solve-1 #(count (react)))
+(def solve-2 #(apply min (removed-unit-reactions)))
 
 (deftest part-1
   (is (= (str answer-1)
