@@ -22,32 +22,42 @@
 
 (defn purge-anti-pairs
   ([coll]
-   (purge-anti-pairs (take 1 coll)
-                     (drop 1 coll)))
+   (when (seq coll)
+     (let [v (into [] (reverse coll))]
+       (purge-anti-pairs [(peek v)]
+                         (pop v)))))
   ([left right]
-   (if (seq right)
-     (if (anti-pair? (first left) (first right))
-       (recur (rest left) (rest right))
-       (recur (cons (first right) left)
-              (rest right)))
+   (if (peek right)
+     (if (anti-pair? (peek left) (peek right))
+       (recur (pop left) (pop right))
+       (recur (conj left (peek right))
+              (pop right)))
      (reverse left))))
+
+(def char-code #?(:clj (comp int char first)
+                  :cljs #(.charCodeAt % 0)))
+
+(def my-char #?(:clj char
+                :cljs #(.fromCharCode js/String %)))
+
+(def my-pmap #?(:clj pmap :cljs map))
 
 (defn char-sets []
   (map (fn [l u] #{l u})
-    (map char (range (int \a) (inc (int \z))))
-    (map char (range (int \A) (inc (int \Z))))))
+    (map my-char (range (char-code "a") (inc (char-code "z"))))
+    (map my-char (range (char-code "A") (inc (char-code "Z"))))))
 
 (defn solve-1 []
   (count (purge-anti-pairs input)))
 
 (defn solve-2 []
   (let [partially-purged (purge-anti-pairs input)]
-    (->> (pmap (fn [cs]
-                 (->> partially-purged
-                      (remove cs)
-                      purge-anti-pairs
-                      count))
-               (char-sets))
+    (->> (my-pmap (fn [cs]
+                    (->> partially-purged
+                         (remove cs)
+                         purge-anti-pairs
+                         count))
+                  (char-sets))
          (apply min))))
 
 (deftest part-1
