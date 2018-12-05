@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 exit_code=0
 
@@ -12,7 +12,8 @@ fi
 
 if [ ! $SKIP_CLJ ]; then
     echo "=== Running clojure tests $exclude"
-    clojure -R:test:test-clj \
+    clojure -J-Xmx3200m \
+            -R:test:test-clj \
             -e "(require,'patch.clj-2443)" \
             -m cognitect.test-runner -d src -r "$regex" \
             "$exclude_flag" "$exclude_pattern"
