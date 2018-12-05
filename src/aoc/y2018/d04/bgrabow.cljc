@@ -8,28 +8,19 @@
 
 (defn get-minutes [inst]
   #?(:clj (.getMinute ^java.time.LocalDateTime inst)
-     :cljs (.getMinutes ^js/String inst)))
+     :cljs (.getMinutes (js/Date. inst))))
 
 (defn instant [s]
   #?(:clj (java.time.LocalDateTime/parse s)
      :cljs (js/Date.parse s)))
 
-(sort
-  [(java.time.LocalDateTime/parse "1518-09-02T00:18")
-   (java.time.LocalDateTime/parse "1518-10-02T00:18")])
-
-
-(.getMinute (java.time.LocalDateTime/parse "1518-10-02T00:18"))
-
-(defn input-lines [] (str/split-lines data/input))
+(defn input-lines [] (str/split-lines input))
 
 (defn parse-inst [s]
   (let [[date-str time-str]
         (str/split (second (re-find #"\[(.+)\]" s)) #" ")
         inst-str (str date-str "T" time-str)]
     (instant inst-str)))
-
-(parse-inst (first (input-lines)))
 
 (defn parse-event
   "Examples (input =>
@@ -70,8 +61,8 @@
 (defn interval-length [t1 t2]
   (- (get-minutes t2) (get-minutes t1)))
 
-(defn time-asleep [asleep-wake-pair]
-  (->> asleep-wake-pair
+(defn time-asleep [nap]
+  (->> nap
        (map first)
        (apply interval-length)))
 
@@ -89,10 +80,10 @@
 
 ;; Part 1 - Find the sleepiest guard (by total time asleep) then find
 ;; the minute of the hour on which the guard is most often asleep.
-(defn most-time-asleep [prepped-data]
-  (->> prepped-data
-       (map (fn [[guard-id event-pairs]]
-              [guard-id (->> event-pairs
+(defn sleepiest-guard [guards-naps]
+  (->> guards-naps
+       (map (fn [[guard-id naps]]
+              [guard-id (->> naps
                              (map time-asleep)
                              (reduce +))]))
        (apply max-key second)))
@@ -110,23 +101,23 @@
       sleepiest-minute)))
 
 (defn solve-1 []
-  (let [prepped-data (prep-data data/input)
-        sleepy-guard (first (most-time-asleep prepped-data))
-        guards-naps (get (prep-data data/input) sleepy-guard)
-        [sleepiest-minute _] (sleepiest-minute guards-naps)
+  (let [all-guards-naps (prep-data input)
+        sleepy-guard (first (sleepiest-guard all-guards-naps))
+        one-guards-naps (get all-guards-naps sleepy-guard)
+        [sleepiest-minute _] (sleepiest-minute one-guards-naps)
         answer (* (u/parse-int sleepy-guard) sleepiest-minute)]
-    answer))                                                   ;; => 46th minute of the hour * guard id 857
+    answer))
 
 ;; Part 2 - Find the sleepiest minute for each guard
 (defn solve-2 []
   (let [[guard-id [sleepiest-minute _]]
-        (->> data/input
+        (->> input
              prep-data
              (map (fn [[guard naps]]
                     [guard (sleepiest-minute naps)]))
              (filter second)
              (apply max-key #(get-in % [1 1])))
-        answer (* (Integer/parseInt guard-id) sleepiest-minute)]
+        answer (* (u/parse-int guard-id) sleepiest-minute)]
     answer))
 
 (deftest part-1
