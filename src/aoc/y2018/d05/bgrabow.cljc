@@ -9,9 +9,6 @@
 (def char-code #?(:clj  (comp int char first str)
                   :cljs #(.charCodeAt % 0)))
 
-(def my-char #?(:clj  char
-                :cljs #(.fromCharCode js/String %)))
-
 (def my-pmap #?(:clj pmap :cljs map))
 
 (def numeric-input
