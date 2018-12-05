@@ -7,14 +7,11 @@
     [clojure.string :as str]))
 
 (defn anti-pair?
-  "Returns true if first and second element of pair
-  are case-complements of the same character, false
-  otherwise (e.g. if they are identical case of the
-  same character, if they are different characters,
-  or if either of the first or second elements are
-  nil."
-  ([pair]
-   (anti-pair? (first pair) (second pair)))
+  "Returns true if the two args are case-complements
+  of the same letter, false otherwise (e.g. if they
+  are identical case of the same letter, if they are
+  different letter, or if either of the args elements
+  are nil."
   ([x y]
    (and (distinct? x y)
         (= (str/lower-case (str x))
@@ -22,16 +19,14 @@
 
 (defn purge-anti-pairs
   ([coll]
-   (when (seq coll)
-     (let [v (into [] (reverse coll))]
-       (purge-anti-pairs [(peek v)]
-                         (pop v)))))
+   (purge-anti-pairs (take 1 coll)
+                     (drop 1 coll)))
   ([left right]
-   (if (peek right)
-     (if (anti-pair? (peek left) (peek right))
-       (recur (pop left) (pop right))
-       (recur (conj left (peek right))
-              (pop right)))
+   (if (seq right)
+     (if (anti-pair? (first left) (first right))
+       (recur (rest left) (rest right))
+       (recur (cons (first right) left)
+              (rest right)))
      (reverse left))))
 
 (def char-code #?(:clj (comp int char first)
