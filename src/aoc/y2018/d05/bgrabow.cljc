@@ -23,7 +23,7 @@
   [x y]
   (let [diff (- x y)]
     (or (= 32 diff)
-        (= -32 diff)))
+        (= -32 diff))))
 
 (defn purge-anti-pairs
   ([coll]
