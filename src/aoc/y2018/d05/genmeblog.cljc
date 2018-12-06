@@ -1,4 +1,4 @@
-(ns aoc.y2018.d05.generateme
+(ns aoc.y2018.d05.genmeblog
   (:refer-clojure :exclude [read-string format])
   (:require
    [aoc.utils :as u :refer [deftest read-string format]]
