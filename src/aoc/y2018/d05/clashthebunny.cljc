@@ -12,13 +12,10 @@
       s/trim
       seq))
 
-(defn lower-case [unit]
-  #?(:clj  (Character/toLowerCase ^Character unit)
-     :cljs (s/lower-case unit)))
-
+; snagged from mfikes
 (defn reacts? [x y]
   (and (not= x y)
-       (= (lower-case x) (lower-case y))))
+       (= (s/lower-case x) (s/lower-case y))))
 
 (defn check-letter
   ([] [])
