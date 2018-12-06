@@ -34,25 +34,27 @@
        delay))
 
 (defn solve-1 []
-  (let [[guard-number sleep-mask]
-        (first
-         (into
-          (sorted-map-by (fn [k1 k2]
-                           (compare
-                            (apply + (get @guard->sleep-mask k2))
-                            (apply + (get @guard->sleep-mask k1)))))
-          @guard->sleep-mask))]
+  (let [[guard-number _ sleep-mask]
+        (reduce
+         (fn [[_ highest sleep-mask :as curr] [num mask]]
+           (let [sum (apply + mask)]
+             (if (>= sum highest)
+               [num sum mask]
+               curr)))
+         [0 0 []]
+         @guard->sleep-mask)]
     (* guard-number (.indexOf sleep-mask (apply max sleep-mask)))))
 
 (defn solve-2 []
-  (let [[guard-number sleep-mask]
-        (first
-         (into
-          (sorted-map-by (fn [k1 k2]
-                           (compare
-                            (apply max (get @guard->sleep-mask k2))
-                            (apply max (get @guard->sleep-mask k1)))))
-          @guard->sleep-mask))]
+  (let [[guard-number _ sleep-mask]
+        (reduce
+         (fn [[_ highest sleep-mask :as curr] [num mask]]
+           (let [high (apply max mask)]
+             (if (> high highest)
+               [num high mask]
+               curr)))
+         [0 0 []]
+         @guard->sleep-mask)]
     (* guard-number (.indexOf sleep-mask (apply max sleep-mask)))))
 
 (deftest part-1
