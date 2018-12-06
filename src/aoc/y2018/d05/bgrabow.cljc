@@ -22,21 +22,18 @@
   are nil."
   [x y]
   (let [diff (- x y)]
-    (or (= 32 diff)
-        (= -32 diff))))
+    (or (== 32 diff)
+        (== -32 diff))))
 
 (defn purge-anti-pairs
-  ([coll]
-   (purge-anti-pairs (take 1 coll)
-                     (drop 1 coll)))
-  ([left right]
-   (if (seq right)
-     (if (and (seq left)
-              (numeric-anti-pair? (first left) (first right)))
-       (recur (rest left) (rest right))
-       (recur (cons (first right) left)
-              (rest right)))
-     (reverse left))))
+  [coll]
+  (reduce (fn [left e]
+            (if (and (seq left)
+                     (numeric-anti-pair? (first left) e))
+              (rest left)
+              (cons e left)))
+          '()
+          coll))
 
 (def a 97)
 (def z 122)
