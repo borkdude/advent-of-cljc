@@ -32,7 +32,7 @@ if [ $? -eq 1 ]; then
 fi
 
 if [ ! $SKIP_CLJS ]; then
-    echo "\n=== Running cljs test $1"
+    echo -e "\n=== Running cljs test $1"
     mkdir -p cljs-test-runner-out/gen
     clojure -A:test:test-cljs \
             -d src \

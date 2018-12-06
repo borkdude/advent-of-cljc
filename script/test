@@ -24,7 +24,7 @@ if [ $? -eq 1 ]; then
 fi
 
 if [ ! $SKIP_CLJS ]; then
-    echo "\n=== Running cljs tests"
+    echo -e "\n=== Running cljs tests"
     mkdir -p cljs-test-runner-out/gen
     clojure -A:test:test-cljs \
             -d src -r "$regex" \
