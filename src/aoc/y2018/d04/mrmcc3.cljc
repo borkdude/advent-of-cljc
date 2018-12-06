@@ -7,14 +7,11 @@
     [clojure.string :as str]))
 
 (defn parse-event [s]
-  (let [[_ id] (re-find #"#(\d+)" s)
-        ts (str "#inst \"" (subs s 1 11) "T" (subs s 12 17) "\"")]
-    (cond->
-      {:time (read-string ts)
-       :min  (u/parse-int (subs s 15 17))}
-      id (assoc :id (read-string id))
-      (str/includes? s "asleep") (assoc :sleep true)
-      (str/includes? s "wakes") (assoc :wake true))))
+  (let [[_ id] (re-find #"#(\d+)" s)]
+    {:min   (u/parse-int (subs s 15 17))
+     :id    (and id (u/parse-int id))
+     :sleep (str/includes? s "asleep")
+     :wake  (str/includes? s "wakes")}))
 
 (defn process-event
   [{:keys [last-id last-sleep] :as state}
@@ -28,8 +25,8 @@
 ;; map of guard id -> seq of minutes asleep
 (def sleep-map
   (->> (str/split-lines input)
+       sort
        (map parse-event)
-       (sort-by :time)
        (reduce process-event {})
        :sleep-map delay)) ;; delay computation
 
@@ -56,3 +53,6 @@
 (deftest part-2
          (is (= (str answer-2)
                 (str (solve-2)))))
+
+;; improvements since first version
+;; - lexographic sorting is sufficient to put events in time order
