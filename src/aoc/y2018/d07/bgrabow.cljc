@@ -44,7 +44,7 @@
 
 (defn empty-queue []
   #?(:clj clojure.lang.PersistentQueue/EMPTY
-     :cljs cljs.core.PersistentQueue/EMPTY))
+     :cljs (.-EMPTY cljs.core/PersistentQueue)))
 
 (defn split-set-with [pred s]
   (let [taken (take-while pred s)]
