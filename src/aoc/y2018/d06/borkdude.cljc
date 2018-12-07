@@ -43,8 +43,7 @@
 
 (defn solve-1 []
   (let [groups (group-by first (keep closest-to coordinates))]
-    (apply max (keep #(when (not (infinite-area? (map second %)))
-                        (count %)) (vals groups)))))
+    (frequencies (map first (apply concat (map second (remove #(infinite-area? (map second (second %))) groups)))))))
 
 (defn solve-2 []
   (count
@@ -64,5 +63,5 @@
 
 (comment
   (set! *unchecked-math* :warn-on-boxed)
-  (set! *warn-on-reflection* true)
-  )
+  (set! *warn-on-reflection* true))
+
