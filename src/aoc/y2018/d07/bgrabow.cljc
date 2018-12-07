@@ -66,12 +66,13 @@
            in-progress (sorted-set)
            backlog (empty-queue)
            current-time 0]
-      ;(do
-      ;  (println "tasks-remaining" tasks-remaining)
-      ;  (println "completed" completed-tasks)
-      ;  (println "working" in-progress)
-      ;  (println "backlog" (seq backlog) backlog)
-      ;  (println "current time" current-time))
+      (do
+        (println "tasks-remaining" tasks-remaining)
+        (println "completed" completed-tasks)
+        (println "working" in-progress)
+        (println "backlog" (seq backlog) backlog)
+        (when (pos? (count backlog)) (println "FOUND---------------------"))
+        (println "current time" current-time))
 
       (if (= completed-tasks finished-state)
         0

@@ -113,8 +113,15 @@
 
 
 ; Find the number of points within 10000 manhattan distance of each point.
-(defn solve-2 [])
-  ;; TODO
+(defn solve-2 []
+  (let [points (parse input)
+        x-bounds (map first (min-max-by first points))
+        y-bounds (map second (min-max-by second points))]
+    (->> (for [x (range (first x-bounds) (inc (second x-bounds)))
+               y (range (first y-bounds) (inc (second y-bounds)))]
+           (reduce + (map #(manhattan-distance [x y] %) points)))
+         (filter #(< % 10000))
+         count)))
 
 (deftest part-1
   (is (= (str answer-1)
