@@ -136,41 +136,7 @@
                             pys))))
          (map #(+ x-sum %)))))
 
-
 ; Find the number of points within 10000 manhattan distance of each point.
-
-(def first-x-profile (let [points (parse input)
-                           x-bounds (map first (min-max-by first points))
-                           y-bounds (map second (min-max-by second points))]
-                       (->> points
-                            (normalize [(first x-bounds) (first y-bounds)])
-                            (x-profile (- (inc (second x-bounds)) (first x-bounds))))))
-
-(def first-y-profile (let [points (parse input)
-                           x-bounds (map first (min-max-by first points))
-                           y-bounds (map second (min-max-by second points))]
-                       (->> points
-                            (normalize [(first x-bounds) (first y-bounds)])
-                            (y-profile (- (inc (second y-bounds)) (first y-bounds))))))
-
-(def x-offsets (let [basis (first first-x-profile)]
-                 (map #(- % basis) first-x-profile)))
-
-(->> (for [x-offset x-offsets
-           y first-y-profile]
-       (+ y x-offset))
-     (filter #(< % 10000))
-     count)
-
-(let [points (parse input)
-      x-bounds (map first (min-max-by first points))
-      y-bounds (map second (min-max-by second points))]
-  (->> (for [x (range (first x-bounds) (inc (second x-bounds)))
-             y [(first y-bounds)]]
-         (reduce + (map #(manhattan-distance [x y] %) points)))))
-
-
-
 (defn solve-2 []
   (let [points (parse input)
         x-bounds (map first (min-max-by first points))
