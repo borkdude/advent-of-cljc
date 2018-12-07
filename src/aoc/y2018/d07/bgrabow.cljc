@@ -32,9 +32,82 @@
                       (conj completed-tasks next-task)))))
          (apply str))))
 
-(defn solve-2 [])
-  ;; TODO
+(defn has-remaining-deps [dep-graph completed-tasks task]
+  (some identity (set/difference (dep-graph task) completed-tasks)))
 
+(defn unblocked-tasks [is-blocked? tasks-remaining]
+  (lazy-seq
+    (let [[left [next-task & right]] (split-with is-blocked? tasks-remaining)
+          remaining (concat left right)]
+      (when next-task
+        (cons [next-task remaining] (unblocked-tasks is-blocked? remaining))))))
+
+(defn empty-queue []
+  #?(:clj clojure.lang.PersistentQueue/EMPTY
+     :cljs cljs.core.PersistentQueue/EMPTY))
+
+(defn split-set-with [pred s]
+  (let [taken (take-while pred s)]
+    [taken (set/difference s (set taken))]))
+
+(defn pop-n [n q]
+  (nth (iterate pop q) n))
+
+(defn solve-2 []
+  (let [all-tasks (map str (seq "ABCDEFGHIJKLMNOPQRSTUVWXYZ"))
+        finished-state (into #{} all-tasks)
+        tasks-remaining all-tasks
+        task-length (zipmap all-tasks (range 61 87))
+        dep-graph (->> (parse input)
+                       collect-deps
+                       (into {}))]
+    (loop [tasks-remaining tasks-remaining
+           completed-tasks #{}
+           in-progress (sorted-set)
+           backlog (empty-queue)
+           current-time 0]
+      ;(do
+      ;  (println "tasks-remaining" tasks-remaining)
+      ;  (println "completed" completed-tasks)
+      ;  (println "working" in-progress)
+      ;  (println "backlog" (seq backlog) backlog)
+      ;  (println "current time" current-time))
+
+      (if (= completed-tasks finished-state)
+        0
+        (let [finished? #(= current-time (first %))
+              [newly-completed still-working] (split-set-with finished? in-progress)
+              all-completed (apply conj completed-tasks (map second newly-completed))
+              ;_ (do
+              ;    (println "newly-completed" newly-completed)
+              ;    (println "completed" all-completed))
+              free-workers (- 5 (count still-working))
+              ready-tasks (unblocked-tasks (partial has-remaining-deps
+                                                    dep-graph
+                                                    all-completed)
+                                           tasks-remaining)
+              new-remaining (or (second (last ready-tasks)) tasks-remaining)
+              ready-task-names (map first ready-tasks)
+              temp-backlog (apply conj backlog ready-task-names)
+              to-start (take free-workers temp-backlog)
+              ;_ (do
+              ;    (println "to-start" to-start))
+              leftover-backlog (pop-n free-workers temp-backlog)
+              ;_ (do
+              ;    (println "leftover-backlog" (seq leftover-backlog)))
+              tasks-with-finish-time (map (fn [t]
+                                            [(+ (task-length t) current-time) t])
+                                          to-start)
+              ;_ (do
+              ;    (println "tasks-with-finish-time" tasks-with-finish-time))
+              new-in-progress (apply conj still-working tasks-with-finish-time)]
+          (if (= all-completed finished-state)
+            current-time
+            (recur new-remaining
+                   all-completed
+                   new-in-progress
+                   leftover-backlog
+                   (first (first new-in-progress)))))))))
 
 (deftest part-1
   (is (= (str answer-1)
