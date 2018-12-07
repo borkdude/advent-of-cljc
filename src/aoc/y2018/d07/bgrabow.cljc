@@ -1,11 +1,12 @@
 (ns aoc.y2018.d07.bgrabow
   (:refer-clojure :exclude [read-string format])
   (:require
-    [aoc.utils :as u :refer [deftest read-string format]]
+    [aoc.utils :refer [deftest read-string format]]
     [aoc.y2018.d07.data :refer [input answer-1 answer-2]]
     [clojure.test :refer [is testing]]
     [clojure.string :as str]
-    [clojure.set :as set]))
+    [clojure.set :as set])
+  #?(:clj (:import (clojure.lang PersistentQueue))))
 
 (defn parse [input]
   (map #(re-seq #"\b[A-Z]\b" %) (str/split-lines input)))
@@ -43,8 +44,8 @@
         (cons [next-task remaining] (unblocked-tasks is-blocked? remaining))))))
 
 (defn empty-queue []
-  #?(:clj clojure.lang.PersistentQueue/EMPTY
-     :cljs (.-EMPTY cljs.core/PersistentQueue)))
+  #?(:clj  PersistentQueue/EMPTY
+     :cljs (.-EMPTY PersistentQueue)))
 
 (defn split-set-with [pred s]
   (let [taken (take-while pred s)]
@@ -54,14 +55,13 @@
   (nth (iterate pop q) n))
 
 (defn solve-2 []
-  (let [all-tasks (map str (seq "ABCDEFGHIJKLMNOPQRSTUVWXYZ"))
+  (let [all-tasks '("A" "B" "C" "D" "E" "F" "G" "H" "I" "J" "K" "L" "M" "N" "O" "P" "Q" "R" "S" "T" "U" "V" "W" "X" "Y" "Z")
         finished-state (into #{} all-tasks)
-        tasks-remaining all-tasks
         task-length (zipmap all-tasks (range 61 87))
         dep-graph (->> (parse input)
                        collect-deps
                        (into {}))]
-    (loop [tasks-remaining tasks-remaining
+    (loop [tasks-remaining all-tasks
            completed-tasks #{}
            in-progress (sorted-set)
            backlog (empty-queue)
