@@ -113,6 +113,13 @@
 
 
 ; Find the number of points within 10000 manhattan distance of each point.
+
+(let [points (parse input)
+      x-bounds (map first (min-max-by first points))
+      y-bounds (map second (min-max-by second points))]
+  )
+
+
 (defn solve-2 []
   (let [points (parse input)
         x-bounds (map first (min-max-by first points))
