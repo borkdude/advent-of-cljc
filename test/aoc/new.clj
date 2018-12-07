@@ -66,7 +66,7 @@
     :parse-fn #(Integer/parseInt %)
     :validate [#(<= 0 % 25) "Must be a number between 1 and 25 (inclusive)"]]
    ["-u" "--user USER" "User"
-    :validate [#(re-find #"^[a-z]" %) "Username must start with letter"]]
+    :validate [#(re-find #"^[A-Za-z]" %) "Username must start with letter"]]
    ["-h" "--help"]])
 
 (defn -main
