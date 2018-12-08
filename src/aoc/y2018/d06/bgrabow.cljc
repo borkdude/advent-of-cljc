@@ -147,7 +147,7 @@
         x-profile (x-profile x-width normalized-points)
         y-profile (y-profile y-height normalized-points)
         x-offsets (let [basis (first x-profile)]
-                    (map #(- % basis) first-x-profile))]
+                    (map #(- % basis) x-profile))]
     (->> (for [offset x-offsets
                total-dist y-profile]
            (+ total-dist offset))
