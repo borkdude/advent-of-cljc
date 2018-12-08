@@ -4,15 +4,21 @@
    [aoc.y2018.d07.data :refer [input answer-1 answer-2]]
    [clojure.string  :refer [split-lines]]
    [clojure.test :refer [is testing]]))
+(declare jobtime sched all-nodes remaining-nodes)
 
-(def sched
-  (let [raw (split-lines input)
-        precedent-keys (sort-by first (map #(vector (subs % 5 6) (subs % 36 37 ))raw))]
-     precedent-keys))
+(defn  memo-defs []  ;;wrap defs for more accurate testing metrics
+  (def sched
+    (let [raw (split-lines input)
+          precedent-keys (sort-by first (map #(vector (subs % 5 6) (subs % 36 37 ))raw))]
+       precedent-keys))
 
-(def all-nodes (sort (reduce into #{} sched)))
+  (def all-nodes (sort (reduce into #{} sched)))
 
-(def remaining-nodes #(remove (set %) all-nodes))
+  (def remaining-nodes #(remove (set %) all-nodes))
+
+  (def jobtime (zipmap all-nodes (range 61 (+ 60 27)))))
+
+(def build-shorcuts (memoize memo-defs))
 
 (defn find-parents [job unsat]
   (->> (filter #(= (last %) job) unsat)
@@ -31,10 +37,11 @@
      (recur new-acc))))
 
 (defn solve-1 []
+  (build-shorcuts)
   (do-jobs []))
 
 ;;  PART 2
-(def jobtime (zipmap all-nodes (range 61 (+ 60 27))))
+
 
 (defn sched-times [done ip tics]
   (let [free-workers (- 5 (count ip))
@@ -53,7 +60,9 @@
      (recur next-done next-ip next-tic))))
 
 (defn solve-2 []
- (sched-times [] [] 0))
+  (build-shorcuts)
+
+  (sched-times [] [] 0))
 
 (deftest part-1
   (is (= answer-1 (solve-1))))
