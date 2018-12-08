@@ -111,22 +111,46 @@
 
 #_(def points-with-infinite-region (into #{} (map closest-point-map (bounding-box x-bounds y-bounds))))
 
+(defn normalize [[x y] points]
+  (map (fn [[xp yp]] [(Math/abs (- x xp))
+                      (Math/abs (- y yp))])
+       points))
+
+(defn x-profile [x-width normalized-points]
+  (let [y-sum (reduce + (map second normalized-points))
+        pxs (map first normalized-points)]
+    (->> (range 0 x-width)
+         (map (fn [rx]
+                (reduce + (map
+                            (fn [px] (Math/abs (- rx px)))
+                            pxs))))
+         (map #(+ y-sum %)))))
+
+(defn y-profile [y-height normalized-points]
+  (let [x-sum (reduce + (map first normalized-points))
+        pys (map second normalized-points)]
+    (->> (range 0 y-height)
+         (map (fn [ry]
+                (reduce + (map
+                            (fn [py] (Math/abs (- ry py)))
+                            pys))))
+         (map #(+ x-sum %)))))
 
 ; Find the number of points within 10000 manhattan distance of each point.
-
-(let [points (parse input)
-      x-bounds (map first (min-max-by first points))
-      y-bounds (map second (min-max-by second points))]
-  )
-
-
 (defn solve-2 []
   (let [points (parse input)
         x-bounds (map first (min-max-by first points))
-        y-bounds (map second (min-max-by second points))]
-    (->> (for [x (range (first x-bounds) (inc (second x-bounds)))
-               y (range (first y-bounds) (inc (second y-bounds)))]
-           (reduce + (map #(manhattan-distance [x y] %) points)))
+        x-width (- (inc (second x-bounds)) (first x-bounds))
+        y-bounds (map second (min-max-by second points))
+        y-height (- (inc (second y-bounds)) (first y-bounds))
+        normalized-points (normalize [(first x-bounds) (first y-bounds)] points)
+        x-profile (x-profile x-width normalized-points)
+        y-profile (y-profile y-height normalized-points)
+        x-offsets (let [basis (first x-profile)]
+                    (map #(- % basis) x-profile))]
+    (->> (for [offset x-offsets
+               total-dist y-profile]
+           (+ total-dist offset))
          (filter #(< % 10000))
          count)))
 
