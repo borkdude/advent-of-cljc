@@ -44,8 +44,7 @@
         work-timer (vec (for [job new-work]
                           [job (+ tics (jobtime job))]))
         interum-ip (reduce conj ip work-timer)
-        next-tic (try (apply min (map last interum-ip))
-                      (catch Exception _))
+        next-tic (when (not-empty interum-ip) (apply min (map last interum-ip)))
         next-done (reduce conj done (map first (filter #(= next-tic (last %)) interum-ip)))
         next-ip (vec (remove #(= next-tic (last %)) interum-ip))]
 
