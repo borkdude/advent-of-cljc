@@ -108,7 +108,6 @@
 
 (defn solve [input workers task-cost]
  (let [graph (apply (partial digraph {}) (parse input))]
-  (println graph)
   (loop [{:keys [visited graph open-tasks available-tasks timer workers task-cost] :as the-data}
          (refil-available-tasks {:graph graph :workers workers :task-cost task-cost})]
     (if (done? graph available-tasks open-tasks)
