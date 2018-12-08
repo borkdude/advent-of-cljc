@@ -15,6 +15,14 @@
   (map (fn [[k v]] [k (into #{} (map first v))])
        (group-by second deps)))
 
+; TODO - Redesign with graph traversal
+; Create an "open-nodes" sorted-set
+; Get rid of "completed-tasks" set
+; Start on the lexicographically first open node
+; Go to the nodes it blocked. Remove each edge from the blocked-by graph.
+; Check the new blocked-by graph to see which nodes are open and add them
+; to the open-nodes set.
+; Take the first node from open-nodes and repeat.
 (defn solve-1 []
   (let [tasks-remaining (map str (seq "ABCDEFGHIJKLMNOPQRSTUVWXYZ"))
         dep-graph (->> (parse input)
