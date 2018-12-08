@@ -5,18 +5,22 @@
    [aoc.y2018.d07.data :refer [input answer-1 answer-2]]
    [clojure.test :refer [is testing]]
    [clojure.string :as s]
-   [loom.graph :as lg]
-   [loom.alg :as la]))
+   [loom.graph :as lg]))
+
+(defn char->int [character]
+  #?(:clj (int character)
+     :cljs (.charCodeAt character 0)))
 
 (defn char-range
  ([start end]
-  (map char (range (int start) (inc (int end)))))
+  (map char (range (char->int start) (inc (char->int end)))))
  ([start]
-  (map char (range (int start) 256)))) 
+  (map char (range (char->int start) #?(:clj Double/POSITIVE_INFINITY
+                                        :cljs js/Infinity)))))
 
 (def dest-weight
   (into {} (map hash-map
-            (map keyword (s/split (apply str (char-range \A \Z)) #""))
+            (map keyword (filter #(not= "" %) (s/split (apply str (char-range \A \Z)) #"")))
             (range 0 27))))
 
 (defn parse [string]
@@ -59,43 +63,43 @@
 (defn done? [graph available-tasks open-tasks]
   (= 0 (count (:nodeset graph)) (count available-tasks) (count open-tasks) (count (:adj graph))))
 
-(defn tasks-complete [{:keys [visited graph open-tasks available-tasks timer workers task-cost] :as the-data}]
+(defn tasks-complete [{:keys [visited graph open-tasks available-tasks timer workers task-cost]
+                       :or {visited [] available-tasks [] open-tasks {} timer 0} :as the-data}]
   (let [complete-open-tasks (complete-open-tasks open-tasks)
         incomplete-open-tasks (incomplete-open-tasks open-tasks)]
-    {:visited (apply conj visited complete-open-tasks)
-     :graph (apply lg/remove-nodes graph (apply conj visited complete-open-tasks))
-     :open-tasks (into {} (tick-open-tasks incomplete-open-tasks))
-     :available-tasks (get-available-nodes graph open-tasks available-tasks)
-     :timer (inc timer)
-     :workers workers :task-cost task-cost}))
+    (-> the-data
+      (assoc :visited (apply conj visited complete-open-tasks))
+      (assoc :graph (apply lg/remove-nodes graph (apply conj visited complete-open-tasks)))
+      (assoc :open-tasks (into {} (tick-open-tasks incomplete-open-tasks)))
+      (assoc :available-tasks (get-available-nodes graph open-tasks available-tasks))
+      (assoc :timer (inc timer))
+      (assoc :workers workers :task-cost task-cost))))
 
-(defn reload-workers-with-tasks [{:keys [visited graph open-tasks available-tasks timer workers task-cost] :as the-data}]
-   {:visited visited :timer timer :workers workers :task-cost task-cost :graph graph
-    :open-tasks (refil-open-tasks task-cost workers open-tasks available-tasks)
-    :available-tasks (get-remaining-tasks workers open-tasks available-tasks)})
+(defn reload-workers-with-tasks [{:keys [visited graph open-tasks available-tasks timer workers task-cost]
+                                  :or {visited [] available-tasks [] open-tasks {} timer 0} :as the-data}]
+  (-> the-data
+      (assoc :available-tasks (get-remaining-tasks workers open-tasks available-tasks))
+      (assoc :open-tasks (refil-open-tasks task-cost workers open-tasks available-tasks))))
 
-(defn refil-available-tasks [{:keys [visited graph open-tasks available-tasks timer workers task-cost] :as the-data}]
-  {:visited visited :timer timer :workers workers :task-cost task-cost :open-tasks open-tasks :graph graph
-   :available-tasks (into available-tasks (get-available-nodes graph open-tasks available-tasks))})
+(defn refil-available-tasks [{:keys [visited graph open-tasks available-tasks timer workers task-cost]
+                              :or {visited [] available-tasks [] open-tasks {} timer 0} :as the-data}]
+  (-> the-data
+      (assoc :available-tasks (into available-tasks (get-available-nodes graph open-tasks available-tasks)))))
 
-(defn solve-2 [input workers task-cost]
+(defn solve [input workers task-cost]
  (let [graph (apply lg/digraph (parse input))]
+  (println graph)
   (loop [{:keys [visited graph open-tasks available-tasks timer workers task-cost] :as the-data}
-         (refil-available-tasks
-           {:graph graph :available-tasks []
-            :open-tasks {} :visited [] :workers workers
-            :timer 0 :task-cost task-cost})]
+         (refil-available-tasks {:graph graph :workers workers :task-cost task-cost})]
     (if (done? graph available-tasks open-tasks)
       {:string (s/join (map name visited))
        :timer  timer}
-      (recur ((comp tasks-complete reload-workers-with-tasks refil-available-tasks)
-              {:visited visited :graph graph :open-tasks open-tasks :available-tasks available-tasks
-               :timer timer :workers workers :task-cost task-cost}))))))
+      (recur ((comp tasks-complete reload-workers-with-tasks refil-available-tasks) the-data))))))
 
 (deftest part-1
   (is (= (str answer-1)
-         (str (:string (solve-2 input 1 0))))))
+         (str (:string (solve input 1 0))))))
 
 (deftest part-2
   (is (= (str answer-2)
-         (str (:timer (solve-2 input 5 60))))))
+         (str (:timer (solve input 5 60))))))
