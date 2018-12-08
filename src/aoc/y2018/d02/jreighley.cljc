@@ -4,32 +4,30 @@
    [aoc.y2018.d02.data :refer [input answer-1 answer-2]]
    [clojure.test :refer [is testing]]
    [clojure.string :refer [split-lines trim]]))
-(declare two? three? double-count triple-count input-items input-freqs)
-(defn memo-defs [] ;; wrap defs for more realistic testing metrics
-  (def two? #(= 2 %))
-  (def three? #(= 3 %))
-  (def double-count #(->> %
-                       (vals)
-                       (filter two?)
-                       (count)
-                       (pos?)))
-  (def triple-count #(->> %
-                       (vals)
-                       (filter three?)
-                       (count)
-                       (pos?)))
 
-  (def input-items
+(def two? #(= 2 %))
+(def three? #(= 3 %))
+(def double-count #(->> %
+                     (vals)
+                     (filter two?)
+                     (count)
+                     (pos?)))
+(def triple-count #(->> %
+                     (vals)
+                     (filter three?)
+                     (count)
+                     (pos?)))
+
+(def input-items
+  (delay
     (->> input
          (split-lines)
          (map trim)
-         (sort)))
+         (sort))))
 
-  (def input-freqs
-    (->> input-items
-         (map frequencies))))
-
-(def build-shortcuts (memoize memo-defs))
+(def input-freqs
+  (->> @input-items
+       (map frequencies)))
 
 (defn matching-letters [ str-1 str-2]
     (let [match-seq (for [n   (range (count str-1))]
@@ -48,13 +46,11 @@
        (recur (rest str-seq))))))
 
 (defn solve-1 []
-  (build-shortcuts)
   (* (count (filter triple-count input-freqs))
      (count (filter double-count input-freqs))))
 
 (defn solve-2 []
-  (build-shortcuts)
-  (search-seq input-items))
+  (search-seq @input-items))
 
 (deftest part-1
   (is (= answer-1 (solve-1))))
