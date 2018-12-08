@@ -5,7 +5,6 @@
    [clojure.string  :refer [split-lines]]
    [clojure.test :refer [is testing]]))
 
-
 (def sched
   (let [raw (split-lines input)
         precedent-keys (sort-by first (map #(vector (subs % 5 6) (subs % 36 37 ))raw))]
@@ -46,20 +45,16 @@
                           [job (+ tics (jobtime job))]))
         interum-ip (reduce conj ip work-timer)
         next-tic (try (apply min (map last interum-ip))
-                      (catch Exception e))
+                      (catch Exception _))
         next-done (reduce conj done (map first (filter #(= next-tic (last %)) interum-ip)))
         next-ip (vec (remove #(= next-tic (last %)) interum-ip))]
-    ;;next ip to expir]
 
    (if (= (count done) 26)
-     [done tics]
+     tics
      (recur next-done next-ip next-tic))))
 
-
-
-
-(defn solve-2 [])
-
+(defn solve-2 []
+ (sched-times [] [] 0))
 
 (deftest part-1
   (is (= answer-1 (solve-1))))
