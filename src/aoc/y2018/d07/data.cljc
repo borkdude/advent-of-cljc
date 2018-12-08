@@ -1,8 +1,107 @@
 (ns aoc.y2018.d07.data)
 
-(def input
-  "Step L must be finished before step T can begin.\nStep B must be finished before step I can begin.\nStep A must be finished before step T can begin.\nStep F must be finished before step T can begin.\nStep D must be finished before step J can begin.\nStep N must be finished before step R can begin.\nStep J must be finished before step U can begin.\nStep C must be finished before step Z can begin.\nStep V must be finished before step H can begin.\nStep W must be finished before step H can begin.\nStep H must be finished before step I can begin.\nStep R must be finished before step K can begin.\nStep M must be finished before step X can begin.\nStep T must be finished before step O can begin.\nStep Q must be finished before step P can begin.\nStep I must be finished before step E can begin.\nStep E must be finished before step Y can begin.\nStep K must be finished before step Y can begin.\nStep X must be finished before step O can begin.\nStep U must be finished before step G can begin.\nStep Z must be finished before step P can begin.\nStep O must be finished before step S can begin.\nStep S must be finished before step G can begin.\nStep Y must be finished before step G can begin.\nStep P must be finished before step G can begin.\nStep C must be finished before step P can begin.\nStep N must be finished before step K can begin.\nStep E must be finished before step U can begin.\nStep C must be finished before step T can begin.\nStep F must be finished before step I can begin.\nStep Q must be finished before step Y can begin.\nStep E must be finished before step S can begin.\nStep T must be finished before step P can begin.\nStep K must be finished before step O can begin.\nStep H must be finished before step Y can begin.\nStep Q must be finished before step G can begin.\nStep K must be finished before step P can begin.\nStep R must be finished before step O can begin.\nStep W must be finished before step T can begin.\nStep O must be finished before step P can begin.\nStep Q must be finished before step X can begin.\nStep D must be finished before step I can begin.\nStep R must be finished before step T can begin.\nStep I must be finished before step K can begin.\nStep I must be finished before step G can begin.\nStep K must be finished before step G can begin.\nStep N must be finished before step U can begin.\nStep A must be finished before step Y can begin.\nStep X must be finished before step Y can begin.\nStep N must be finished before step H can begin.\nStep R must be finished before step Z can begin.\nStep C must be finished before step Q can begin.\nStep F must be finished before step O can begin.\nStep B must be finished before step Z can begin.\nStep Z must be finished before step S can begin.\nStep U must be finished before step S can begin.\nStep A must be finished before step K can begin.\nStep B must be finished before step N can begin.\nStep T must be finished before step E can begin.\nStep A must be finished before step N can begin.\nStep F must be finished before step V can begin.\nStep D must be finished before step C can begin.\nStep M must be finished before step P can begin.\nStep D must be finished before step V can begin.\nStep V must be finished before step Q can begin.\nStep O must be finished before step Y can begin.\nStep W must be finished before step I can begin.\nStep E must be finished before step Z can begin.\nStep B must be finished before step R can begin.\nStep C must be finished before step X can begin.\nStep J must be finished before step T can begin.\nStep A must be finished before step W can begin.\nStep Q must be finished before step U can begin.\nStep I must be finished before step Z can begin.\nStep N must be finished before step P can begin.\nStep W must be finished before step U can begin.\nStep Y must be finished before step P can begin.\nStep J must be finished before step P can begin.\nStep F must be finished before step Q can begin.\nStep L must be finished before step M can begin.\nStep E must be finished before step G can begin.\nStep B must be finished before step P can begin.\nStep H must be finished before step X can begin.\nStep W must be finished before step S can begin.\nStep N must be finished before step Q can begin.\nStep J must be finished before step I can begin.\nStep L must be finished before step F can begin.\nStep S must be finished before step Y can begin.\nStep J must be finished before step X can begin.\nStep A must be finished before step H can begin.\nStep T must be finished before step U can begin.\nStep H must be finished before step Z can begin.\nStep W must be finished before step R can begin.\nStep X must be finished before step Z can begin.\nStep T must be finished before step Y can begin.\nStep H must be finished before step T can begin.\nStep K must be finished before step U can begin.\nStep H must be finished before step G can begin.\nStep U must be finished before step O can begin.\nStep W must be finished before step P can begin.\nStep A must be finished before step D can begin.")
+(def input "Step Y must be finished before step J can begin.
+Step C must be finished before step L can begin.
+Step L must be finished before step X can begin.
+Step H must be finished before step R can begin.
+Step R must be finished before step X can begin.
+Step I must be finished before step B can begin.
+Step N must be finished before step Q can begin.
+Step F must be finished before step X can begin.
+Step K must be finished before step G can begin.
+Step G must be finished before step P can begin.
+Step A must be finished before step S can begin.
+Step O must be finished before step D can begin.
+Step M must be finished before step W can begin.
+Step Q must be finished before step J can begin.
+Step X must be finished before step E can begin.
+Step U must be finished before step V can begin.
+Step Z must be finished before step D can begin.
+Step P must be finished before step W can begin.
+Step S must be finished before step J can begin.
+Step J must be finished before step T can begin.
+Step W must be finished before step T can begin.
+Step V must be finished before step B can begin.
+Step B must be finished before step T can begin.
+Step D must be finished before step T can begin.
+Step E must be finished before step T can begin.
+Step I must be finished before step Z can begin.
+Step X must be finished before step D can begin.
+Step Q must be finished before step D can begin.
+Step S must be finished before step T can begin.
+Step R must be finished before step W can begin.
+Step O must be finished before step V can begin.
+Step C must be finished before step Q can begin.
+Step C must be finished before step S can begin.
+Step S must be finished before step E can begin.
+Step A must be finished before step D can begin.
+Step V must be finished before step T can begin.
+Step K must be finished before step B can begin.
+Step B must be finished before step D can begin.
+Step V must be finished before step E can begin.
+Step N must be finished before step M can begin.
+Step Z must be finished before step T can begin.
+Step L must be finished before step A can begin.
+Step K must be finished before step Z can begin.
+Step F must be finished before step J can begin.
+Step M must be finished before step U can begin.
+Step Z must be finished before step P can begin.
+Step R must be finished before step E can begin.
+Step M must be finished before step X can begin.
+Step O must be finished before step E can begin.
+Step K must be finished before step V can begin.
+Step U must be finished before step D can begin.
+Step K must be finished before step T can begin.
+Step F must be finished before step W can begin.
+Step I must be finished before step U can begin.
+Step Z must be finished before step S can begin.
+Step H must be finished before step D can begin.
+Step O must be finished before step P can begin.
+Step B must be finished before step E can begin.
+Step X must be finished before step U can begin.
+Step A must be finished before step J can begin.
+Step Y must be finished before step V can begin.
+Step U must be finished before step T can begin.
+Step G must be finished before step B can begin.
+Step U must be finished before step W can begin.
+Step H must be finished before step W can begin.
+Step G must be finished before step J can begin.
+Step X must be finished before step Z can begin.
+Step L must be finished before step R can begin.
+Step Q must be finished before step X can begin.
+Step I must be finished before step O can begin.
+Step J must be finished before step E can begin.
+Step N must be finished before step D can begin.
+Step C must be finished before step B can begin.
+Step I must be finished before step W can begin.
+Step P must be finished before step J can begin.
+Step D must be finished before step E can begin.
+Step L must be finished before step J can begin.
+Step R must be finished before step J can begin.
+Step N must be finished before step A can begin.
+Step F must be finished before step O can begin.
+Step Y must be finished before step Q can begin.
+Step L must be finished before step F can begin.
+Step Q must be finished before step U can begin.
+Step O must be finished before step T can begin.
+Step Z must be finished before step E can begin.
+Step Y must be finished before step K can begin.
+Step G must be finished before step A can begin.
+Step Q must be finished before step E can begin.
+Step V must be finished before step D can begin.
+Step F must be finished before step K can begin.
+Step C must be finished before step E can begin.
+Step F must be finished before step A can begin.
+Step X must be finished before step B can begin.
+Step G must be finished before step U can begin.
+Step C must be finished before step H can begin.
+Step Y must be finished before step W can begin.
+Step R must be finished before step Z can begin.
+Step W must be finished before step D can begin.
+Step C must be finished before step T can begin.
+Step H must be finished before step M can begin.
+Step O must be finished before step Q can begin.")
 
-(def answer-1 "ABDCJLFMNVQWHIRKTEUXOZSYPG")
+(def answer-1 "CHILFNMORYKGAQXUVBZPSJWDET")
 
-(def answer-2 896)
+(def answer-2 891)
