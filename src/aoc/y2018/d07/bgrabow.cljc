@@ -8,30 +8,8 @@
     [clojure.set :as set])
   #?(:clj (:import (clojure.lang PersistentQueue))))
 
-(defn parse [input]
-  (map #(vec (re-seq #"\b[A-Z]\b" %)) (str/split-lines input)))
-
-(defn collect-deps [deps]
-  (map (fn [[k v]] [k (into #{} (map first v))])
-       (group-by second deps)))
-
-(defn solve-1 []
-  (let [tasks-remaining (map str (seq "ABCDEFGHIJKLMNOPQRSTUVWXYZ"))
-        dep-graph (->> (parse input)
-                       collect-deps
-                       (into {}))]
-    (->> (loop [acc []
-                tasks-remaining tasks-remaining
-                completed-tasks #{}]
-           (if (empty? tasks-remaining)
-             acc
-             (let [has-remaining-deps #(some identity (set/difference (dep-graph %) completed-tasks))
-                   [unripe-tasks rem] (split-with has-remaining-deps tasks-remaining)
-                   next-task (first rem)]
-               (recur (conj acc next-task)
-                      (concat unripe-tasks (rest rem))
-                      (conj completed-tasks next-task)))))
-         (apply str))))
+(def parse (memoize
+             (fn [input] (map #(vec (re-seq #"\b[A-Z]\b" %)) (str/split-lines input)))))
 
 (defn split-set-with [pred s]
   (let [taken (take-while pred s)]
@@ -44,9 +22,11 @@
 
 (defn blocks-graph [deps]
   (map-vals #(apply sorted-set (map second %)) (group-by first deps)))
+(def mem-blocks-graph (memoize blocks-graph))
 
 (defn blocked-by-graph [deps]
   (map-vals #(apply hash-set (map first %)) (group-by second deps)))
+(def mem-blocked-by-graph (memoize blocked-by-graph))
 
 (defn resolve-deps [blocked-by blocks completed-tasks]
   (reduce (fn [[blocked-by uncovered-tasks] t]
@@ -59,13 +39,42 @@
               [new-blocked-by (concat uncovered-tasks fully-uncovered)]))
           [blocked-by '()] completed-tasks))
 
+; Create an "open-nodes" sorted-set
+; Get rid of "completed-tasks" set
+; Start on the lexicographically first open node
+; Go to the nodes it blocked. Remove each edge from the blocked-by graph.
+; Check the new blocked-by graph to see which nodes are open and add them
+; to the open-nodes set.
+; Take the first node from open-nodes and repeat.
+(defn solve-1 []
+  (let [all-tasks '("A" "B" "C" "D" "E" "F" "G" "H" "I" "J" "K" "L" "M" "N" "O" "P" "Q" "R" "S" "T" "U" "V" "W" "X" "Y" "Z")
+        deps (parse input)
+        x-blocks-y (mem-blocks-graph deps)]
+    (loop [acc []
+           x-blocked-by-y (mem-blocked-by-graph deps)
+           open-tasks (apply sorted-set (remove x-blocked-by-y all-tasks))]
+      (if (empty? open-tasks)
+        (apply str acc)
+        (let [current-task (first open-tasks)
+              uncovered (x-blocks-y current-task)
+              blocked-by (reduce (fn [deps t]
+                                   (update deps t #(disj % current-task)))
+                                 x-blocked-by-y uncovered)
+              newly-open (remove #(some identity (blocked-by %)) uncovered)]
+          (recur (conj acc current-task)
+                 blocked-by
+                 (-> open-tasks
+                     (disj current-task)
+                     (#(apply conj % newly-open)))))))))
+
 (defn solve-2 []
   (let [all-tasks '("A" "B" "C" "D" "E" "F" "G" "H" "I" "J" "K" "L" "M" "N" "O" "P" "Q" "R" "S" "T" "U" "V" "W" "X" "Y" "Z")
         task-length (zipmap all-tasks (range 61 87))
-        x-blocks-y (blocks-graph (parse input))
-        x-blocked-by-y (blocked-by-graph (parse input))
-        initial-tasks (remove x-blocked-by-y all-tasks)]
-    (loop [working (apply sorted-set (zipmap (map task-length initial-tasks) initial-tasks))
+        deps (parse input)
+        x-blocks-y (mem-blocks-graph deps)
+        x-blocked-by-y (mem-blocked-by-graph deps)
+        open-tasks (remove x-blocked-by-y all-tasks)]
+    (loop [working (apply sorted-set (zipmap (map task-length open-tasks) open-tasks))
            blocked-by x-blocked-by-y
            current-time (first (first working))]
       (let [[c-t still-working] (split-set-with #(= current-time (first %)) working)
