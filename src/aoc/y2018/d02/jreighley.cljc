@@ -19,13 +19,14 @@
                      (pos?)))
 
 (def input-items
-  (->> input
-       (split-lines)
-       (map trim)
-       (sort)))
+  (delay
+    (->> input
+         (split-lines)
+         (map trim)
+         (sort))))
 
 (def input-freqs
-  (->> input-items
+  (->> @input-items
        (map frequencies)))
 
 (defn matching-letters [ str-1 str-2]
@@ -49,7 +50,7 @@
      (count (filter double-count input-freqs))))
 
 (defn solve-2 []
-  (search-seq input-items))
+  (search-seq @input-items))
 
 (deftest part-1
   (is (= answer-1 (solve-1))))
