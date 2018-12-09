@@ -1,4 +1,5 @@
 (ns aoc.y2018.d01.ericstewart
+  (:refer-clojure :exclude [read-string])
   (:require
    [aoc.utils :as u :refer [deftest read-string]]
    [aoc.y2018.d01.data :refer [input answer-1 answer-2]]
