@@ -22,47 +22,45 @@
 #_(defn sum-all [{:keys [children metadata]}]
     (apply + (concat metadata (map first children))))
 
-#_(defn sum-all [{:keys [children metadata]}]
-    (reduce + (concat metadata (map #(or (:score %) 0) children))))
+(defn sum-all [{:keys [child-scores metadata]}]
+  (reduce + (concat metadata child-scores)))
 
-(defn by-child-weight [{:keys [children metadata]}]
-  (if (> (count children) 1)
-    (let [child-scores (zipmap (range) (map :score children))]
-      (reduce
-        (fn [acc index]
-          (+ acc
-             (or (child-scores index)
-                 0)))
-        0 metadata))
+(defn by-child-weight [{:keys [child-scores metadata]}]
+  (if (seq child-scores)
+    (let [score-map (zipmap (range 1 (inc (count child-scores))) child-scores)]
+      (->> metadata
+           (map score-map)
+           (filter identity)
+           (reduce +)))
     (reduce + metadata)))
 
-(defn node-score-by [{:keys [score-fn input-data] :as args}]
-  ;(println "data" input-data)
+(defn node-score-by [{:keys [score-fns input-data] :as args}]
+      ;(println "data" (take 10 input-data))
   (let [[n-children n-meta & after-header] input-data
-        ;_ (println "args" args)
-        new-args (assoc args :input-data after-header)
-        ;_ (println "new-args" new-args)
-        children (take (inc n-children)
-                       (iterate node-score-by new-args))
-        ;_ (println "node" n-children n-meta after-header)
-        last-child (last children)
-        leftovers (:input-data last-child)
+        children (drop 1 (take (inc n-children)
+                               (iterate node-score-by {:score-fns score-fns
+                                                       :input-data after-header})))
+        ;_ (println "node" n-children n-meta (take 10 after-header))
+        leftovers (or (:input-data (last children)) after-header)
         [metadata after-meta] (split-at n-meta leftovers)
-        context {:children children
-                 :metadata metadata}
-        score (score-fn context)]
+        scores (zipmap score-fns (map (fn [f]
+                                        (f {:child-scores (map #(get-in % [:scores f]) children)
+                                            :metadata metadata})) score-fns))]
     ;(println "node" n-children n-meta children)
-    ;(println "node-score" score)
+    ;(println "node-score" n-children n-meta metadata (vals scores) (map :scores children))
     (-> args
         (assoc :input-data after-meta)
-        (assoc :score score))))
+        (assoc :scores scores))))
+
+(def solve-both
+  (memoize
+    #(node-score-by {:score-fns [sum-all by-child-weight] :input-data (parse input)})))
 
 (defn solve-1 []
-  (first (node-score (parse input)))
-  #_(:score (node-score-by {:score-fn sum-all :input-data (parse input)})))
+  (get-in (solve-both) [:scores sum-all]))
 
 (defn solve-2 []
-  (:score (node-score-by {:score-fn by-child-weight :input-data (parse input)})))
+  (get-in (solve-both) [:scores by-child-weight]))
 
 (deftest part-1
   (is (= (str answer-1)
