@@ -4,7 +4,16 @@
    [aoc.utils :as u :refer [deftest read-string format]]
    [aoc.y2018.d08.data :refer [input answer-1 answer-2]]
    [clojure.string :as str]
-   [clojure.test :refer [is testing]]))
+   [clojure.test :as t :refer [is testing]]))
+
+(defn cleanup [f]
+  (f)
+  (do
+    (println "cleaning up")
+    (def data nil)
+    (def tree nil)))
+
+(t/use-fixtures :once cleanup)
 
 (def data (map u/parse-int (str/split input #" ")))
 
