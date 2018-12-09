@@ -58,17 +58,6 @@
                  new-closest-ps
                  (if (second new-closest-ps) acc (update acc (first new-closest-ps) #(conj % [x y])))))))))
 
-
-(defn on-bounding-box [x-bounds y-bounds p]
-  (or (some #{(first p)} x-bounds)
-      (some #{(second p)} y-bounds)))
-
-(defn bounding-box [[x-min x-max] [y-min y-max]]
-  (for [x (range x-min (inc x-max))
-        y (range y-min (inc y-max))
-        :when (on-bounding-box [x-min x-max] [y-min y-max] [x y])]
-    [x y]))
-
 (defn infinite-region? [x-bounds y-bounds [_ territory]]
   (let [group-x-vals (into #{} (map first territory))
         group-y-vals (into #{} (map second territory))]
@@ -89,27 +78,6 @@
          (apply max-key (comp count second))
          second
          count)))
-;
-;(def points (parse input))
-;(def x-bounds (map first (min-max-by first points)))
-;(def y-bounds (map second (min-max-by second points)))
-;(scan-x (first x-bounds) (first y-bounds) points)
-;(def x (first x-bounds))
-;(def y (first y-bounds))
-;(def sorted-ps (sort-by #(manhattan-distance [(first x-bounds) (first y-bounds)] %) points))
-;(def m-dist #(manhattan-distance [(first x-bounds) (first y-bounds)] %))
-;(m-dist (first sorted-ps))
-;(map m-dist sorted-ps)
-
-;(def bbox (into #{} (bounding-box x-bounds y-bounds)))
-;(def closest-point-map (filter (comp identity second) (apply merge (map #(scan-x (first x-bounds) % points)))))
-;                                                                        (range (first y-bounds) (second y-bounds))))))
-;(def points-with-infinite-region (into #{} (map second (filter #(bbox (first %)) closest-point-map))))
-;(def remaining-map (remove #(points-with-infinite-region (first %)) closest-point-map))
-;(def freqs (frequencies (map second remaining-map)))
-;(def answer (apply max-key second freqs))
-
-#_(def points-with-infinite-region (into #{} (map closest-point-map (bounding-box x-bounds y-bounds))))
 
 (defn normalize [[x y] points]
   (map (fn [[xp yp]] [(Math/abs (- x xp))
