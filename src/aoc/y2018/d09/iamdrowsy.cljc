@@ -17,62 +17,63 @@
    :left '()
    :right '()})
 
-(defn switch-lr [{:keys [left right current]}]
-  {:left right :right left :current current})
+(defn shift-left [{:keys [left right current] :as circle}]
+  (if (empty? left)
+    (let [new-left (reverse (cons current right))]
+      (-> circle
+          (assoc :right '()
+                 :current (first new-left)
+                 :left (rest new-left))))
+    (-> circle
+        (update :left rest)
+        (assoc :right (cons current right)
+               :current (first left)))))
 
-(defn shift-right [{:keys [left right current]}]
+(defn shift-and-add [{:keys [left right current] :as circle} entry]
   (if (empty? right)
     (let [new-right (reverse (cons current left))]
-      {:left '()
-       :right  (rest new-right)
-       :current (first new-right)})
-    {:left (cons current left)
-     :right (rest right)
-     :current (first right)}))
+      (-> circle
+          (assoc :left (list (first new-right))
+                 :current entry
+                 :right (rest new-right))))
+    (-> circle
+        (update :right rest)
+        (assoc :left (cons (first right) (cons current left))
+               :current entry))))
 
-(defn shift-left [circle]
-  (switch-lr (shift-right (switch-lr circle))))
+(defn add-entry [{:keys [left current] :as circle} entry]
+  (assoc circle :left (cons current left) :current entry))
 
-(defn add-entry [{:keys [left right current]} entry]
-  {:right right
-   :left (cons current left)
-   :current entry})
+(defn remove-current [{:keys [right] :as circle}]
+  (-> circle
+      (update :right rest)
+      (assoc :current (first right))))
 
-(defn remove-current [{:keys [left right]}]
-  {:right (rest right)
-   :left left
-   :current (first right)})
-
-(defn shift [circle amount]
-  (let [shift-fn (if (< 0 ^long amount)
-                   shift-right
-                   shift-left)]
-    (first (drop (Math/abs ^long amount) (iterate shift-fn circle)))))
+(defn shift-7 [circle]
+    (first (drop 7 (iterate shift-left circle))))
 
 (defn insert-step [state marble]
   (let [current-player (mod (inc ^long (:last-player state))
                             (:players state))]
     (-> state
-        (update :field #(-> %
-                              (shift-right)
-                              (add-entry marble)))
+        (update :circle shift-and-add marble)
         (assoc :last-player current-player))))
 
 (defn update-points [state current-player marble]
-  (let [new-points (get-in state [:field :current])]
+  (let [new-points (get-in state [:circle :current])]
     (update-in state [:points current-player] #(+ ^long new-points ^long marble ^long %))))
 
 (defn remove-step [state marble]
   (let [current-player (mod (inc ^long (:last-player state))
                             (:players state))]
     (-> state
-        (update :field #(shift % -7))
+        (update :circle shift-7)
         (update-points current-player marble)
-        (update :field remove-current)
+        (update :circle remove-current)
         (assoc :last-player current-player))))
 
 (defn init-state [players]
-  {:field (circle)
+  {:circle (circle)
    :points (zipmap (range players) (repeat 0))
    :players players
    :last-player -1})
