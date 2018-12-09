@@ -13,41 +13,42 @@
           (re-seq #"\d+" input)))
 
 (defn circle []
-  {:current 0
-   :left '()
-   :right '()})
+  (transient
+    {:current 0
+     :left    '()
+     :right   '()}))
 
 (defn shift-left [{:keys [left right current] :as circle}]
   (if (empty? left)
     (let [new-left (reverse (cons current right))]
       (-> circle
-          (assoc :right '()
+          (assoc! :right '()
                  :current (first new-left)
                  :left (rest new-left))))
     (-> circle
-        (update :left rest)
-        (assoc :right (cons current right)
+        (assoc! :left (rest left))
+        (assoc! :right (cons current right)
                :current (first left)))))
 
 (defn shift-and-add [{:keys [left right current] :as circle} entry]
   (if (empty? right)
     (let [new-right (reverse (cons current left))]
       (-> circle
-          (assoc :left (list (first new-right))
-                 :current entry
-                 :right (rest new-right))))
+          (assoc! :left (list (first new-right))
+                  :current entry
+                  :right (rest new-right))))
     (-> circle
-        (update :right rest)
-        (assoc :left (cons (first right) (cons current left))
-               :current entry))))
+        (assoc! :right (rest right))
+        (assoc! :left (cons (first right) (cons current left))
+                :current entry))))
 
 (defn add-entry [{:keys [left current] :as circle} entry]
-  (assoc circle :left (cons current left) :current entry))
+  (assoc! circle :left (cons current left) :current entry))
 
 (defn remove-current [{:keys [right] :as circle}]
   (-> circle
-      (update :right rest)
-      (assoc :current (first right))))
+      (assoc! :current (first right)
+             :right (rest right))))
 
 (defn shift-7 [circle]
     (first (drop 7 (iterate shift-left circle))))
@@ -56,27 +57,29 @@
   (let [current-player (mod (inc ^long (:last-player state))
                             (:players state))]
     (-> state
-        (update :circle shift-and-add marble)
-        (assoc :last-player current-player))))
+        (assoc! :circle (shift-and-add (:circle state) marble))
+        (assoc! :last-player current-player))))
 
 (defn update-points [state current-player marble]
   (let [new-points (get-in state [:circle :current])]
-    (update-in state [:points current-player] #(+ ^long new-points ^long marble ^long %))))
+    (assoc! state :points
+            (update (:points state) current-player #(+ ^long new-points ^long marble ^long %)))))
 
 (defn remove-step [state marble]
   (let [current-player (mod (inc ^long (:last-player state))
                             (:players state))]
     (-> state
-        (update :circle shift-7)
+        (assoc! :circle (shift-7 (:circle state)))
         (update-points current-player marble)
-        (update :circle remove-current)
-        (assoc :last-player current-player))))
+        (assoc! :circle (remove-current (:circle state)))
+        (assoc! :last-player current-player))))
 
 (defn init-state [players]
-  {:circle (circle)
-   :points (zipmap (range players) (repeat 0))
-   :players players
-   :last-player -1})
+  (transient
+    {:circle      (circle)
+     :points      (zipmap (range players) (repeat 0))
+     :players     players
+     :last-player -1}))
 
 (defn play-step [state marble]
   (if (zero? ^long (mod ^long marble 23))
