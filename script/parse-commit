@@ -1,0 +1,25 @@
+#!/bin/bash
+
+set -e
+
+commit_message=$(git log -1 --pretty=%B $CIRCLE_SHA1)
+commit_message="2018/02/borkdude"
+parsed=$(clojure script/parse-commit.clj "$commit_message")
+
+echo "parsed: $parsed"
+
+if [ $? -eq 1 ]; then
+    exit_code=1
+fi
+
+IFS=' /,' read -a yyyy_dd_user <<< "$parsed"
+
+echo "${yyyy_dd_user[*]}"
+
+echo "year ${yyyy_dd_user[0]}"
+
+export AOC_YEAR="${yyyy_dd_user[0]}"
+export AOC_DAY="${yyyy_dd_user[1]}"
+export AOC_USER="${yyyy_dd_user[2]}"
+
+echo $AOC_YEAR
