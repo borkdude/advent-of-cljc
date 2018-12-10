@@ -1,6 +1,6 @@
 (ns aoc.y2017.d03.mfikes
   (:require
-   [aoc.utils :as u :refer [deftest]]
+   [aoc.utils :as u :refer [deftest nth']]
    [aoc.y2017.d03.data :refer [input answer-1 answer-2]]
    [clojure.test :as t :refer [is testing]]))
 
@@ -21,9 +21,6 @@
     [next-location (conj used-locations next-location)]))
 
 (def spiral (eduction (map first) (iterate step [[1 0] #{[0 0] [1 0]}])))
-
-(defn nth' [coll n]
-  (transduce (drop n) (completing #(reduced %2)) nil coll))
 
 (defn location [square]
   (nth' spiral (- square 2)))
