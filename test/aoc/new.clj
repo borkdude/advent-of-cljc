@@ -39,6 +39,8 @@
 " year day user year day))
 
 (defn create-new [{:keys [year day user]}]
+  (if (contains? (into #{} [day year user]) nil)
+    (throw (Exception. (str "Something is null: " {:day day :year year :user user}))))
   (let [day (format "%02d" day)
         data-out (io/file "src" "aoc"
                           (str "y" year)
