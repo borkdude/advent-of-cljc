@@ -1,12 +1,9 @@
 (ns aoc.y2018.d09.mfikes
   (:refer-clojure :exclude [read-string format])
   (:require
-   [aoc.utils :as u :refer [deftest read-string format]]
+   [aoc.utils :as u :refer [deftest read-string format nth']]
    [aoc.y2018.d09.data :refer [input answer-1 answer-2]]
    [clojure.test :refer [is testing]]))
-
-(defn nth' [coll n]
-  (transduce (drop n) (completing #(reduced %2)) nil coll))
 
 (defn create-game [players]
   {:players players
