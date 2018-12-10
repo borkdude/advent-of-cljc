@@ -7,7 +7,7 @@
             #?(:cljs [goog.string.format])
             #?(:cljs [goog.object])
             #?(:cljs [oops.core]))
-  #?(:cljs (:require-macros [aoc.utils :refer [deftest]]
+  #?(:cljs (:require-macros [aoc.utils :refer [deftest gc heap-used]]
                             [oops.core :refer [ocall oget]])))
 
 (defmacro deftime

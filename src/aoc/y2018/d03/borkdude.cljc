@@ -1,9 +1,23 @@
 (ns aoc.y2018.d03.borkdude
   (:require
-   [aoc.utils :as u :refer [deftest]]
+   [aoc.utils :as u :refer [deftest gc heap-used]]
    [aoc.y2018.d03.data :refer [input answer-1 answer-2]]
-   [clojure.test :refer [is testing]]
+   [clojure.test :as t :refer [is testing]]
    [clojure.string :as str]))
+
+(defn cleanup [f]
+  (f)
+  (do
+    (gc)
+    (println "cleaning up")
+    (println "heap before cleaning" (heap-used))
+    (def data nil)
+    (def parsed nil)
+    (def freqs nil)
+    (gc)
+    (println "heap after cleaning" (heap-used))))
+
+(t/use-fixtures :once cleanup)
 
 (def data (str/split-lines input))
 
@@ -35,7 +49,9 @@
             by-id)))
 
 (deftest part-1
+  (println "part 1 heap" (heap-used))
   (is (= answer-1 (solve-1))))
 
 (deftest part-2
+  (println "part 2 heap" (heap-used))
   (is (= answer-2 (str (solve-2)))))
