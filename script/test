@@ -19,7 +19,7 @@ if [ ! $SKIP_CLJ ]; then
             "$exclude_flag" "$exclude_pattern"
 fi
 
-if [ $? -eq 1 ]; then
+if [ ! $? ]; then
     exit_code=1
 fi
 
@@ -29,10 +29,11 @@ if [ ! $SKIP_CLJS ]; then
     clojure -A:test:test-cljs \
             -d src -r "$regex" \
             "$exclude_flag" "$exclude_pattern" \
-            -c cljs-opts.edn
+            -c cljs-opts.edn \
+            -D doo-opts.edn
 fi
 
-if [ $? -eq 1 ]; then
+if [ ! $? ]; then
     exit_code=1
 fi
 

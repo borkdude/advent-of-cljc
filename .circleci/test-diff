@@ -9,43 +9,63 @@ if [ $branch = "master" ]; then
     files=$(git diff --name-only HEAD..HEAD~1)
 else
     # test all different namespaces from master
-    files=$(git diff --name-only origin/master..HEAD)
+    files=$(git diff --name-only origin/master)
 fi
 
-namespaces=$(echo "$files" | grep '^src\|^test' \
-                 | sed 's/^src\///' \
-                 | sed 's/^test\///' \
-                 | sed 's/\.cljc$//' \
-                 | sed 's/\//\./g')
+function files_to_namespaces () {
+    files=$1
+    filter=$2
+    echo "$files" \
+        | grep '^src\|^test' \
+        | grep "$filter" \
+        | sed 's/^src\///' \
+        | sed 's/^test\///' \
+        | sed 's/\.cljc$//' \
+        | sed 's/\//\./g'
+}
 
-if [ -z "$namespaces" ]; then
-    echo "No namespaces are different, nothing to test."
-    exit 0
+function namespaces_to_opts () {
+    namespaces=$1
+    echo "$namespaces" \
+        | tr '\r\n' '#' \
+        | echo "#$(cat -)" \
+        | sed 's/#$//' \
+        | sed 's/#/ -n /g'
+}
+
+echo "==== Performing tests on different CLJ and CLJS namespaces"
+
+clj_namespaces=$(files_to_namespaces "${files[@]}" "cljc\?")
+
+if [ -z "$clj_namespaces" ]; then
+    echo -e "\n==== No differing CLJS namespaces, nothing to test."
+else
+    echo "==== Running CLJ tests on JVM"
+    echo -e "\nFound differing CLJ namespaces:\n$clj_namespaces"
+    ns_opts=$(namespaces_to_opts "${clj_namespaces[@]}")
+    clj_cmd="clojure -J-Xmx3200m -R:test:test-clj -e (require,'patch.clj-2443) -m cognitect.test-runner -d src $ns_opts"
+    $clj_cmd
 fi
 
-echo -e "The following namespaces are different from master and will be tested if present in this branch:\n$namespaces"
-
-namespaces=$(echo "$namespaces" \
-                 | tr '\r\n' '#' \
-                 | echo "#$(cat -)" \
-                 | sed 's/#$//' \
-                 | sed 's/#/ -n /g')
-
-clj_cmd="clojure -J-Xmx3200m -R:test:test-clj -e (require,'patch.clj-2443) -m cognitect.test-runner -d src $namespaces"
-
-$clj_cmd
-
-if [ $? -eq 1 ]; then
+if [ ! $? ]; then
     exit_code=1
 fi
 
-mkdir -p cljs-test-runner-out/gen
+cljs_namespaces=$(files_to_namespaces "${files[@]}" "clj[cs]")
 
-cljs_cmd="clojure -A:test:test-cljs -d src -c cljs-opts.edn $namespaces"
+if [ -z "$cljs_namespaces" ]; then
+    echo -e "\n==== No differing CLJS namespaces, nothing to test."
+else
+    echo -e "\n==== Compiling CLJS and running tests on Node"
+    echo -e "\nFound differing CLJS namespaces:\n$cljs_namespaces"
+    rm -rf cljs-test-runner-out
+    mkdir -p cljs-test-runner-out/gen
+    ns_opts=$(namespaces_to_opts "${cljs_namespaces[@]}")
+    cljs_cmd="clojure -A:test:test-cljs -d src -c cljs-opts.edn -D doo-opts.edn $ns_opts"
+    $cljs_cmd
+fi
 
-$cljs_cmd
-
-if [ $? -eq 1 ]; then
+if [ ! $? ]; then
     exit_code=1
 fi
 

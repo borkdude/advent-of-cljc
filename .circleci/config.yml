@@ -32,7 +32,7 @@ jobs:
           - v1-dependencies-
       # run tests!
       - run: .circleci/test-diff
-      # - run: script/test || true
+      - run: SKIP_CLJ=true script/test
       - save_cache:
           paths:
             - ~/.m2
