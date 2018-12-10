@@ -48,13 +48,11 @@
 
 (defn solve-1 []
   (let [[players last-marble] (map read-string (re-seq #"\d+" input))]
-    (solve players last-marble))
-)
+    (solve players last-marble)))
 
 (defn solve-2 []
   (let [[players last-marble] (map read-string (re-seq #"\d+" input))]
-    (solve players (* 100 last-marble)))
-)
+    (solve players (* 100 last-marble))))
 
 (deftest part-1
   (is (= (str answer-1)
