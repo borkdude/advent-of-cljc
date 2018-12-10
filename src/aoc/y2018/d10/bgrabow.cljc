@@ -24,9 +24,20 @@
                :dx dx
                :dy dy}))))
 
+(defn step-n [n [x y] [dx dy]]
+  [(+ x (* dx n))
+   (+ y (* dy n))])
+
 (defn step [[x y] [dx dy]]
   [(+ x dx)
    (+ y dy)])
+
+(defn time-until-nearby [pa pb]
+  (let [h (- (:y pa) (:y pb))
+        ddy (- (:dy pb) (:dy pa))]
+    (quot h ddy)))
+
+(apply time-until-nearby (take 2 (parse my-input)))
 
 (defn min-max-by [pred coll]
   (when coll
@@ -68,6 +79,11 @@
         (recur (dec x))
         x))))
 
+(defn group-stars [stars]
+  (group-by
+    (partial left-most-x-neighbor stars)
+    stars))
+
 (def star-letters
   {"*    *\n*    *\n *  * \n *  * \n  **  \n  **  \n *  * \n *  * \n*    *\n*    *" \X
    "*     \n*     \n*     \n*     \n*     \n*     \n*     \n*     \n*     \n******" \L
@@ -79,16 +95,21 @@
 
 (defn solve-1 []
   (let [parsed-input (parse my-input)
+        [fastest-down fastest-up] (min-max-by :dy parsed-input)
+        search-start-time (- (time-until-nearby fastest-down fastest-up)
+                             10)
         velocities (map #(map % [:dx :dy]) parsed-input)]
-    (->> (loop [stars (map #(map % [:x :y]) parsed-input)
+    (->> (loop [stars (->> parsed-input
+                           (map #(map % [:x :y]))
+                           (#(map (fn [star v] (step-n search-start-time star v)) % velocities)))
                 height (y-height stars)
-                time 0]
+                time search-start-time]
            (let [new-stars (map step stars velocities)
                  new-height (y-height new-stars)]
              (if (> new-height height)
                stars
                (recur new-stars new-height (inc time)))))
-         (#(group-by (partial left-most-x-neighbor %) %))
+         group-stars
          sort
          (map second)
          (map stars-to-string)
@@ -97,15 +118,20 @@
 
 (defn solve-2 []
   (let [parsed-input (parse my-input)
+        [fastest-down fastest-up] (min-max-by :dy parsed-input)
+        search-start-time (- (time-until-nearby fastest-down fastest-up)
+                             10)
         velocities (map #(map % [:dx :dy]) parsed-input)]
-    (loop [stars (map #(map % [:x :y]) parsed-input)
-           height (y-height stars)
-           time 0]
-      (let [new-stars (map step stars velocities)
-            new-height (y-height new-stars)]
-        (if (> new-height height)
-          time
-          (recur new-stars new-height (inc time)))))))
+    (->> (loop [stars (->> parsed-input
+                           (map #(map % [:x :y]))
+                           (#(map (fn [star v] (step-n search-start-time star v)) % velocities)))
+                height (y-height stars)
+                time search-start-time]
+           (let [new-stars (map step stars velocities)
+                 new-height (y-height new-stars)]
+             (if (> new-height height)
+               time
+               (recur new-stars new-height (inc time))))))))
 
 ;(deftest part-1
 ;  (is (= (str answer-1)
