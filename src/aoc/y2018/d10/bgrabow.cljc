@@ -2,7 +2,7 @@
   (:refer-clojure :exclude [read-string format])
   (:require
     [aoc.utils :as u :refer [deftest read-string format]]
-    ;[aoc.y2018.d10.data :refer [input answer-1 answer-2]]
+    [aoc.y2018.d10.data :refer [input answer-1 answer-2]]
     [clojure.test :refer [is testing]]
     [clojure.string :as str]))
 
@@ -16,7 +16,7 @@
   (->> input
        str/split-lines
        (map #(->> %
-                  (re-seq #"-*\d+")
+                  (re-seq #"-?\d+")
                   (map u/parse-int)))
        (map (fn [[x y dx dy]]
               {:x x
@@ -91,10 +91,13 @@
    "  **  \n *  * \n*    *\n*    *\n*    *\n******\n*    *\n*    *\n*    *\n*    *" \A
    "*    *\n*   * \n*  *  \n* *   \n**    \n**    \n* *   \n*  *  \n*   * \n*    *" \K
    "***** \n*    *\n*    *\n*    *\n***** \n*    *\n*    *\n*    *\n*    *\n***** " \B
-   " **** \n*    *\n*     \n*     \n*     \n*  ***\n*    *\n*    *\n*   **\n *** *" \G})
+   " **** \n*    *\n*     \n*     \n*     \n*  ***\n*    *\n*    *\n*   **\n *** *" \G
+   "***** \n*    *\n*    *\n*    *\n***** \n*  *  \n*   * \n*   * \n*    *\n*    *" \R
+   "*    *\n*    *\n*    *\n*    *\n******\n*    *\n*    *\n*    *\n*    *\n*    *" \H
+   "*    *\n**   *\n**   *\n* *  *\n* *  *\n*  * *\n*  * *\n*   **\n*   **\n*    *" \N})
 
 (defn solve-1 []
-  (let [parsed-input (parse my-input)
+  (let [parsed-input (parse input)
         [fastest-down fastest-up] (min-max-by :dy parsed-input)
         search-start-time (- (time-until-nearby fastest-down fastest-up)
                              10)
@@ -117,7 +120,7 @@
          (apply str))))
 
 (defn solve-2 []
-  (let [parsed-input (parse my-input)
+  (let [parsed-input (parse input)
         [fastest-down fastest-up] (min-max-by :dy parsed-input)
         search-start-time (- (time-until-nearby fastest-down fastest-up)
                              10)
@@ -133,10 +136,10 @@
                time
                (recur new-stars new-height (inc time))))))))
 
-;(deftest part-1
-;  (is (= (str answer-1)
-;         (str (solve-1)))))
-;
-;(deftest part-2
-;  (is (= (str answer-2)
-;         (str (solve-2)))))
+(deftest part-1
+  (is (= (str answer-1)
+         (str (solve-1)))))
+
+(deftest part-2
+  (is (= (str answer-2)
+         (str (solve-2)))))
