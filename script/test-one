@@ -38,6 +38,7 @@ if [ ! $SKIP_CLJS ]; then
             -d src \
             "$ns_flag" "$ns" \
             -n "$user_ns" \
+            -e "skip-cljs" \
             "$exclude_flag" "$exclude_pattern" \
             -c cljs-opts.edn
 fi

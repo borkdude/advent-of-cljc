@@ -22,9 +22,19 @@ where `username` is your Github or Bitbucket username. Then fill in the solution
 
 This repo will not accept multiple input and answers (see [this issue](https://github.com/borkdude/advent-of-cljc/issues/6) for details).
 
+## Tests
+
 Make sure the tests for your solution pass with the `test-one` script.
 
 Please do not run calculations outside the tests. Memoized functions are permitted. Top-level lazy sequences are fine as long as they are not realized outside the tests.
+
+CircleCI runs tests for changed namespaces with the `.circle/test-diff` script.
+
+Tests support the following metadata:
+
+ - `:skip-cljs`: used for skipping Node test. Only used in `.circle/test-diff`,
+   `script/test` and `script/test-one`.
+ - `:slow`: used for skipping long-running tests. Only used in `script/test`.
 
 ## Run
 

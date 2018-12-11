@@ -61,7 +61,7 @@ else
     rm -rf cljs-test-runner-out
     mkdir -p cljs-test-runner-out/gen
     ns_opts=$(namespaces_to_opts "${cljs_namespaces[@]}")
-    cljs_cmd="clojure -A:test:test-cljs -d src -c cljs-opts.edn $ns_opts"
+    cljs_cmd="clojure -A:test:test-cljs -d src -c cljs-opts.edn -e skip-cljs $ns_opts"
     $cljs_cmd
 fi
 

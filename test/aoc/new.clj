@@ -19,7 +19,7 @@
   (:require
    [aoc.utils :as u :refer [deftest read-string format]]
    [aoc.y%s.d%s.data :refer [input answer-1 answer-2]]
-   [clojure.test :refer [is testing]]))
+   [clojure.test :as t :refer [is testing]]))
 
 (defn solve-1 []
   ;; TODO
@@ -36,6 +36,12 @@
 (deftest part-2
   (is (= (str answer-2)
          (str (solve-2)))))
+
+;;;; Scratch
+
+(comment
+  (t/run-tests)
+)
 " year day user year day))
 
 (defn create-new [{:keys [year day user]}]
