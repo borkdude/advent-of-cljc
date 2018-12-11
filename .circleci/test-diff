@@ -47,7 +47,7 @@ else
     $clj_cmd
 fi
 
-if [ ! $? ]; then
+if [ $? != 0 ]; then
     exit_code=1
 fi
 
@@ -65,7 +65,7 @@ else
     $cljs_cmd
 fi
 
-if [ ! $? ]; then
+if [ $? != 0 ]; then
     exit_code=1
 fi
 
