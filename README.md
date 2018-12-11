@@ -32,9 +32,9 @@ CircleCI runs tests for changed namespaces with the `.circle/test-diff` script.
 
 Tests support the following metadata:
 
- - `:skip-cljs`: used for skipping Node test. Only used in `.circle/test-diff`,
+ - `:skip-cljs`: used for skipping Node test. Used in `.circle/test-diff`,
    `script/test` and `script/test-one`.
- - `:slow`: used for skipping long-running tests. Only used in `script/test`.
+ - `:slow`: used for skipping long-running tests. Used in `script/test`.
 
 ## Run
 
