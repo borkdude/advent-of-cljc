@@ -65,7 +65,10 @@ else
     $cljs_cmd
 fi
 
-if [ ! $? ]; then
+last_exit_code=$?
+echo "EXIT CODE $last_exit_code"
+
+if [ ! $last_exit_code ]; then
     exit_code=1
 fi
 
