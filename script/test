@@ -35,7 +35,7 @@ if [ ! $SKIP_CLJS ]; then
             -c cljs-opts.edn
 fi
 
-if [ ! $? ]; then
+if [ $? != 0 ]; then
     exit_code=1
 fi
 

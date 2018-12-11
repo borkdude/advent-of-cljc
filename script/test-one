@@ -27,7 +27,7 @@ if [ ! $SKIP_CLJ ]; then
             "$exclude_flag" "$exclude_pattern"
 fi
 
-if [ ! $? ]; then
+if [ $? != 0 ]; then
     exit_code=1
 fi
 
@@ -43,7 +43,7 @@ if [ ! $SKIP_CLJS ]; then
             -c cljs-opts.edn
 fi
 
-if [ ! $? ]; then
+if [ $? != 0 ]; then
     exit_code=1
 fi
 

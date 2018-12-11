@@ -20,7 +20,7 @@ PRs welcome. Make a new solution file with the `new` script:
 
 where `username` is your Github or Bitbucket username. Then fill in the solution in the file. If the input and answers are still empty you will have to provide it in `data.cljc`.
 
-This repo will not accept multiple input and answers (see [this issue](https://github.com/borkdude/advent-of-cljc/issues/6) for details).
+This repo will not accept multiple inputs and answers (see [this issue](https://github.com/borkdude/advent-of-cljc/issues/6) for details).
 
 ## Dev
 
