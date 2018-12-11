@@ -6,7 +6,7 @@
    [clojure.string :as str]
    [clojure.test :as t :refer [is testing]]))
 
-(defn power-level* [^long x ^long y ^long serial]
+(defn power-level* [^long serial ^long x ^long y]
   (let [rack-id (+ x 10)
         pl (* rack-id y)
         pl (+ pl serial)
@@ -15,26 +15,38 @@
         pl (- pl 5)]
     pl))
 
-(defonce power-level (memoize power-level*))
+(def power-level (memoize power-level*))
 
-(defn power-level-nxn* [^long x ^long y serial ^long n]
-  (and (<= (+ x (dec n)) 300)
-       (<= (+ y (dec n)) 300)
-       [[x y n] (reduce + (for [x* (range x (+ x n))
-                                y* (range y (+ y n))]
-                            (power-level x* y* serial)))]))
+(defn first-divisor* [^long n]
+  (first
+   (for [i (range 2 (long (/ n 2)))
+         :when (zero? ^long (rem n ^long i))]
+     i)))
 
-(defonce power-level-nxn (memoize power-level-nxn*))
+(def first-divisor (memoize first-divisor*))
+
+(declare power-level-nxn)
+
+(defn power-level-nxn* [serial ^long x ^long y ^long n]
+  (if (= 1 n)
+    [[x y n] (power-level serial x y)]
+    (let [fd (or (first-divisor n) 1)
+          dr (range 0 n fd)
+          xs (map #(+ ^long % x) dr)
+          ys (map #(+ ^long % y) dr)]
+      [[x y n] (reduce + (for [x xs
+                               y ys]
+                           (second (power-level-nxn serial x y fd))))])))
+
+(def power-level-nxn (memoize power-level-nxn*))
 
 (defn max-power-level-nxn* [n]
   (apply max-key second
-         (for [x (range 1 299)
-               y (range 1 299)
-               :let [pl (power-level-nxn x y input n)]
-               :when pl]
-           pl)))
+         (for [x (range 1 300)
+               y (range 1 300)]
+           (power-level-nxn input x y n))))
 
-(defonce max-power-level-nxn (memoize max-power-level-nxn*))
+(def max-power-level-nxn (memoize max-power-level-nxn*))
 
 (defn solve-1 []
   (str/join ","
@@ -42,7 +54,7 @@
 
 (defn max-in-range [r]
   (loop [ns r
-         [v ^long max] (power-level-nxn 0 0 input 1)]
+         [v ^long max] (power-level-nxn input 1 1 1)]
     (if (empty? ns)
       [v max]
       (let [[new-v ^long new-max]
@@ -53,8 +65,8 @@
                  [v max]))))))
 
 (defn find-optimum []
-  (loop [ranges (partition-all 3 (range 0 300))
-         [v ^long max] (power-level-nxn 0 0 input 1)]
+  (loop [ranges (partition-all 3 (range 1 301))
+         [v ^long max] (power-level-nxn input 1 1 1)]
     (if (empty? ranges) [v max]
         (let [[new-v ^long new-max]
               (max-in-range (first ranges))]
