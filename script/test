@@ -16,10 +16,11 @@ if [ ! $SKIP_CLJ ]; then
             -R:test:test-clj \
             -e "(require,'patch.clj-2443)" \
             -m cognitect.test-runner -d src -r "$regex" \
+            -e "slow" \
             "$exclude_flag" "$exclude_pattern"
 fi
 
-if [ $? -eq 1 ]; then
+if [ ! $? ]; then
     exit_code=1
 fi
 
@@ -28,11 +29,13 @@ if [ ! $SKIP_CLJS ]; then
     mkdir -p cljs-test-runner-out/gen
     clojure -A:test:test-cljs \
             -d src -r "$regex" \
+            -e "slow" \
+            -e "skip-cljs" \
             "$exclude_flag" "$exclude_pattern" \
             -c cljs-opts.edn
 fi
 
-if [ $? -eq 1 ]; then
+if [ ! $? ]; then
     exit_code=1
 fi
 

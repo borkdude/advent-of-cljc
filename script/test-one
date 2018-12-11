@@ -18,7 +18,7 @@ if [ ! $INSTRUMENT ]; then
 fi
 
 if [ ! $SKIP_CLJ ]; then
-    echo "=== Running clojure test $1"
+    echo "=== Running clojure test $1 $2 $3"
     clojure -R:test:test-clj \
             -e "(require,'patch.clj-2443)" \
             -m cognitect.test-runner -d src \
@@ -27,22 +27,23 @@ if [ ! $SKIP_CLJ ]; then
             "$exclude_flag" "$exclude_pattern"
 fi
 
-if [ $? -eq 1 ]; then
+if [ ! $? ]; then
     exit_code=1
 fi
 
 if [ ! $SKIP_CLJS ]; then
-    echo -e "\n=== Running cljs test $1"
+    echo -e "\n=== Running cljs test $1 $2 $3"
     mkdir -p cljs-test-runner-out/gen
     clojure -A:test:test-cljs \
             -d src \
             "$ns_flag" "$ns" \
             -n "$user_ns" \
+            -e "skip-cljs" \
             "$exclude_flag" "$exclude_pattern" \
             -c cljs-opts.edn
 fi
 
-if [ $? -eq 1 ]; then
+if [ ! $? ]; then
     exit_code=1
 fi
 
