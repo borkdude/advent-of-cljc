@@ -51,7 +51,7 @@
   (drop 1 (iterate #(rem (+ % 23) n-players) 0)))
 
 (defn solve-1 []
-  (let [{:keys [n-players last-marble]} (parse my-input)
+  (let [{:keys [n-players last-marble]} (parse input)
         n-scoring-marbles (quot last-marble 23)
         player-scores (zipmap (range n-players) (repeat 0))]
     (->> (reduce (fn [p-s [player score]] (update p-s player #(+ % score)))
@@ -61,7 +61,7 @@
          (apply max))))
 
 (defn solve-2 []
-  (let [{:keys [n-players last-marble]} (parse my-input)
+  (let [{:keys [n-players last-marble]} (parse input)
         n-scoring-marbles (quot (* 100 last-marble) 23)
         player-scores (zipmap (range n-players) (repeat 0))]
     (->> (reduce (fn [p-s [player score]] (update p-s player #(+ % score)))
