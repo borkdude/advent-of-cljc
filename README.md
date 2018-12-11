@@ -22,6 +22,10 @@ where `username` is your Github or Bitbucket username. Then fill in the solution
 
 This repo will not accept multiple input and answers (see [this issue](https://github.com/borkdude/advent-of-cljc/issues/6) for details).
 
+## Dev
+
+Read [here](https://nrepl.xyz/nrepl/usage/server.html) how to get an nREPL for this project.
+
 ## Tests
 
 Make sure the tests for your solution pass with the `test-one` script.
