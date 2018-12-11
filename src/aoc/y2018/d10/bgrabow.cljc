@@ -66,18 +66,6 @@
     (partial left-most-x-neighbor stars)
     stars))
 
-(def star-letters
-  {"*    *\n*    *\n *  * \n *  * \n  **  \n  **  \n *  * \n *  * \n*    *\n*    *" \X
-   "*     \n*     \n*     \n*     \n*     \n*     \n*     \n*     \n*     \n******" \L
-   "******\n     *\n     *\n    * \n   *  \n  *   \n *    \n*     \n*     \n******" \Z
-   "  **  \n *  * \n*    *\n*    *\n*    *\n******\n*    *\n*    *\n*    *\n*    *" \A
-   "*    *\n*   * \n*  *  \n* *   \n**    \n**    \n* *   \n*  *  \n*   * \n*    *" \K
-   "***** \n*    *\n*    *\n*    *\n***** \n*    *\n*    *\n*    *\n*    *\n***** " \B
-   " **** \n*    *\n*     \n*     \n*     \n*  ***\n*    *\n*    *\n*   **\n *** *" \G
-   "***** \n*    *\n*    *\n*    *\n***** \n*  *  \n*   * \n*   * \n*    *\n*    *" \R
-   "*    *\n*    *\n*    *\n*    *\n******\n*    *\n*    *\n*    *\n*    *\n*    *" \H
-   "*    *\n**   *\n**   *\n* *  *\n* *  *\n*  * *\n*  * *\n*   **\n*   **\n*    *" \N})
-
 (defn solve-1 []
   (let [parsed-input (parse input)
         [fastest-down fastest-up] (min-max-by :dy parsed-input)
@@ -94,12 +82,7 @@
              (if (> new-height height)
                stars
                (recur new-stars new-height (inc time)))))
-         group-stars
-         sort
-         (map second)
-         (map stars-to-string)
-         (map star-letters)
-         (apply str))))
+         stars-to-string)))
 
 (defn solve-2 []
   (let [parsed-input (parse input)
@@ -119,8 +102,8 @@
                (recur new-stars new-height (inc time))))))))
 
 (deftest part-1
-  (is (= (str answer-1)
-         (str (solve-1)))))
+  (is (= 2072437284
+         (hash (str (solve-1))))))
 
 (deftest part-2
   (is (= (str answer-2)
