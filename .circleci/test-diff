@@ -77,7 +77,7 @@ fi
 
 if [ -z "$CIRCLE_PULL_REQUEST" ] && [ "$CIRCLE_BRANCH" = "master" ]; then
     logged_scores=$(cat out/scores.edn)
-    if [ ! -z $logged_scores ]; then
+    if [ ! -z "$logged_scores" ]; then
         update_query=$(clojure .circleci/print-query.clj "update" out/scores.edn)
         updated=$(ssh aoc@michielborkent.nl "psql -d aoc -c \"$update_query\"")
         score_query=$(clojure .circleci/print-query.clj "select" out/scores.edn)
