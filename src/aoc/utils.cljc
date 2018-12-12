@@ -5,7 +5,8 @@
             [clojure.test]
             #?(:cljs [goog.string :as gstring])
             #?(:cljs [goog.string.format])
-            [clojure.string :as str])
+            [clojure.string :as str]
+            #?(:cljs [oops.core :refer [ocall oget]]))
   #?(:cljs (:require-macros [aoc.utils :refer [deftest]])))
 
 (defmacro deftime
@@ -54,6 +55,16 @@
 ;;                     (/ (float (.freeMemory rt))
 ;;                        (* 1024 1024))))))
 
+(defn write-file [path v]
+  (let [line (str (pr-str v) "\n")]
+    #?(:clj (spit path line :append true)
+       :cljs (let [fs (js/require "fs")]
+               (ocall fs "appendFileSync" path line)))))
+
+(defn ci? []
+  #?(:clj (= "true" (System/getenv "CI"))
+     :cljs (= "true" (oget js/process "env.CI"))))
+
 (deftime
 
   (defmacro ?
@@ -76,15 +87,26 @@
        `(let [start# (cljs.core/system-time)
               ret# ~expr]
           {:ret ret#
-           :ms (.toFixed (- (cljs.core/system-time) start#) 6)})))
+           :ms (- (cljs.core/system-time) start#)})))
 
   (defmacro deftest [name & body]
-    `(clojure.test/deftest ~name
-       (let [timed# (time (do ~@body))
-             ret# (:ret timed#)
-             ms# (:ms timed#)
-             ms# (format "%.2f" ms#)]
-         (println '~name "took" ms# "msecs")))))
+    (let [ns (str (ns-name *ns*))
+          test (str name)]
+      `(clojure.test/deftest ~name
+         (let [timed# (time (do ~@body))
+               ret# (:ret timed#)
+               ms# (int (:ms timed#))]
+           (println '~name "took" ms# "msecs")
+           (when (ci?)
+             (let [[_# year# day# user#] (re-find #"y(\d{4})\.d(\d{2})\.(\w+)" ~ns)
+                   score# {:year (parse-int year#)
+                           :day (parse-int day#)
+                           :user user#
+                           :test ~test
+                           :env (? :clj "jvm"
+                                   :cljs "node")
+                           :time ms#}]
+               (write-file "out/scores.edn" score#))))))))
 
 ;;;; Scratch
 

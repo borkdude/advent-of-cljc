@@ -33,6 +33,12 @@ function namespaces_to_opts () {
         | sed 's/#/ -n /g'
 }
 
+if [ $CI ]; then
+    rm -rf out
+    mkdir -p out
+    touch out/scores.edn
+fi
+
 echo "==== Performing tests on different CLJ and CLJS namespaces"
 
 clj_namespaces=$(files_to_namespaces "${files[@]}" "cljc\?")
@@ -69,5 +75,12 @@ if [ $? != 0 ]; then
     exit_code=1
 fi
 
-echo "EXIT CODE $exit_code"
+if [ $CI ]; then
+    update_query=$(clojure .circleci/print-query.clj "update" out/scores.edn)
+    updated=$(ssh aoc@michielborkent.nl "psql -d aoc -c \"$update_query\"")
+    score_query=$(clojure .circleci/print-query.clj "select" out/scores.edn)
+    scores=$(ssh aoc@michielborkent.nl "psql -d aoc -c \"$score_query\"")
+    echo -e "==== Scores:\n $scores"
+fi
+
 exit "$exit_code"
