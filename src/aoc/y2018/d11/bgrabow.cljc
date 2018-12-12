@@ -52,25 +52,25 @@
        (apply max-key second)))
 
 (defn solve-1 []
-  (time (let [sat (->> (for [y range-y
-                             x range-x]
-                         (power-level [x y]))
-                       (partition x-max)
-                       summed-area-table)]
-          (->> (biggest-fuel-cell sat 3)
-               (#(let [[[x y] _] %]
-                   (str x "," y)))))))
+  (let [sat (->> (for [y range-y
+                       x range-x]
+                   (power-level [x y]))
+                 (partition x-max)
+                 summed-area-table)]
+    (->> (biggest-fuel-cell sat 3)
+         (#(let [[[x y] _] %]
+             (str x "," y))))))
 
 (defn solve-2 []
-  (time (let [sat (->> (for [y range-y
-                             x range-x]
-                         (power-level [x y]))
-                       (partition x-max)
-                       summed-area-table)]
-          (->> (my-pmap (fn [size] [size (biggest-fuel-cell sat size)]) (range 1 301))
-               (apply max-key (comp second second))
-               (#(let [[size [[x y] _]] %]
-                   (str x "," y "," size)))))))
+  (let [sat (->> (for [y range-y
+                       x range-x]
+                   (power-level [x y]))
+                 (partition x-max)
+                 summed-area-table)]
+    (->> (my-pmap (fn [size] [size (biggest-fuel-cell sat size)]) (range 1 301))
+         (apply max-key (comp second second))
+         (#(let [[size [[x y] _]] %]
+             (str x "," y "," size))))))
 
 (deftest part-1
          (is (= (str answer-1)
