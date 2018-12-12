@@ -34,7 +34,9 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
       # run tests!
-      - run: .circleci/test-diff
+      - run:
+          name: Test changed namespaces
+          command: .circleci/test-diff
       # - run: script/test || true
       - save_cache:
           paths:
