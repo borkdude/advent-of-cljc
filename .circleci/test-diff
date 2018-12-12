@@ -44,7 +44,7 @@ echo "==== Performing tests on different CLJ and CLJS namespaces"
 clj_namespaces=$(files_to_namespaces "${files[@]}" "cljc\?")
 
 if [ -z "$clj_namespaces" ]; then
-    echo -e "\n==== No differing CLJS namespaces, nothing to test."
+    echo -e "\n==== No differing CLJ namespaces, nothing to test."
 else
     echo "==== Running CLJ tests on JVM"
     echo -e "\nFound differing CLJ namespaces:\n$clj_namespaces"
