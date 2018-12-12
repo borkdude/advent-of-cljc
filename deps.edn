@@ -1,8 +1,9 @@
 {:deps {net.cgrand/xforms {:mvn/version "0.18.2"}
-        com.rpl/specter {:mvn/version "1.1.2"}}
+        com.rpl/specter {:mvn/version "1.1.2"}
+        binaryage/oops {:mvn/version "0.6.4"}}
  :aliases
  {:test {:extra-paths ["test"]
-         :extra-deps {org.clojure/clojure {:mvn/version "1.10.0-beta8"}
+         :extra-deps {org.clojure/clojure {:mvn/version "1.10.0-RC5"}
                       org.clojure/clojurescript {:mvn/version "1.10.439"}
                       ;; org.clojure/clojurescript {:git/url "https://github.com/borkdude/clojurescript"
                       ;;                            :sha "3d5d762e3a2a00b3f7b76ef8f074b9b27ec2a144"}
