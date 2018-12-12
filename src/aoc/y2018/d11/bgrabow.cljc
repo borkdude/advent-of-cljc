@@ -104,10 +104,10 @@
                                 [5 6 7 8]
                                 [9 10 11 12]])]
     (for [size (range 1 5)]
-      [size (biggest-fuel-cell sat size)])
+      [size (biggest-fuel-cell sat size)]))
 
 
-    (set! *unchecked-math* :warn-on-boxed)
-    (set! *warn-on-reflection* true)
-    (t/run-tests)))
+  (set! *unchecked-math* :warn-on-boxed)
+  (set! *warn-on-reflection* true)
+  (t/run-tests))
 
