@@ -75,7 +75,7 @@ if [ $? != 0 ]; then
     exit_code=1
 fi
 
-if [ $CI ]; then
+if [ -z "$CIRCLE_PULL_REQUEST" ] && [ "$CIRCLE_BRANCH" = "master" ]; then
     logged_scores=$(cat out/scores.edn)
     if [ ! -z $logged_scores ]; then
         update_query=$(clojure .circleci/print-query.clj "update" out/scores.edn)
