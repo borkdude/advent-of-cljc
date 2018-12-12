@@ -134,4 +134,3 @@
                                   score' (plants-score qss')]
                               (+ score (* (- 50000000000 n) (- score' score)))))))
   (t/run-tests))
-

@@ -44,7 +44,7 @@ echo "==== Performing tests on different CLJ and CLJS namespaces"
 clj_namespaces=$(files_to_namespaces "${files[@]}" "cljc\?")
 
 if [ -z "$clj_namespaces" ]; then
-    echo -e "\n==== No differing CLJS namespaces, nothing to test."
+    echo -e "\n==== No differing CLJ namespaces, nothing to test."
 else
     echo "==== Running CLJ tests on JVM"
     echo -e "\nFound differing CLJ namespaces:\n$clj_namespaces"
@@ -77,7 +77,7 @@ fi
 
 if [ -z "$CIRCLE_PULL_REQUEST" ] && [ "$CIRCLE_BRANCH" = "master" ]; then
     logged_scores=$(cat out/scores.edn)
-    if [ ! -z $logged_scores ]; then
+    if [ ! -z "$logged_scores" ]; then
         update_query=$(clojure .circleci/print-query.clj "update" out/scores.edn)
         updated=$(ssh aoc@michielborkent.nl "psql -d aoc -c \"$update_query\"")
         score_query=$(clojure .circleci/print-query.clj "select" out/scores.edn)
