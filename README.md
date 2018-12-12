@@ -3,7 +3,7 @@
 
 Cross platform Clojure Advent of Code solutions.
 
-[![scores](doc/scores.png)]
+![scores](doc/scores.png)
 
 ## Contribute
 
