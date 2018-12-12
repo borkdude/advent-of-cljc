@@ -80,7 +80,7 @@ if [ $CI ]; then
     updated=$(ssh aoc@michielborkent.nl "psql -d aoc -c \"$update_query\"")
     score_query=$(clojure .circleci/print-query.clj "select" out/scores.edn)
     scores=$(ssh aoc@michielborkent.nl "psql -d aoc -c \"$score_query\"")
-    echo -e "==== Scores:\n $scores"
+    echo -e "==== Scores:\n$scores"
 fi
 
 exit "$exit_code"
