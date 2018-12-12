@@ -8,7 +8,7 @@ Cross platform Clojure Advent of Code solutions.
 What's in it for you?
 * Most of all, you will be encouraged to write portable Clojure code: a solution that runs on the JVM via Clojure and on Node via ClojureScript.
 * Your Advent of Code solutions will be checked against the same input as others. This diminishes the possibility that your solution only works for your specific input.
-* The performance of your solution can be compared with others via CircleCI (go to [CircleCI](https://circleci.com/gh/borkdude/advent-of-cljc) and open `script/test`)
+* The performance of your solution can be compared with others via CircleCI (see [Scores](#scores)).
 
 What's in it for the Clojure community?
 * You are helping advance the [speculative](https://github.com/slipset/speculative) project, a collection of core specs.
@@ -40,8 +40,6 @@ Tests support the following metadata:
    `script/test` and `script/test-one`.
  - `:slow`: used for skipping long running tests. Only used in `script/test`.
 
-## Run
-
 Run all tests:
 
     script/test
@@ -59,3 +57,9 @@ Skip Clojure or ClojureScript:
 
     SKIP_CLJ=true script/test
     SKIP_CLJS=true script/test
+
+## Scores
+
+To view a time comparison of your solutions to others, go to [CircleCI](https://circleci.com/gh/borkdude/advent-of-cljc/tree/master), open "Test changed namespaces" and scroll to the end.
+
+[![scores](doc/scores.png)]
