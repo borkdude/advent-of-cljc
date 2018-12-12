@@ -106,5 +106,32 @@
 ;;;; Scratch
 
 (comment
+
+  (defn rand-bool []
+    ({0 nil 1 true} (rand-int 2)))
+
+  (defn random-initial-state [n]
+    (->> (map vector (range n) (repeatedly rand-bool))
+         (into (sorted-map))))
+
+  (defn print-plants [plants]
+    (apply str (map print-plant (vals plants))))
+
+  (print-plants (random-initial-state 100))
+
+  (time (doall (repeatedly 10000
+                           #(let [{:keys [initial-state rules]} (parse my-input)
+                                  rand-state (random-initial-state 100)
+                                  step' (partial step rules)
+                                  ;_ (println "Searching for QSS in " (print-plants rand-state))
+                                  [n quasi-stable-state] (->> (take 1000 (iterate step' rand-state))
+                                                              (map vector (range))
+                                                              (first-consecutive-duplicate-by (comp vals second)))
+                                  ;_ (println "Qss at" n)
+                                  ;_ (println "QSS: " (print-plants quasi-stable-state))
+                                  score (plants-score quasi-stable-state)
+                                  qss' (step' quasi-stable-state)
+                                  score' (plants-score qss')]
+                              (+ score (* (- 50000000000 n) (- score' score)))))))
   (t/run-tests))
 
