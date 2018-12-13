@@ -18,7 +18,9 @@
    :main-opts ["-m" "cognitect.test-runner"]}
   :test-cljs
   {:extra-paths ["test" "cljs-test-runner-out/gen"]
-   :extra-deps {olical/cljs-test-runner {:mvn/version "3.2.1"}}
+   :extra-deps {olical/cljs-test-runner {;;:mvn/version "3.2.1"
+                                         :git/url "https://github.com/borkdude/cljs-test-runner"
+                                         :sha "c04e52ba1f9b2c646710b532a0c3ca5cab429491"}}
    :main-opts ["-m" "cljs-test-runner.main"]}
   :new
   {:extra-paths ["test"]
