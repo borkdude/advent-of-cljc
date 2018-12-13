@@ -19,9 +19,6 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Add michielborkent.nl to known_hosts
-          command: ssh-keyscan -H michielborkent.nl >> ~/.ssh/known_hosts
-      - run:
           name: Install Clojure
           command: |
             curl -O https://download.clojure.org/install/linux-install-1.9.0.397.sh

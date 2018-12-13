@@ -28,9 +28,9 @@
                              (map (juxt :year :day))
                              distinct
                              ->sql)]
-               (format "select year, day, time, username, environment, test
+               (format "select year, day, test, username, time, environment
                        from scores where (year, day) in %s
-                       order by year, day, time"
+                       order by year, day, test, time"
                        days))))
 
 (println query)
