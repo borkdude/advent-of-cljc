@@ -85,4 +85,35 @@ if [ "$CIRCLE_USERNAME" = "borkdude" ] && [ ! -z "$(cat out/scores.edn)" ]; then
     echo -e "\n==== Scores:\n$scores"
 fi
 
+#### Optional instrumented tests
+
+timeout="$(command -v timeout)"
+if [ -z $timeout ]; then
+    timeout="$(command -v gtimeout)"
+fi
+
+if [ -z $timeout ]; then
+    echo "WARNING: timeout program not found, running without it\n"
+else
+    timeout_cmd="$timeout 80"
+fi
+
+if [ -z "$clj_namespaces" ]; then
+    :
+else
+    echo -e "\n==== Running instrumented CLJ tests on JVM with timeout of 60 seconds"
+    ns_opts=$(namespaces_to_opts "${clj_namespaces[@]}")
+    clj_cmd="clojure -J-Xmx3200m -R:test:test-clj -e (require,'patch.clj-2443) -m cognitect.test-runner -d src $ns_opts -n aoc.instrument"
+    $timeout_cmd $clj_cmd
+fi
+
+if [ -z "$cljs_namespaces" ]; then
+    :
+else
+    echo -e "\n==== Running instrumented CLJS tests on Node with timeout of 60 seconds"
+    ns_opts=$(namespaces_to_opts "${cljs_namespaces[@]}")
+    cljs_cmd="clojure -A:test:test-cljs -d src -c cljs-opts.edn -e skip-cljs $ns_opts -n aoc.instrument"
+    $timeout_cmd $cljs_cmd
+fi
+
 exit "$exit_code"
