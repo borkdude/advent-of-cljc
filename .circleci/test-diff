@@ -75,18 +75,16 @@ if [ $? != 0 ]; then
     exit_code=1
 fi
 
-#### Store scores and print score table
+#### Store scores
 if [ "$CIRCLE_USERNAME" = "borkdude" ] && [ ! -z "$(cat out/scores.edn)" ]; then
     (ssh-keyscan -H 178.21.118.237 -H michielborkent.nl >> ~/.ssh/known_hosts) 2> /dev/null
     update_query=$(clojure .circleci/print-query.clj "update" out/scores.edn)
     updated=$(ssh aoc@michielborkent.nl "psql -d aoc -c \"$update_query\"")
     score_query=$(clojure .circleci/print-query.clj "select" out/scores.edn)
     scores=$(ssh aoc@michielborkent.nl "psql -d aoc -c \"$score_query\"")
-    echo -e "\n==== Scores:\n$scores"
 fi
 
 #### Optional instrumented tests
-
 timeout="$(command -v timeout)"
 if [ -z $timeout ]; then
     timeout="$(command -v gtimeout)"
@@ -114,6 +112,11 @@ else
     ns_opts=$(namespaces_to_opts "${cljs_namespaces[@]}")
     cljs_cmd="clojure -A:test:test-cljs -d src -c cljs-opts.edn -e skip-cljs $ns_opts -n aoc.instrument"
     $timeout_cmd $cljs_cmd
+fi
+
+#### Finally, print score table
+if [ ! -z "$scores" ]; then
+    echo -e "\n==== Scores:\n$scores"
 fi
 
 exit "$exit_code"
