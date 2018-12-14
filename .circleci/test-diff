@@ -17,6 +17,7 @@ function files_to_namespaces () {
     filter=$2
     echo "$files" \
         | grep '^src\|^test' \
+        | grep -v '^src\/aoc\/instrument\.cljc' \
         | grep "$filter" \
         | sed 's/^src\///' \
         | sed 's/^test\///' \
