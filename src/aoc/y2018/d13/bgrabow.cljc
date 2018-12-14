@@ -187,5 +187,3 @@
   (disj (sorted-set-by location-comparator-without-ties
                        {:loc 1 :a 2})
         {:loc 1 :a 5}))
-
-
