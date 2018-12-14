@@ -9,7 +9,9 @@
                       ;;                            :sha "3d5d762e3a2a00b3f7b76ef8f074b9b27ec2a144"}
                       org.clojure/test.check {:mvn/version "RELEASE"}
                       ;;org.clojure/spec.alpha {:local/root "/Users/Borkdude/git/spec.alpha"}
-                      speculative {:mvn/version "0.0.3-SNAPSHOT"}}}
+                      speculative {:mvn/version "0.0.3-SNAPSHOT"}
+                      workarounds-1.10.439 {:git/url "https://github.com/mfikes/workarounds-1.10.439"
+                                            :sha "a559201602fc6a21701479b83086d76bd5ed09eb"}}}
   :test-clj
   {:extra-paths ["test"]
    :extra-deps {com.cognitect/test-runner
