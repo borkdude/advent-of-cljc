@@ -59,6 +59,16 @@
     nil
     coll))
 
+(defn fixed-point [f x]
+  "Calculates the fixed point of f with respect to x."
+  (reduce #(if (= %1 %2) (reduced %1) %2)
+    (iterate f x)))
+
+(defn map-vals
+  "Maps f over the values of a map m."
+  [f m]
+  (reduce-kv (fn [m k v] (assoc m k (f v))) {} m))
+
 ;; #?(:clj (defn free-memory []
 ;;           (let [rt (java.lang.Runtime/getRuntime)]
 ;;             (format "%.2f"
