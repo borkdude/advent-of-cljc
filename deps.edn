@@ -9,7 +9,7 @@
                                                  :sha "d6f8896452b531a273f99f2716aaa08f09600063"}
                       org.clojure/test.check {:mvn/version "RELEASE"}
                       ;;org.clojure/spec.alpha {:local/root "/Users/Borkdude/git/spec.alpha"}
-                      chivorcam {:mvn/version "0.3.0"}
+                      chivorcam {:mvn/version "1.0.0"}
                       speculative {:mvn/version "0.0.3-SNAPSHOT"}
                       ;; workarounds-1.10.439 {:git/url "https://github.com/mfikes/workarounds-1.10.439"
                       ;;                       :sha "a559201602fc6a21701479b83086d76bd5ed09eb"}
