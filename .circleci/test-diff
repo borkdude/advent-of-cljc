@@ -50,7 +50,7 @@ else
     echo "==== Running CLJ tests on JVM"
     echo -e "\nFound differing CLJ namespaces:\n$clj_namespaces"
     ns_opts=$(namespaces_to_opts "${clj_namespaces[@]}")
-    clj_cmd="clojure -J-Xmx3200m -R:test:test-clj -e (require,'patch.clj-2443) -m cognitect.test-runner -d src $ns_opts"
+    clj_cmd="clojure -J-Xmx3200m -R:test:test-clj -O:test-clj -e (require,'patch.clj-2443) -m cognitect.test-runner -d src $ns_opts"
     $clj_cmd
 fi
 
@@ -68,7 +68,7 @@ else
     rm -rf cljs-test-runner-out
     mkdir -p cljs-test-runner-out/gen
     ns_opts=$(namespaces_to_opts "${cljs_namespaces[@]}")
-    cljs_cmd="clojure -A:test:test-cljs -d src -c cljs-opts.edn -e skip-cljs $ns_opts"
+    cljs_cmd="clojure -A:test:test-cljs -d src -c cljs-opts.edn -D doo-opts.edn -e skip-cljs $ns_opts"
     $cljs_cmd
 fi
 

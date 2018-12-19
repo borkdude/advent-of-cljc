@@ -14,6 +14,7 @@ if [ ! $SKIP_CLJ ]; then
     echo "=== Running clojure tests $exclude"
     clojure -J-Xmx3200m \
             -R:test:test-clj \
+            -O:test-clj \
             -e "(require,'patch.clj-2443)" \
             -m cognitect.test-runner -d src -r "$regex" \
             -e "slow" \
@@ -32,7 +33,8 @@ if [ ! $SKIP_CLJS ]; then
             -e "slow" \
             -e "skip-cljs" \
             "$exclude_flag" "$exclude_pattern" \
-            -c cljs-opts.edn
+            -c cljs-opts.edn \
+            -D doo-opts.edn
 fi
 
 if [ $? != 0 ]; then
