@@ -6,10 +6,10 @@
    [clojure.string :as s]
    [clojure.test :as t :refer [is testing]]))
 
-(defn char-at [^String s ^Integer i]
+(defn char-at [^String s ^long i]
   (.substring s i (inc i)))
 
-(defn adjacents [terrain ^Integer x ^Integer y]
+(defn adjacents [terrain ^long x ^long y]
   (merge
    {"." 0 "|" 0 "#" 0} ;; defaults
    (let [width  (count (first terrain))
@@ -25,7 +25,7 @@
         (let [c (char-at (nth terrain y2) x2)]
           c))))))
 
-(defn iter-acre [terrain ^Integer x ^Integer y]
+(defn iter-acre [terrain ^long x ^long y]
   (let [acre (char-at (nth terrain y) x)
         adjs (adjacents terrain x y)]
     (cond
