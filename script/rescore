@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -eu
+
+branch="rescore-$1"
+git checkout -b "$branch"
+cd "src/aoc/y2018/$1"
+
+for i in $(ls *.cljc); do
+  echo -e ";; trigger scoring, this comment may be removed next time\n" >> $i
+done
+git commit -am "$branch"
+git push origin "$branch"
