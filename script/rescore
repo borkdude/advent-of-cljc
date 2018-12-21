@@ -11,3 +11,6 @@ for i in $(ls *.cljc); do
 done
 git commit -am "$branch"
 git push origin "$branch"
+
+git checkout master
+git branch -D "$branch"
