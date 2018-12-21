@@ -2,12 +2,16 @@
 
 set -eu
 
-branch="rescore-$1"
+if [ ! $YEAR ]; then
+    YEAR=2018
+fi
+
+branch="rescore-$YEAR-$1"
 git checkout -b "$branch"
-cd "src/aoc/y2018/$1"
+cd "src/aoc/y$YEAR/$1"
 
 for i in $(ls *.cljc); do
-  echo -e ";; trigger scoring, this comment may be removed next time\n" >> $i
+    echo -e ";; trigger scoring, this comment may be removed next time\n" >> $i
 done
 git commit -am "$branch"
 git push origin "$branch"
