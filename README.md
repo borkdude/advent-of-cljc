@@ -3,7 +3,7 @@
 
 Cross platform Clojure Advent of Code solutions.
 
-![scores](doc/scores.png)
+<img src="doc/scores.png" alt="scores" width="50%"/>
 
 ## Contribute
 
@@ -62,4 +62,9 @@ Skip Clojure or ClojureScript:
 
 ## Scores
 
-To view a time comparison of your solutions to others, go to [CircleCI](https://circleci.com/gh/borkdude/advent-of-cljc/tree/master), open "Test changed namespaces" and scroll to the end.
+To view a time comparison of your solutions to others, go to
+[CircleCI](https://circleci.com/gh/borkdude/advent-of-cljc/tree/master), open
+"Test changed namespaces" and scroll to the end.
+
+The entire list of scores can be viewed and downloaded in CSV format
+[here](https://gist.github.com/borkdude/d7f42d4110e8a330d1d70f9242b14496).
