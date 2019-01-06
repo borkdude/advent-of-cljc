@@ -68,30 +68,21 @@
                          first second first first)]
       (unbalanced weight-map children-map unb-child))))
 
-(def large-weight-map
-  (load-map (read-input) (juxt first second)))
-
-(def large-children-map
-  (load-map (read-input) (juxt first last)))
-
-(def large-unbalanced
-  (unbalanced large-weight-map large-children-map (root-name)))
-
-(def large-parent-map
-  (lines-to-children-map (read-input)))
-
-(def large-desired-tree-weight
-  (->> large-unbalanced
-       large-parent-map
-       large-children-map
-       (filter #(not= large-unbalanced %))
-       first
-       (weight large-weight-map large-children-map)))
-
 (defn solve-2 []
-  (+ (large-weight-map large-unbalanced)
-     (- large-desired-tree-weight
-        (weight large-weight-map large-children-map large-unbalanced))))
+  (let [input              (read-input)
+        large-weight-map   (load-map input (juxt first second))
+        large-children-map (load-map input (juxt first last))
+        large-unbalanced   (unbalanced large-weight-map large-children-map (root-name))
+        large-parent-map   (lines-to-children-map input)
+        large-desired-tree (->> large-unbalanced
+                                large-parent-map
+                                large-children-map
+                                (filter #(not= large-unbalanced %))
+                                first
+                                (weight large-weight-map large-children-map))]
+    (+ (large-weight-map large-unbalanced)
+       (- large-desired-tree
+          (weight large-weight-map large-children-map large-unbalanced)))))
 
 (deftest part-1
   (is (= (str answer-1)
