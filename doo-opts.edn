@@ -1,1 +1,1 @@
-{:paths {:node "node --stack-size=2000"}}
+{:paths {:node "node --stack-size=2000 --max_old_space_size=4096"}}
