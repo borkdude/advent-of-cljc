@@ -2,7 +2,7 @@
 
 exit_code=0
 
-if [ ! $INSTRUMENT ]; then
+if [ ! "$INSTRUMENT" ]; then
     regex="aoc\.y.*\.d.*(?<!data)"
     exclude_flag="-e"
     exclude_pattern="instrumented"
@@ -10,14 +10,14 @@ else
     regex="aoc\.instrument|aoc\.y.*\.d.*(?<!data)"
 fi
 
-if [ ! $SKIP_CLJ ]; then
-    echo "=== Running clojure tests $exclude"
+if [ ! "$SKIP_CLJ" ]; then
+    echo "=== Running clojure tests"
     clojure -J-Xmx3200m \
             -R:test:test-clj \
             -O:test-clj \
             -e "(require,'patch.clj-2443)" \
             -m cognitect.test-runner -d src -r "$regex" \
-            -e "slow" \
+            -e "skip" \
             "$exclude_flag" "$exclude_pattern"
 fi
 
@@ -25,7 +25,7 @@ if [ ! $? ]; then
     exit_code=1
 fi
 
-if [ ! $SKIP_CLJS ]; then
+if [ ! "$SKIP_CLJS" ]; then
     echo -e "\n=== Running cljs tests"
     mkdir -p cljs-test-runner-out/gen
     clojure -A:test:test-cljs \
@@ -37,7 +37,7 @@ if [ ! $SKIP_CLJS ]; then
             -D doo-opts.edn
 fi
 
-if [ $? != 0 ]; then
+if [ ! $? ] ; then
     exit_code=1
 fi
 

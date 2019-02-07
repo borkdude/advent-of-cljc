@@ -3,17 +3,13 @@
         binaryage/oops {:mvn/version "0.6.4"}}
  :aliases
  {:test {:extra-paths ["test"]
-         :extra-deps {org.clojure/clojure {:mvn/version "1.10.0-RC5"}
-                      ;; org.clojure/clojurescript {:mvn/version "1.10.439"}
-                      org.clojure/clojurescript {:git/url "https://github.com/clojure/clojurescript"
-                                                 :sha "d6f8896452b531a273f99f2716aaa08f09600063"}
+         :extra-deps {org.clojure/clojure {:mvn/version "1.10.0"}
+                      org.clojure/clojurescript {:mvn/version "1.10.516"}
                       org.clojure/test.check {:mvn/version "RELEASE"}
-                      ;;org.clojure/spec.alpha {:local/root "/Users/Borkdude/git/spec.alpha"}
                       chivorcam {:mvn/version "1.0.0"}
-                      speculative {:mvn/version "0.0.3-SNAPSHOT"}
-                      ;; workarounds-1.10.439 {:git/url "https://github.com/mfikes/workarounds-1.10.439"
-                      ;;                       :sha "a559201602fc6a21701479b83086d76bd5ed09eb"}
-                      }}
+                      speculative #_{:local/root "/Users/Borkdude/Dropbox/dev/clojure/speculative"}
+                      {:mvn/version "0.0.3-SNAPSHOT"}
+                      orchestra {:mvn/version "2019.02.06-1"}}}
   :test-clj
   {:extra-paths ["test"]
    :extra-deps {com.cognitect/test-runner

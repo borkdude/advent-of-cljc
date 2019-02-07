@@ -40,7 +40,7 @@ Tests support the following metadata:
 
  - `:skip-cljs`: used for skipping Node tests. Used in `.circle/test-diff`,
    `script/test` and `script/test-one`.
- - `:slow`: used for skipping long running tests. Only used in `script/test`.
+ - `:skip`: used for skipping tests in `script/test`.
 
 Run all tests:
 

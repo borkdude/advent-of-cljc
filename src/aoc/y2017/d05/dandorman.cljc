@@ -30,8 +30,8 @@
                (into [])))
 
 
-(deftest part-1
+(deftest ^:skip part-1
   (is (= answer-1 (steps maze))))
 
-(deftest part-2
+(deftest ^:skip part-2
   (is (= answer-2 (weird-steps maze))))
