@@ -96,11 +96,11 @@
        (remove (fn [distance] (>= distance 10000)))
        count))
 
-(deftest ^:skip-cljs ^:slow part-1
+(deftest ^:skip-cljs ^:skip part-1
   (is (= (str answer-1)
          (str (solve-1)))))
 
-(deftest ^:skip-cljs ^:slow part-2
+(deftest ^:skip-cljs ^:skip part-2
   (is (= (str answer-2)
          (str (solve-2)))))
 

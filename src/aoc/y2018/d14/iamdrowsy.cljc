@@ -66,7 +66,7 @@
   (is (= (str answer-1)
          (str (solve-1 input)))))
 
-(deftest ^:skip-cljs ^:slow part-2
+(deftest ^:skip-cljs ^:skip part-2
   (is (= (str answer-2)
          (str (solve-2 (str input))))))
 

@@ -57,11 +57,11 @@
 (defn solve-2 []
   (count (count-islands (into [] (render-map input)))))
 
-(deftest part-1
+(deftest ^:skip part-1
   (is (= (str answer-1)
          (str (solve-1)))))
 
-(deftest part-2
+(deftest ^:skip part-2
   (is (= (str answer-2)
          (str (solve-2)))))
 

@@ -40,7 +40,7 @@
         has-ancestor (keys ancestors)
         names (into #{} (map :name (vals nodes)))
         without-ancestors (set/difference names
-                                          has-ancestor)]
+                                          (set has-ancestor))]
     (first without-ancestors)))
 
 (def solve-1 (memoize solve-1*))
